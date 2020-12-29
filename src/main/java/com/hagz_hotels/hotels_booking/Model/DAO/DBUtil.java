@@ -13,4 +13,17 @@ public class DBUtil {
         }
         return con;
     }
+
+    public static void close(Connection con, PreparedStatement stmt, ResultSet set) {
+        try {
+            if (set != null)
+                set.close();
+            if (stmt != null)
+                stmt.close();
+            if (con != null)
+                con.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

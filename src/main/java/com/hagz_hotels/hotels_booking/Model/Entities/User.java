@@ -1,7 +1,7 @@
 package com.hagz_hotels.hotels_booking.Model.Entities;
 
 public class User {
-    enum Type{
+    public enum Type{
         CLIENT, ADMIN
     }
     private Integer userId;

@@ -13,6 +13,20 @@ public class Hotel {
         this.hotelId = hotelId;
     }
 
+    public Hotel(Integer hotelId, String name, Float latitude, Float longitude, String address, String phone, Integer adminId) {
+        this.hotelId = hotelId;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+        this.phone = phone;
+        this.adminId = adminId;
+    }
+
+    public Hotel() {
+
+    }
+
     public Integer getHotelId() {
         return hotelId;
     }
