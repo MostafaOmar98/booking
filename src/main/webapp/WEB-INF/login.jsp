@@ -10,8 +10,8 @@
 <form action="login" method="post">
     Email: <input type="email" name="email"><br>
     Password: <input type="password" name="password"><br>
-    <input type="radio" id="admin" name="type" value="Admin"> Admin
-    <input type="radio" id="client" name="type" value="Client">Client<br>
+    <input type="radio" id="admin" name="type" value="ADMIN"> Admin
+    <input type="radio" id="client" name="type" value="CLIENT">Client<br>
     <input type="submit" value="Login">
 </form>
 

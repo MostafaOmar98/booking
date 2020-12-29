@@ -1,4 +1,4 @@
-package com.hagz_hotels.hotels_booking;
+package com.hagz_hotels.hotels_booking.Controllers;
 
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
@@ -40,6 +40,10 @@ public class IndexServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/hotel-home.jsp").forward(request, response);
             }
         }
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }
