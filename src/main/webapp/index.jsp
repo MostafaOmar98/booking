@@ -4,7 +4,7 @@
     if (user == null)
         response.sendRedirect("login.jsp");
     else if (user.getType() == User.Type.ADMIN)
-        response.sendRedirect("admin-home-service");
+        response.sendRedirect("admin-home");
     else
-        response.sendRedirect("client-home-service");
+        response.sendRedirect("client-home");
 %>
