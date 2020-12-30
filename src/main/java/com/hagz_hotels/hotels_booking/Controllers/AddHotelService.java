@@ -30,6 +30,7 @@ public class AddHotelService extends HttpServlet {
         if (Auth.isAuth(user, authType) != Auth.Status.OK) {
             session.invalidate();
             response.sendRedirect("index.jsp");
+            return;
         }
         // TODO: Backend validation on name
         String name = request.getParameter("name");

@@ -30,6 +30,7 @@ public class AdminHomeService extends HttpServlet {
         if (Auth.isAuth(user, authType) != Auth.Status.OK) {
             session.invalidate();
             response.sendRedirect("index.jsp");
+            return;
         }
         Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
         if (hotel == null)
