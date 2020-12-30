@@ -36,4 +36,16 @@ public class HotelDAO {
         return hotel;
     }
 
+    public void create(String name, Integer adminId) {
+        Connection con = DBUtil.getConnection();
+        try {
+            PreparedStatement stmt = con.prepareStatement("INSERT INTO Hotel (Name, AdminId) VALUES(?, ?)");
+            stmt.setString(1, name);
+            stmt.setInt(2, adminId);
+            stmt.executeUpdate();
+            DBUtil.close(con, stmt);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

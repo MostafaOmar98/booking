@@ -2,7 +2,6 @@ package com.hagz_hotels.hotels_booking.Controllers;
 
 
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
-import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
 import javax.servlet.ServletException;
@@ -13,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/admin-home")
-public class AdminHomeService extends HttpServlet {
+@WebServlet("/add-hotel")
+public class AddHotelService extends HttpServlet {
 
     HotelDAO hotelDAO;
 
@@ -24,16 +23,13 @@ public class AdminHomeService extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         // TODO: Authenticate as admin
-        Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
-        if (hotel == null)
-            request.getRequestDispatcher("/WEB-INF/add-hotel.jsp").forward(request, response);
-        else {
-            request.setAttribute("hotel", hotel);
-            request.getRequestDispatcher("/WEB-INF/hotel-management.jsp").forward(request, response);
-        }
+        // TODO: Backend validation on name
+        String name = request.getParameter("name");
+        hotelDAO.create(name, user.getUserId());
+        response.sendRedirect("admin-home");
     }
 }

@@ -26,4 +26,7 @@ public class DBUtil {
             e.printStackTrace();
         }
     }
+    public static void close(Connection con, PreparedStatement stmt) {
+        close (con, stmt, null);
+    }
 }
