@@ -2,6 +2,7 @@ package com.hagz_hotels.hotels_booking.Controllers;
 
 
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
+import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
@@ -17,10 +18,12 @@ import java.io.IOException;
 public class AdminHomeService extends HttpServlet {
 
     private HotelDAO hotelDAO;
+    private RoomDAO roomDAO;
     private final User.Type authType = User.Type.ADMIN;
     @Override
     public void init() throws ServletException {
         hotelDAO = new HotelDAO();
+        roomDAO = new RoomDAO();
     }
 
     @Override
@@ -37,6 +40,7 @@ public class AdminHomeService extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/add-hotel.jsp").forward(request, response);
         else {
             request.setAttribute("hotel", hotel);
+            request.setAttribute("rooms", roomDAO.findByHotelID(hotel.getHotelId()));
             request.getRequestDispatcher("/WEB-INF/hotel-management.jsp").forward(request, response);
         }
     }

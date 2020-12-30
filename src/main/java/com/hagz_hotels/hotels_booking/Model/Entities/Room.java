@@ -7,6 +7,15 @@ public class Room {
     private Integer maxAdults;
     private Integer maxChildren;
     private Integer hotelId;
+    private String facilities;
+
+    public String getFacilities() {
+        return facilities;
+    }
+
+    public void setFacilities(String facilities) {
+        this.facilities = facilities;
+    }
 
     public Integer getRoomId() {
         return roomId;
