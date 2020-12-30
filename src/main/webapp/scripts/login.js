@@ -1,5 +1,6 @@
 $(function () {
     $("#login").click( function(){
+        // TODO: frontend check on emptiness and selecting
         let params = {
             email: $("#email").val(),
             password: $("#password").val(),

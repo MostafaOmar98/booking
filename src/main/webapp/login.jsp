@@ -11,7 +11,7 @@
 <div>
     Email: <input type="text" name="email" id="email"><br>
     Password: <input type="password" name="password" id="password"><br>
-    <input type="radio" id="admin" name="type" value="ADMIN"> Admin
+    <input type="radio" id="admin" name="type" value="ADMIN" checked> Admin
     <input type="radio" id="client" name="type" value="CLIENT">Client<br>
     <input type="submit" value="Login" id="login">
 </div>
