@@ -48,4 +48,33 @@ public class HotelDAO {
             throwables.printStackTrace();
         }
     }
+
+    public void update(Integer hotelId, String name, Float latitude, Float longitude, String address, String phone, Integer adminId) {
+        if (name != null)
+            update(hotelId, "Name", name);
+        if (latitude != null)
+            update(hotelId, "Latitude", latitude);
+        if (longitude != null)
+            update(hotelId, "Longitude", longitude);
+        if (address != null)
+            update(hotelId, "Address", address);
+        if (phone != null)
+            update(hotelId, "Phone", phone);
+        if (adminId != null)
+            update(hotelId, "AdminId", adminId);
+    }
+
+    private void update(Integer hotelId, String fieldName, Object value) {
+        String query = "UPDATE Hotel SET " + fieldName + "=? WHERE HotelId=?";
+        Connection con = DBUtil.getConnection();
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setObject(1, value);
+            stmt.setInt(2, hotelId);
+            stmt.executeUpdate();
+            DBUtil.close(con, stmt);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
