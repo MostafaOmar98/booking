@@ -6,11 +6,11 @@ $(function () {
             type: $("input[type='radio'][name='type']:checked").val()
         };
 
-        $.post("login", params, function (data, status) {
-            alert("Data: " + data + " \nStatus: " + status);
-            console.log(typeof(data));
-            console.log(data);
-            console.log(data["error"])
+        // TODO: Error Highlighting
+        $.post("validate-credentials", params, function (data, status) {
+            if (data["error"] === "ok") {
+                window.location.href = data["redirect"];
+            }
         }, "json")
     })
 })

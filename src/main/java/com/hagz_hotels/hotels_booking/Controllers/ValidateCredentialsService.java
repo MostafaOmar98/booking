@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/validate-credentials")
+public class ValidateCredentialsService extends HttpServlet {
 
     UserDAO userDAO;
 
@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "application/json");
         String email = request.getParameter("email"), password = request.getParameter("password"), type = request.getParameter("type");
         User user = userDAO.findByEmailAndPasswordAndType(email, password, type);
         JsonResponse jsonResponse = new JsonResponse();
@@ -31,7 +32,8 @@ public class LoginServlet extends HttpServlet {
         {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            jsonResponse.setAttr("error", "OK");
+            jsonResponse.setAttr("error", "ok");
+            jsonResponse.setAttr("redirect", getServletContext().getContextPath() + "/index.jsp");
         }
         else
             jsonResponse.setAttr("error", "user_not_found");
