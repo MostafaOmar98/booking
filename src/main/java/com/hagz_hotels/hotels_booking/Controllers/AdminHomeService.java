@@ -16,8 +16,8 @@ import java.io.IOException;
 @WebServlet("/admin-home")
 public class AdminHomeService extends HttpServlet {
 
-    HotelDAO hotelDAO;
-
+    private HotelDAO hotelDAO;
+    private final User.Type authType = User.Type.ADMIN;
     @Override
     public void init() throws ServletException {
         hotelDAO = new HotelDAO();
@@ -27,7 +27,10 @@ public class AdminHomeService extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        // TODO: Authenticate as admin
+        if (Auth.isAuth(user, authType) != Auth.Status.OK) {
+            session.invalidate();
+            response.sendRedirect("index.jsp");
+        }
         Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
         if (hotel == null)
             request.getRequestDispatcher("/WEB-INF/add-hotel.jsp").forward(request, response);

@@ -3,6 +3,7 @@ package com.hagz_hotels.hotels_booking.Controllers;
 
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
+import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import java.io.IOException;
 public class UpdateHotelService extends HttpServlet {
 
     HotelDAO hotelDAO;
+    private final User.Type authType = User.Type.ADMIN;
 
     @Override
     public void init() throws ServletException {
@@ -24,6 +26,7 @@ public class UpdateHotelService extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO: Authentication
         response.setContentType("application/json");
         String latitudeParam = request.getParameter("latitude"), longitudeParam = request.getParameter("longitude");
         String adminIdParam = request.getParameter("adminId");

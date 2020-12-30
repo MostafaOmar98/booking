@@ -15,7 +15,8 @@ import java.io.IOException;
 @WebServlet("/add-hotel")
 public class AddHotelService extends HttpServlet {
 
-    HotelDAO hotelDAO;
+    private HotelDAO hotelDAO;
+    private User.Type authType = User.Type.ADMIN;
 
     @Override
     public void init() throws ServletException {
@@ -26,7 +27,10 @@ public class AddHotelService extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        // TODO: Authenticate as admin
+        if (Auth.isAuth(user, authType) != Auth.Status.OK) {
+            session.invalidate();
+            response.sendRedirect("index.jsp");
+        }
         // TODO: Backend validation on name
         String name = request.getParameter("name");
         hotelDAO.create(name, user.getUserId());
