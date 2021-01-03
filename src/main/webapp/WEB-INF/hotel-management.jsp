@@ -118,6 +118,12 @@
         </div>
     </div>
 </div>
+<br><br>
+<form action="add-hotel-image" method="post" enctype="multipart/form-data">
+    <input type="file" name="image"><br>
+    <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>"><br>
+    <input type="submit" value="Upload">
+</form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"

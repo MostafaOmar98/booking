@@ -1,21 +1,32 @@
 package com.hagz_hotels.hotels_booking.Model.DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import com.hagz_hotels.hotels_booking.Model.Entities.HotelImage;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.function.Function;
 
 public class HotelImageDAO {
-    public void create(String URL, Integer hotelId) {
-        Connection con = DBUtil.getConnection();
+
+    Function<ResultSet, HotelImage> mapper = set -> {
+        HotelImage hotelImage = new HotelImage();
         try {
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO HotelImage (URL, HotelId) VALUES(?, ?)");
-            stmt.setString(1, URL);
-            stmt.setInt(2, hotelId);
-            stmt.executeUpdate();
-            DBUtil.close(con, stmt);
+            hotelImage.setHotelId(set.getInt("HotelId"));
+            hotelImage.setImageId(set.getInt("ImageId"));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return hotelImage;
+    };
 
+    public Integer getMax(Integer hotelId) {
+        List<HotelImage> list = DBUtil.selectAll("SELECT * FROM HotelImage WHERE HotelId=?", mapper, hotelId);
+        return list.get(list.size() - 1).getImageId();
+    }
+
+    public void create(Integer hotelId) {
+        String query = "INSERT INTO HotelImage (HotelId) VALUES(?)";
+        DBUtil.executeUpdate(query, hotelId);
     }
 }

@@ -5,20 +5,20 @@ import com.hagz_hotels.hotels_booking.Model.DAO.HotelImageDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import javax.servlet.http.*;
+import java.io.*;
 
+@MultipartConfig
 @WebServlet("/add-hotel-image")
 public class AddHotelImageService extends HttpServlet {
 
     HotelImageDAO hotelImageDAO;
     User.Type authType = User.Type.ADMIN;
+    final String ROOT = "/home/bekh/IdeaProjects/hotels-booking/"; // TODO: Change
+    // TODO: When registering admin user create folder for images.
+
 
     @Override
     public void init() throws ServletException {
@@ -36,10 +36,22 @@ public class AddHotelImageService extends HttpServlet {
         }
 
         // TODO : Finish Image
-        String image = request.getParameter("image");
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
-        String path = "../../../../../images/" + hotelId + "/test";
-        System.out.println("Path: " + path);
+        hotelImageDAO.create(hotelId);
+        String relativePath = "/images/" + hotelId + "/" + (hotelImageDAO.getMax(hotelId)) + ".png"; // TODO: Handle image number using other way than this, this has concurrency issues
+        String fullPath = ROOT +  relativePath;
 
+        Part filePart = request.getPart("image");
+        InputStream fileContent = filePart.getInputStream();
+        File file = new File(fullPath);
+        FileOutputStream out = new FileOutputStream(file, false);
+        int read;
+        byte[] bytes = new byte[8192];
+        while ((read = fileContent.read(bytes)) != -1) {
+            out.write(bytes, 0, read);
+        }
+        response.sendRedirect("admin-home");
     }
 }
+
+

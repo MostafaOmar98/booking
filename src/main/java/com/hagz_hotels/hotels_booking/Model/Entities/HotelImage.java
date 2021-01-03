@@ -1,16 +1,8 @@
 package com.hagz_hotels.hotels_booking.Model.Entities;
 
 public class HotelImage {
-    private String URL;
     private Integer hotelId;
-
-    public String getURL() {
-        return URL;
-    }
-
-    public void setURL(String URL) {
-        this.URL = URL;
-    }
+    private Integer imageId;
 
     public Integer getHotelId() {
         return hotelId;
@@ -19,4 +11,13 @@ public class HotelImage {
     public void setHotelId(Integer hotelId) {
         this.hotelId = hotelId;
     }
+
+    public Integer getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Integer imageId) {
+        this.imageId = imageId;
+    }
+
 }
