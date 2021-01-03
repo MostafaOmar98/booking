@@ -30,6 +30,11 @@ public class HotelImageDAO {
         DBUtil.executeUpdate(query, hotelId);
     }
 
+    public void delete(Integer imageId) {
+        String query = "DELETE FROM HotelImage WHERE ImageId=?";
+        DBUtil.executeUpdate(query, imageId);
+    }
+
     public List<HotelImage> findByHotelId(Integer hotelId) {
         String query = "SELECT * FROM HotelImage WHERE HotelId=?";
         return DBUtil.selectAll(query, mapper, hotelId);

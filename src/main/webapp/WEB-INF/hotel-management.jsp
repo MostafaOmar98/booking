@@ -138,11 +138,13 @@
             for (int i = 0; i < images.size(); ++i) {
                 out.println(
                         "<div class=\"col-4\">\n" +
-                        "<img src=\"image/" + images.get(i).getName() + "\" + style=\"width:100%\">\n" +
+                        "<img src=\"image/" + images.get(i).getName() + "\" style=\"width:100%\" class=\"img\" imageId=\""+ images.get(i).getImageId() +"\">\n" +
                         "</div>");
             }
         %>
     </div>
+    <br><br>
+    <button id="deleteImageBtn" class="btn-danger">Delete</button>
 </div>
 
 
