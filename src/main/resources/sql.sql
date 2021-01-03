@@ -94,7 +94,7 @@ CREATE TABLE `Hotel` (
 
 LOCK TABLES `Hotel` WRITE;
 /*!40000 ALTER TABLE `Hotel` DISABLE KEYS */;
-INSERT INTO `Hotel` (`HotelId`, `Name`, `Latitude`, `Longitude`, `Address`, `Phone`, `AdminId`) VALUES (1,'sad2133',NULL,NULL,NULL,'21312',1);
+INSERT INTO `Hotel` (`HotelId`, `Name`, `Latitude`, `Longitude`, `Address`, `Phone`, `AdminId`) VALUES (1,'Marina23',NULL,NULL,NULL,'Shaghalew',1);
 /*!40000 ALTER TABLE `Hotel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,10 +106,10 @@ DROP TABLE IF EXISTS `HotelImage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `HotelImage` (
-                              `URL` varchar(255) NOT NULL,
                               `HotelId` int NOT NULL,
-                              PRIMARY KEY (`URL`,`HotelId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                              `ImageId` int NOT NULL AUTO_INCREMENT,
+                              PRIMARY KEY (`ImageId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,6 +118,7 @@ CREATE TABLE `HotelImage` (
 
 LOCK TABLES `HotelImage` WRITE;
 /*!40000 ALTER TABLE `HotelImage` DISABLE KEYS */;
+INSERT INTO `HotelImage` (`HotelId`, `ImageId`) VALUES (1,1),(1,2),(1,3);
 /*!40000 ALTER TABLE `HotelImage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +138,7 @@ CREATE TABLE `Room` (
                         `HotelId` int DEFAULT NULL,
                         `Facilities` varchar(10000) DEFAULT '',
                         PRIMARY KEY (`RoomId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +147,7 @@ CREATE TABLE `Room` (
 
 LOCK TABLES `Room` WRITE;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `Room` (`RoomId`, `PricePerNight`, `Type`, `MaxAdults`, `MaxChildren`, `HotelId`, `Facilities`) VALUES (1,12.5,'fdsafasd',12,20,1,'Sauna Kaman'),(2,0.4321,'Master Bedroom',3,50,1,'Sauna'),(3,242,'One',1,1,1,'');
+INSERT INTO `Room` (`RoomId`, `PricePerNight`, `Type`, `MaxAdults`, `MaxChildren`, `HotelId`, `Facilities`) VALUES (1,21,'Suite',0,20,1,'Sauna Kaman'),(2,0.4321,'Master Bedroom',3,50,1,'Sauna'),(3,242,'One',1,1,1,''),(4,10.5,'Oia',2,10,1,'Ba7r');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,4 +190,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-03 17:03:23
+-- Dump completed on 2021-01-03 19:00:54
