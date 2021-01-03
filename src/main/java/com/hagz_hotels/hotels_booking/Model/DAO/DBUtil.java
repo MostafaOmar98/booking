@@ -11,7 +11,7 @@ public class DBUtil {
         Connection con = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/HotelsBooking?useSSL=false", "root", "123456");
+            con = DriverManager.getConnection(conf.url, conf.user, conf.password);
         } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println("Connection Failed");
             throwables.printStackTrace();
