@@ -1,5 +1,8 @@
 package com.hagz_hotels.hotels_booking.Model.DAO;
+import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
+
 import java.sql.*;
+import java.util.function.Function;
 
 public class DBUtil {
     public static Connection getConnection() {
@@ -38,5 +41,23 @@ public class DBUtil {
         }
         stmt.executeUpdate();
         close(con, stmt);
+    }
+
+    public static <T> T selectOne(String query, Function<ResultSet, T> map, Object... args) {
+        Connection con = DBUtil.getConnection();
+        T ret = null;
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            for (int i = 0; i < args.length; ++i)
+                stmt.setObject(i + 1, args[i]);
+
+            ResultSet set = stmt.executeQuery();
+            if (set.next())
+                ret = map.apply(set);
+            DBUtil.close(con, stmt, set);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return ret;
     }
 }

@@ -2,48 +2,41 @@ package com.hagz_hotels.hotels_booking.Model.DAO;
 
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.function.Function;
 
 public class HotelDAO {
-    public Hotel findByAdminId(Integer adminId) {
-        Connection con = DBUtil.getConnection();
-        Hotel hotel = null;
-        try {
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Hotel WHERE AdminId=?");
-            stmt.setInt(1, adminId);
-            ResultSet set = stmt.executeQuery();
-            if (set.next())
-                hotel = map(set);
-            DBUtil.close(con, stmt, set);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return hotel;
-    }
 
-    private Hotel map(ResultSet set) throws SQLException {
-        Hotel hotel = new Hotel();
-        hotel.setHotelId(set.getInt("HotelId"));
-        hotel.setName(set.getString("Name"));
-        hotel.setLatitude(set.getFloat("Latitude"));
-        hotel.setLongitude(set.getFloat("Longitude"));
-        hotel.setAddress(set.getString("Address"));
-        hotel.setPhone(set.getString("Phone"));
-        hotel.setAdminId(set.getInt("AdminId"));
-        return hotel;
+    Function<ResultSet, Hotel> mapper = new Function<ResultSet, Hotel>() {
+        @Override
+        public Hotel apply(ResultSet set) {
+            Hotel hotel = new Hotel();
+            try {
+                hotel.setHotelId(set.getInt("HotelId"));
+                hotel.setName(set.getString("Name"));
+                hotel.setLatitude(set.getFloat("Latitude"));
+                hotel.setLongitude(set.getFloat("Longitude"));
+                hotel.setAddress(set.getString("Address"));
+                hotel.setPhone(set.getString("Phone"));
+                hotel.setAdminId(set.getInt("AdminId"));
+                return hotel;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return hotel;
+        }
+    };
+
+    public Hotel findByAdminId(Integer adminId) {
+        String query = "SELECT * FROM Hotel WHERE AdminId=?";
+        return DBUtil.selectOne(query, mapper, adminId);
     }
 
     public void create(String name, Integer adminId) {
-        Connection con = DBUtil.getConnection();
+        String query = "INSERT INTO Hotel (Name, AdminId) VALUES(?, ?)";
         try {
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO Hotel (Name, AdminId) VALUES(?, ?)");
-            stmt.setString(1, name);
-            stmt.setInt(2, adminId);
-            stmt.executeUpdate();
-            DBUtil.close(con, stmt);
+            DBUtil.executeUpdate(query, name, adminId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -66,13 +59,8 @@ public class HotelDAO {
 
     private void update(Integer hotelId, String fieldName, Object value) {
         String query = "UPDATE Hotel SET " + fieldName + "=? WHERE HotelId=?";
-        Connection con = DBUtil.getConnection();
         try {
-            PreparedStatement stmt = con.prepareStatement(query);
-            stmt.setObject(1, value);
-            stmt.setInt(2, hotelId);
-            stmt.executeUpdate();
-            DBUtil.close(con, stmt);
+            DBUtil.executeUpdate(query, value, hotelId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
