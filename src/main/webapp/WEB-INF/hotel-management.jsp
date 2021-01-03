@@ -44,29 +44,40 @@
         </thead>
         <tbody>
         <%
+            Integer idx = 0;
             for (Room room : rooms) {
                 out.println("<tr>");
                 out.println("<td>");
-                out.println(room.getType());
+                out.println("<input disabled name=\"type\" value=\"" + room.getType() + "\"");
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println(room.getMaxAdults());
+                out.println("<input disabled name=\"maxAdults\" value=\"" + room.getMaxAdults() + "\"");
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println(room.getMaxChildren());
+                out.println("<input disabled name=\"maxChildren\" value=\"" + room.getMaxChildren() + "\"");
                 out.println("</td>\n");
 
 
                 out.println("<td>");
-                out.println(room.getPricePerNight());
+                out.println("<input disabled name=\"pricePerNight\" value=\"" + room.getPricePerNight() + "\"");
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println(room.getFacilities());
+                out.println("<input disabled name=\"facilities\" " + "class=\"input" + idx + "\" "+ "value=\"" + room.getFacilities() + "\">"); // ONLY CORRECT ONE
                 out.println("</td>\n");
+
+                out.println("<td>");
+                out.println("<input disabled hidden name=\"roomId\" value=\"" + room.getRoomId() + "\"");
+                out.println("</td>\n");
+
+                out.println("<td>");
+                out.println("<button type=\"button\" " + "class=\"roomBtn\">Update</button>");
+                out.println("</td>");
+
                 out.println("</tr>");
+                idx++;
             }
         %>
         </tbody>
@@ -108,9 +119,7 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>

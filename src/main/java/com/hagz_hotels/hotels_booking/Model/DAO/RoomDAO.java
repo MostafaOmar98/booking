@@ -43,6 +43,15 @@ public class RoomDAO {
             throwables.printStackTrace();
         }
     }
+
+    public void update(Integer roomId, Float pricePerNight, String type, Integer maxAdults, Integer maxChildren, String facilities) {
+        String query = "UPDATE Room SET PricePerNight=?, Type=?, maxAdults=?, maxChildren=?, facilities=? WHERE RoomId=?";
+        try {
+            DBUtil.executeUpdate(query, pricePerNight, type, maxAdults, maxChildren, facilities, roomId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
     private Room map(ResultSet set) throws SQLException {
         Room room = new Room();
         room.setRoomId(set.getInt("RoomId"));

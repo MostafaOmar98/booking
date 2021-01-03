@@ -29,4 +29,14 @@ public class DBUtil {
     public static void close(Connection con, PreparedStatement stmt) {
         close (con, stmt, null);
     }
+
+    public static void executeUpdate(String query, Object... args) throws SQLException {
+        Connection con = getConnection();
+        PreparedStatement stmt = con.prepareStatement(query);
+        for (int i = 0; i < args.length; ++i) {
+            stmt.setObject(i + 1, args[i]);
+        }
+        stmt.executeUpdate();
+        close(con, stmt);
+    }
 }
