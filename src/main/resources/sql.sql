@@ -82,10 +82,10 @@ CREATE TABLE `Hotel` (
                          `Latitude` float DEFAULT NULL,
                          `Longitude` float DEFAULT NULL,
                          `Address` varchar(255) DEFAULT NULL,
-                         `Phone` varchar(255) DEFAULT NULL,
+                         `Phone` varchar(255) DEFAULT '',
                          `AdminId` int NOT NULL,
                          PRIMARY KEY (`HotelId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,6 +94,7 @@ CREATE TABLE `Hotel` (
 
 LOCK TABLES `Hotel` WRITE;
 /*!40000 ALTER TABLE `Hotel` DISABLE KEYS */;
+INSERT INTO `Hotel` (`HotelId`, `Name`, `Latitude`, `Longitude`, `Address`, `Phone`, `AdminId`) VALUES (1,'sad2133',NULL,NULL,NULL,'21312',1);
 /*!40000 ALTER TABLE `Hotel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,8 +135,9 @@ CREATE TABLE `Room` (
                         `MaxAdults` int NOT NULL,
                         `MaxChildren` int NOT NULL,
                         `HotelId` int DEFAULT NULL,
+                        `Facilities` varchar(10000) DEFAULT '',
                         PRIMARY KEY (`RoomId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,31 +146,8 @@ CREATE TABLE `Room` (
 
 LOCK TABLES `Room` WRITE;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
+INSERT INTO `Room` (`RoomId`, `PricePerNight`, `Type`, `MaxAdults`, `MaxChildren`, `HotelId`, `Facilities`) VALUES (1,12.5,'fdsafasd',12,20,1,'Sauna Kaman'),(2,0.4321,'Master Bedroom',3,50,1,'Sauna'),(3,242,'One',1,1,1,'');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `RoomFacility`
---
-
-DROP TABLE IF EXISTS `RoomFacility`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `RoomFacility` (
-                                `RoomFacilityId` int NOT NULL AUTO_INCREMENT,
-                                `Name` varchar(255) NOT NULL,
-                                `RoomId` int NOT NULL,
-                                PRIMARY KEY (`RoomFacilityId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `RoomFacility`
---
-
-LOCK TABLES `RoomFacility` WRITE;
-/*!40000 ALTER TABLE `RoomFacility` DISABLE KEYS */;
-/*!40000 ALTER TABLE `RoomFacility` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -210,4 +189,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-30  7:25:11
+-- Dump completed on 2021-01-03 17:03:23
