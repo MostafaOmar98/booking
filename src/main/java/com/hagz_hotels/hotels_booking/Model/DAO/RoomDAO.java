@@ -9,58 +9,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class RoomDAO {
-    public List findByHotelID(Integer hotelId) {
-        Connection con = DBUtil.getConnection();
-        List<Room> rooms = new ArrayList<>();
-        try {
-            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Room WHERE hotelId=?");
-            stmt.setInt(1, hotelId);
-            ResultSet set = stmt.executeQuery();
-            while (set.next())
-                rooms.add(map(set));
-            DBUtil.close(con, stmt, set);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+
+    Function<ResultSet, Room> mapper = new Function<ResultSet, Room>() {
+        @Override
+        public Room apply(ResultSet set) {
+            Room room = new Room();
+            try {
+                room.setRoomId(set.getInt("RoomId"));
+                room.setPricePerNight(set.getFloat("PricePerNight"));
+                room.setType(set.getString("Type"));
+                room.setMaxAdults(set.getInt("MaxAdults"));
+                room.setMaxChildren(set.getInt("MaxChildren"));
+                room.setHotelId(set.getInt("HotelId"));
+                room.setFacilities(set.getString("Facilities"));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return room;
         }
-        return rooms;
+    };
+
+    public List<Room> findByHotelID(Integer hotelId) {
+        String query = "SELECT * FROM Room WHERE hotelId=?";
+        return DBUtil.selectAll(query, mapper, hotelId);
     }
 
     public void create(Float pricePerNight, String type, Integer maxAdults, Integer maxChildren, Integer hotelId, String facilities) {
-        Connection con = DBUtil.getConnection();
-        try {
-            PreparedStatement stmt = con.prepareStatement("INSERT INTO Room (PricePerNight, Type, MaxAdults, MaxChildren, HotelId, Facilities) VALUES(?, ?, ?, ?, ?, ?)");
-            stmt.setObject(1, pricePerNight);
-            stmt.setObject(2, type);
-            stmt.setObject(3, maxAdults);
-            stmt.setObject(4, maxChildren);
-            stmt.setObject(5, hotelId);
-            stmt.setObject(6, facilities);
-            stmt.executeUpdate();
-            DBUtil.close(con, stmt);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        String query = "INSERT INTO Room (PricePerNight, Type, MaxAdults, MaxChildren, HotelId, Facilities) VALUES(?, ?, ?, ?, ?, ?)";
+        DBUtil.executeUpdate(query, pricePerNight, type, maxAdults, maxChildren, hotelId, facilities);
     }
 
     public void update(Integer roomId, Float pricePerNight, String type, Integer maxAdults, Integer maxChildren, String facilities) {
         String query = "UPDATE Room SET PricePerNight=?, Type=?, maxAdults=?, maxChildren=?, facilities=? WHERE RoomId=?";
-        try {
-            DBUtil.executeUpdate(query, pricePerNight, type, maxAdults, maxChildren, facilities, roomId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-    private Room map(ResultSet set) throws SQLException {
-        Room room = new Room();
-        room.setRoomId(set.getInt("RoomId"));
-        room.setPricePerNight(set.getFloat("PricePerNight"));
-        room.setType(set.getString("Type"));
-        room.setMaxAdults(set.getInt("MaxAdults"));
-        room.setMaxChildren(set.getInt("MaxChildren"));
-        room.setHotelId(set.getInt("HotelId"));
-        room.setFacilities(set.getString("Facilities"));
-        return room;
+        DBUtil.executeUpdate(query, pricePerNight, type, maxAdults, maxChildren, facilities, roomId);
     }
 }

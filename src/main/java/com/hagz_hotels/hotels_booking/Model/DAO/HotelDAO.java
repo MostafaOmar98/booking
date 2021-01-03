@@ -35,11 +35,7 @@ public class HotelDAO {
 
     public void create(String name, Integer adminId) {
         String query = "INSERT INTO Hotel (Name, AdminId) VALUES(?, ?)";
-        try {
-            DBUtil.executeUpdate(query, name, adminId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        DBUtil.executeUpdate(query, name, adminId);
     }
 
     public void update(Integer hotelId, String name, Float latitude, Float longitude, String address, String phone, Integer adminId) {
@@ -59,10 +55,6 @@ public class HotelDAO {
 
     private void update(Integer hotelId, String fieldName, Object value) {
         String query = "UPDATE Hotel SET " + fieldName + "=? WHERE HotelId=?";
-        try {
-            DBUtil.executeUpdate(query, value, hotelId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        DBUtil.executeUpdate(query, value, hotelId);
     }
 }

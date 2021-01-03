@@ -2,6 +2,8 @@ package com.hagz_hotels.hotels_booking.Model.DAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class DBUtil {
@@ -33,14 +35,19 @@ public class DBUtil {
         close (con, stmt, null);
     }
 
-    public static void executeUpdate(String query, Object... args) throws SQLException {
+    public static void executeUpdate(String query, Object... args) {
         Connection con = getConnection();
-        PreparedStatement stmt = con.prepareStatement(query);
-        for (int i = 0; i < args.length; ++i) {
-            stmt.setObject(i + 1, args[i]);
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            for (int i = 0; i < args.length; ++i) {
+                stmt.setObject(i + 1, args[i]);
+            }
+            stmt.executeUpdate();
+            close(con, stmt);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        stmt.executeUpdate();
-        close(con, stmt);
     }
 
     public static <T> T selectOne(String query, Function<ResultSet, T> map, Object... args) {
@@ -54,6 +61,24 @@ public class DBUtil {
             ResultSet set = stmt.executeQuery();
             if (set.next())
                 ret = map.apply(set);
+            DBUtil.close(con, stmt, set);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static <T> List<T> selectAll(String query, Function<ResultSet, T> map, Object... args) {
+        Connection con = DBUtil.getConnection();
+        List<T> ret = new ArrayList<>();
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            for (int i = 0; i < args.length; ++i)
+                stmt.setObject(i + 1, args[i]);
+
+            ResultSet set = stmt.executeQuery();
+            while (set.next())
+                ret.add(map.apply(set));
             DBUtil.close(con, stmt, set);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
