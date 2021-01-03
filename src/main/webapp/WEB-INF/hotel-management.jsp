@@ -75,7 +75,11 @@
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println("<button type=\"button\" " + "class=\"roomBtn\">Update</button>");
+                out.println("<button type=\"button\" " + "class=\"roomDeleteBtn btn-danger\">Delete</button>");
+                out.println("</td>");
+
+                out.println("<td>");
+                out.println("<button type=\"button\" " + "class=\"roomUpdateBtn\">Update</button>");
                 out.println("</td>");
 
                 out.println("</tr>");

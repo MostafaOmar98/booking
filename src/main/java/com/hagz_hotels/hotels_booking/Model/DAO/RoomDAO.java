@@ -46,4 +46,9 @@ public class RoomDAO {
         String query = "UPDATE Room SET PricePerNight=?, Type=?, maxAdults=?, maxChildren=?, facilities=? WHERE RoomId=?";
         DBUtil.executeUpdate(query, pricePerNight, type, maxAdults, maxChildren, facilities, roomId);
     }
+
+    public void delete(Integer roomId) {
+        String query = "DELETE FROM Room WHERE RoomId=?";
+        DBUtil.executeUpdate(query, roomId);
+    }
 }

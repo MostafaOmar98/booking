@@ -34,9 +34,9 @@ $(function () {
 
 
     // Room Update
-    const roomBtns = document.querySelectorAll('.roomBtn');
-    for (var i = 0; i < roomBtns.length; ++i) {
-        roomBtns[i].addEventListener('click', updateRoomBtnClicked);
+    const roomUpdateBtns = document.querySelectorAll('.roomUpdateBtn');
+    for (var i = 0; i < roomUpdateBtns.length; ++i) {
+        roomUpdateBtns[i].addEventListener('click', updateRoomBtnClicked);
     }
 
     /**
@@ -53,8 +53,8 @@ $(function () {
                     break;
                 }
                 let inp = cur.firstElementChild;
-                console.log(inp);
-                inp.removeAttribute('disabled');
+                if (inp.tagName === 'INPUT')
+                    inp.removeAttribute('disabled');
             }
             btn.innerText = 'Done';
         }
@@ -68,9 +68,10 @@ $(function () {
                     break;
                 }
                 let inp = cur.firstElementChild;
-                params[inp.name] = inp.value;
-                // console.log(inp);
-                inp.setAttribute('disabled', '');
+                if (inp.tagName === 'INPUT') {
+                    params[inp.name] = inp.value;
+                    inp.setAttribute('disabled', '');
+                }
             }
             // console.log(params);
             $.post("update-room", params, function(data, status){
@@ -78,7 +79,42 @@ $(function () {
                 console.log(data);
             });
         }
+    }
 
+    // Room Delete
+
+    const roomDeleteBtns = document.querySelectorAll('.roomDeleteBtn');
+    for (let i = 0; i < roomDeleteBtns.length; ++i) {
+        roomDeleteBtns[i].addEventListener('click', deleteRoomBtnClicked);
+    }
+
+    /**
+     @param {Event} e
+     */
+    function deleteRoomBtnClicked(e) {
+        let btn = e.target;
+        let roomId = btn.parentElement.previousElementSibling.firstElementChild.value;
+        params = {"roomId": roomId};
+        $.post("delete-room", params, function(data, status){
+            // TODO: show error;
+            console.log(data);
+            console.log("Entered");
+            console.log(btn);
+            btn.parentElement.previousElementSibling.parentElement.remove();
+        });
+
+        $.ajax({
+            type:    "POST",
+            url:     "delete-room",
+            data:    params,
+            success: function(data) {
+                // TODO: show error;
+            },
+            // vvv---- This is the new bit
+            error:   function(jqXHR, textStatus, errorThrown) {
+            }
+        });
+        btn.parentElement.previousElementSibling.parentElement.remove();
     }
 
 })
