@@ -29,4 +29,9 @@ public class HotelImageDAO {
         String query = "INSERT INTO HotelImage (HotelId) VALUES(?)";
         DBUtil.executeUpdate(query, hotelId);
     }
+
+    public List<HotelImage> findByHotelId(Integer hotelId) {
+        String query = "SELECT * FROM HotelImage WHERE HotelId=?";
+        return DBUtil.selectAll(query, mapper, hotelId);
+    }
 }

@@ -20,4 +20,7 @@ public class HotelImage {
         this.imageId = imageId;
     }
 
+    public String getName() {
+        return "" + hotelId + "/" + imageId + ".png";
+    }
 }
