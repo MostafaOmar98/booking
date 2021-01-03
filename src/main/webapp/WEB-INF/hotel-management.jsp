@@ -4,6 +4,7 @@
 <%
     Hotel hotel = (Hotel) request.getAttribute("hotel");
     ArrayList<Room> rooms = (ArrayList<Room>) request.getAttribute("rooms");
+    String imagesPath = "/home/bekh/IdeaProjects/hotels-booking/images/" + hotel.getHotelId(); // TODO: change absolute path
 %>
 
 <!doctype html>
@@ -124,6 +125,41 @@
     <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>"><br>
     <input type="submit" value="Upload">
 </form>
+
+<br><br>
+<div id="hotelImages" class="carousel slide" data-ride="carousel">
+
+    <!-- Indicators -->
+    <ul class="carousel-indicators">
+        <li data-target="#hotelImages" data-slide-to="0" class="active"></li>
+        <li data-target="#hotelImages" data-slide-to="1"></li>
+        <li data-target="#hotelImages" data-slide-to="2"></li>
+    </ul>
+
+    <!-- The slideshow -->
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="<%=imagesPath + "/1.png"%>" alt="Los Angeles">
+        </div>
+        <div class="carousel-item">
+            <img src="<%=imagesPath + "/2.png"%>" alt="Chicago">
+        </div>
+        <div class="carousel-item">
+            <img src="<%=imagesPath + "/3.png"%>>" alt="New York">
+        </div>
+        <h1><%=imagesPath + "/3.png"%></h1>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#hotelImages" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#hotelImages" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
+
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"

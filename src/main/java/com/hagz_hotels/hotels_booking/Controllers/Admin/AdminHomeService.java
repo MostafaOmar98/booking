@@ -1,6 +1,7 @@
-package com.hagz_hotels.hotels_booking.Controllers;
+package com.hagz_hotels.hotels_booking.Controllers.Admin;
 
 
+import com.hagz_hotels.hotels_booking.Controllers.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
