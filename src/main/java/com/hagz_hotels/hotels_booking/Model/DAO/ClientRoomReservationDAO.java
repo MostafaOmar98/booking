@@ -27,7 +27,7 @@ public class ClientRoomReservationDAO {
         }
     };
 
-    List<ClientRoomReservation> findAllByHotelId(Integer hotelId) {
+    public List<ClientRoomReservation> findAllByHotelId(Integer hotelId) {
         String query = "SELECT * FROM ClientRoomReservation WHERE HotelId=?";
         return DBUtil.selectAll(query, mapper, hotelId);
     }
