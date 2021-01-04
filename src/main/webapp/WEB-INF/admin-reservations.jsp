@@ -37,56 +37,59 @@
         <th>Phone</th>
         <th>Email</th>
         <th>Room Id</th>
-        <th>Status</th>
         <th>Check In</th>
         <th>Check Out</th>
         <th>Issued At</th>
+        <th>Status</th>
         <th>Actions</th>
     </tr>
-<%
-    for (ReservationDTO r : reservations) {
-        out.println("<tr>");
+    <tbody class="data-rows">
+    <%
+        for (ReservationDTO r : reservations) {
+            out.println("<tr>");
 
-        out.println("<td>");
-        out.println(r.getClientName());
-        out.println("</td>");
+            out.println("<td>");
+            out.println(r.getClientName());
+            out.println("</td>");
 
-        out.println("<td>");
-        out.println(r.getClientPhone());
-        out.println("</td>");
+            out.println("<td>");
+            out.println(r.getClientPhone());
+            out.println("</td>");
 
-        out.println("<td>");
-        out.println(r.getClientEmail());
-        out.println("</td>");
+            out.println("<td>");
+            out.println(r.getClientEmail());
+            out.println("</td>");
 
-        out.println("<td>");
-        out.println(r.getRoomId());
-        out.println("</td>");
+            out.println("<td>");
+            out.println(r.getRoomId());
+            out.println("</td>");
 
-        out.println("<td>");
-        out.println(r.getStatus());
-        out.println("</td>");
 
-        out.println("<td>");
-        out.println(r.getCheckIn());
-        out.println("</td>");
+            out.println("<td>");
+            out.println(r.getCheckIn());
+            out.println("</td>");
 
-        out.println("<td>");
-        out.println(r.getCheckOut());
-        out.println("</td>");
+            out.println("<td>");
+            out.println(r.getCheckOut());
+            out.println("</td>");
 
-        out.println("<td>");
-        out.println(r.getCreatedAt());
-        out.println("</td>");
+            out.println("<td>");
+            out.println(r.getCreatedAt());
+            out.println("</td>");
 
-        out.println("<td>");
-        out.println("<button class=\"btn btn-danger cancelBtn\">Cancel</button>");
-        out.println("<button class=\"btn updateBtn\">Update Status</button>");
-        out.println("</td>");
+            out.println("<td>");
+            out.println(r.getStatus());
+            out.println("</td>");
 
-        out.println("</tr>");
-    }
-%>
+            out.println("<td>");
+            out.println("<button class=\"btn btn-danger cancelBtn\">Cancel</button>");
+            out.println("<button class=\"updateBtn\">Update</button>");
+            out.println("</td>");
+
+            out.println("</tr>");
+        }
+    %>
+    </tbody>
 </table>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

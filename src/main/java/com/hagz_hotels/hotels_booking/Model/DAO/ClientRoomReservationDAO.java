@@ -18,6 +18,7 @@ public class ClientRoomReservationDAO {
                 r.setClientId(set.getInt("ClientId"));
                 r.setCheckIn(set.getDate("CheckIn").toLocalDate());
                 r.setCheckOut(set.getDate("CheckOut").toLocalDate());
+                r.setCreatedAt(set.getTimestamp("CreatedAt").toLocalDateTime());
                 r.setStatus(set.getString("Status"));
                 r.setTotalPrice(set.getFloat("TotalPrice"));
             } catch (SQLException throwables) {
