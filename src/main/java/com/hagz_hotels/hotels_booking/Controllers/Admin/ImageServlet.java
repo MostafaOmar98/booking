@@ -16,7 +16,7 @@ public class ImageServlet extends HttpServlet {
     private String imagePath;
 
     public void init() throws ServletException {
-        this.imagePath = "/home/bekh/IdeaProjects/hotels-booking/images"; // TODO: relative or change
+        this.imagePath = conf.imagePath;
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
