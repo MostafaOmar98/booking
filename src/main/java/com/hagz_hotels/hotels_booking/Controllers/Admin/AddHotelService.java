@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 
 @WebServlet("/add-hotel")
@@ -18,10 +19,11 @@ public class AddHotelService extends HttpServlet {
 
     private HotelDAO hotelDAO;
     private User.Type authType = User.Type.ADMIN;
-
+    private String imagePath;
     @Override
     public void init() throws ServletException {
         hotelDAO = new HotelDAO();
+        imagePath = conf.imagePath;
     }
 
     @Override
@@ -35,7 +37,9 @@ public class AddHotelService extends HttpServlet {
         String name = request.getParameter("name");
         // bypass of frontend will not affect backend.
         if (!name.equals("") || hotelDAO.findByAdminId(user.getUserId()) != null) {
-            hotelDAO.create(name, user.getUserId());
+            Integer hotelId = hotelDAO.create(name, user.getUserId());
+            File hotelDir = new File(imagePath + "/" + hotelId);
+            hotelDir.mkdir();
         }
         response.sendRedirect("admin-home");
     }

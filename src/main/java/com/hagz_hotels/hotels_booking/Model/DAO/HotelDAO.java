@@ -33,9 +33,9 @@ public class HotelDAO {
         return DBUtil.selectOne(query, mapper, adminId);
     }
 
-    public void create(String name, Integer adminId) {
+    public Integer create(String name, Integer adminId) {
         String query = "INSERT INTO Hotel (Name, AdminId) VALUES(?, ?)";
-        DBUtil.executeUpdate(query, name, adminId);
+        return DBUtil.insert(query, name, adminId);
     }
 
     public void update(Integer hotelId, String name, Float latitude, Float longitude, String address, String phone, Integer adminId) {

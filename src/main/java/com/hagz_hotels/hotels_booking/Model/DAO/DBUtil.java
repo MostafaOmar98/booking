@@ -50,6 +50,27 @@ public class DBUtil {
         }
     }
 
+    // returns generated key
+    public static Integer insert(String query, Object... args) {
+        Connection con = getConnection();
+        PreparedStatement stmt = null;
+        Integer key = null;
+        try {
+            stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            for (int i = 0; i < args.length; ++i) {
+                stmt.setObject(i + 1, args[i]);
+            }
+            stmt.executeUpdate();
+            ResultSet set = stmt.getGeneratedKeys();
+            if (set.next())
+                key = set.getInt(1);
+            close(con, stmt, set);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return key;
+    }
+
     public static <T> T selectOne(String query, Function<ResultSet, T> map, Object... args) {
         Connection con = DBUtil.getConnection();
         T ret = null;
