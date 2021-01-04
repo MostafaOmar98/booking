@@ -53,7 +53,7 @@ public class RoomDAO {
     }
 
     public boolean has(Integer roomId, Integer hotelId) {
-        String query = "SELETE * FROM Room WHERE RoomId=? AND HotelId=?";
+        String query = "SELECT * FROM Room WHERE RoomId=? AND HotelId=?";
         return DBUtil.selectOne(query, mapper, roomId, hotelId) != null;
     }
 }
