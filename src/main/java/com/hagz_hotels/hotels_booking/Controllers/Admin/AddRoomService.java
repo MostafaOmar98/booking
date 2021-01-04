@@ -29,14 +29,22 @@ public class AddRoomService extends HttpServlet {
         if (!Auth.authenticate(request, response, authType))
             return;
 
-        roomDAO.create(
-                Float.valueOf(request.getParameter("pricePerNight")),
-                request.getParameter("type"),
-                Integer.valueOf(request.getParameter("maxAdults")),
-                Integer.valueOf(request.getParameter("maxChildren")),
-                Integer.valueOf(request.getParameter("hotelId")),
-                request.getParameter("facilities")
-        );
+        Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
+        if (!Auth.authorizeHotel(request, response, hotelId))
+            return;
+
+        String type = request.getParameter("type");
+        // Frontent will validate, bypassing of validation will not affect backend.
+        if (!type.equals("")) {
+            roomDAO.create(
+                    Float.valueOf(request.getParameter("pricePerNight")),
+                    request.getParameter("type"),
+                    Integer.valueOf(request.getParameter("maxAdults")),
+                    Integer.valueOf(request.getParameter("maxChildren")),
+                    hotelId,
+                    request.getParameter("facilities")
+            );
+        }
         response.sendRedirect("admin-home");
     }
 }
