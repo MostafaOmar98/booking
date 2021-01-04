@@ -16,19 +16,26 @@ $(function () {
             btn.html("Done");
         } else {
             // TODO: Frontend validation
-            inp.attr("disabled", ''); // disallow  change
-            btn.html("Change");
-            params = {
-                hotelId: hotelId,
-            };
-            params[inp.attr("name")] = inp.val();
+            inp.removeClass("border-danger");
+            $(".field-error").remove();
+            if (inp.val() === "" && inp.attr("id") === "name") {
+                inp.addClass("border-danger");
+                inp.parent().append("<span class='field-error'>Field can't be empty</span>")
+            }
+            else {
+                inp.attr("disabled", ''); // disallow  change
+                btn.html("Change");
+                params = {
+                    hotelId: hotelId,
+                };
+                params[inp.attr("name")] = inp.val();
 
-            console.log(params);
-            $.post("update-hotel", params, function (data, status) {
-                // TODO: Show Errors?
-                console.log(data);
-                console.log(status);
-            })
+                console.log(params);
+                $.post("update-hotel", params, function (data, status) {
+                    console.log(data);
+                    console.log(status);
+                });
+            }
         }
     }
 
@@ -58,12 +65,12 @@ $(function () {
             }
             btn.innerText = 'Done';
         } else {
+            // TODO: find cleaner way to iterate over these fields and validate type not empty
             btn.innerText = 'Update';
             let params = {};
             while (true) {
                 cur = cur.previousElementSibling;
                 if (cur === null) {
-                    // console.log(cur);
                     break;
                 }
                 let inp = cur.firstElementChild;
@@ -74,7 +81,6 @@ $(function () {
             }
             // console.log(params);
             $.post("update-room", params, function (data, status) {
-                // TODO: show errors
                 console.log(data);
             });
         }
@@ -95,25 +101,8 @@ $(function () {
         let roomId = btn.parentElement.previousElementSibling.firstElementChild.value;
         params = {"roomId": roomId};
         $.post("delete-room", params, function (data, status) {
-            // TODO: show error;
-            console.log(data);
-            console.log("Entered");
-            console.log(btn);
             btn.parentElement.previousElementSibling.parentElement.remove();
         });
-
-        $.ajax({
-            type: "POST",
-            url: "delete-room",
-            data: params,
-            success: function (data) {
-                // TODO: show error;
-            },
-            // vvv---- This is the new bit
-            error: function (jqXHR, textStatus, errorThrown) {
-            }
-        });
-        btn.parentElement.previousElementSibling.parentElement.remove();
     }
 
     // Images selecting
@@ -158,12 +147,9 @@ $(function () {
             url: "delete-image",
             data: params,
             success: function (data) {
-                // TODO: show error;
-            },
-            // vvv---- This is the new bit
-            error: function (jqXHR, textStatus, errorThrown) {
+                window.location.href = window.location.href;
+                console.log(data);
             }
         });
-        selectedImage.remove();
     }
 })

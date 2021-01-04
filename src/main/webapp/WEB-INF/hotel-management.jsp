@@ -18,7 +18,7 @@
 
     <title>Hotel Management</title>
 </head>
-<body style="background-color:#FF6F61">
+<body>
 <input type="hidden" id="hotelId" value="<%=hotel.getHotelId()%>">
 <div class="container">
     <div class="row" id="nameDiv">
@@ -30,7 +30,7 @@
     </div>
     <div class="row" id="phoneDiv">
         <label for="phone">Phone: </label>
-        <input type="text" name="phone" id="phone" value="<%=hotel.getPhone()%>" disabled>
+        <input class="form-control" type="text" name="phone" id="phone" value="<%=hotel.getPhone()%>" disabled>
     </div>
     <div class="row justify-content-end">
         <button class="col-1" type="button" id="changePhoneBtn">Change</button>
