@@ -39,13 +39,17 @@ public class UpdateHotelService extends HttpServlet {
         Float longitude = longitudeParam == null ? null : Float.valueOf(longitudeParam);
         Integer adminId = adminIdParam == null ? null : Integer.valueOf(adminIdParam);
         String name = request.getParameter("name");
+        Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
+
+        if (!Auth.authorizeJsonHotel(request, response, hotelId))
+            return;
 
         JsonResponse jsonResponse = new JsonResponse();
         if (name.equals(""))
             jsonResponse.setAttr("name_error", "name_empty");
         else {
             hotelDAO.update(
-                    Integer.valueOf(request.getParameter("hotelId")),
+                    hotelId,
                     request.getParameter("name"),
                     latitude,
                     longitude,

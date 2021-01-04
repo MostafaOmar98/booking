@@ -57,4 +57,9 @@ public class HotelDAO {
         String query = "UPDATE Hotel SET " + fieldName + "=? WHERE HotelId=?";
         DBUtil.executeUpdate(query, value, hotelId);
     }
+
+    public boolean has(Integer adminId, Integer hotelId) {
+        String query = "SELECT * FROM Hotel Where AdminId=? AND HotelId=?";
+        return DBUtil.selectOne(query, mapper, adminId, hotelId) != null;
+    }
 }

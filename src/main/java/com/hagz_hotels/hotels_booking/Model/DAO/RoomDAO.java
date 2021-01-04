@@ -51,4 +51,9 @@ public class RoomDAO {
         String query = "DELETE FROM Room WHERE RoomId=?";
         DBUtil.executeUpdate(query, roomId);
     }
+
+    public boolean has(Integer roomId, Integer hotelId) {
+        String query = "SELETE * FROM Room WHERE RoomId=? AND HotelId=?";
+        return DBUtil.selectOne(query, mapper, roomId, hotelId) != null;
+    }
 }

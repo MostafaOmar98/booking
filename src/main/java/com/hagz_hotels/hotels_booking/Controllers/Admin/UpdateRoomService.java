@@ -30,7 +30,6 @@ public class UpdateRoomService extends HttpServlet {
         if (!Auth.authenticateJson(request, response, authType))
             return;
 
-        JsonResponse jsonResponse = new JsonResponse();
 
         // Invalid input format will be handled by frontend. Frontend bypass will return 500 Internal Server Error which is intended.
         Integer roomId = Integer.valueOf(request.getParameter("roomId")),
@@ -40,7 +39,10 @@ public class UpdateRoomService extends HttpServlet {
         String type = request.getParameter("type"),
                 facilities = request.getParameter("facilities");
 
+        if (!Auth.authorizeJsonRoom(request, response, roomId))
+            return;
 
+        JsonResponse jsonResponse = new JsonResponse();
         if (type.equals(""))
             jsonResponse.setAttr("type_error", "type_empty");
         else
