@@ -1,9 +1,11 @@
 package com.hagz_hotels.hotels_booking.Controllers.Admin;
 
 
+import com.hagz_hotels.hotels_booking.Controllers.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
+import com.hagz_hotels.hotels_booking.Util.JsonResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,22 +28,33 @@ public class UpdateHotelService extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO: Authentication
         response.setContentType("application/json");
+        if (!Auth.authenticateJson(request, response, authType))
+            return;
+
+        // Invalid input format will be validated by frontend. Bypass of frontend will result in status code 500 which is intended.
         String latitudeParam = request.getParameter("latitude"), longitudeParam = request.getParameter("longitude");
         String adminIdParam = request.getParameter("adminId");
         Float latitude = latitudeParam == null ? null : Float.valueOf(latitudeParam);
         Float longitude = longitudeParam == null ? null : Float.valueOf(longitudeParam);
         Integer adminId = adminIdParam == null ? null : Integer.valueOf(adminIdParam);
-        hotelDAO.update(
-                Integer.valueOf(request.getParameter("hotelId")),
-                request.getParameter("name"),
-                latitude,
-                longitude,
-                request.getParameter("address"),
-                request.getParameter("phone"),
-                adminId
-        );
-        // TODO: Return Error
+        String name = request.getParameter("name");
+
+        JsonResponse jsonResponse = new JsonResponse();
+        if (name.equals(""))
+            jsonResponse.setAttr("name_error", "name_empty");
+        else {
+            hotelDAO.update(
+                    Integer.valueOf(request.getParameter("hotelId")),
+                    request.getParameter("name"),
+                    latitude,
+                    longitude,
+                    request.getParameter("address"),
+                    request.getParameter("phone"),
+                    adminId
+            );
+        }
+
+        response.getWriter().println(jsonResponse);
     }
 }
