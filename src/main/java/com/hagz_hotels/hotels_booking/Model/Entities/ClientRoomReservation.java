@@ -65,7 +65,9 @@ public class ClientRoomReservation {
     public Status getStatus() {
         return status;
     }
-
+    public String getStatusName() {
+        return status.name();
+    }
     public void setStatus(Status status) {
         this.status = status;
     }

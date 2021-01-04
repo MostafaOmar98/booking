@@ -33,4 +33,9 @@ public class UserDAO {
         String query = "SELECT * FROM User WHERE Email=? AND Password=? AND Type=?";
         return DBUtil.selectOne(query, mapper, email, password, type);
     }
+
+    public User findById(Integer userId) {
+        String query = "SELECT * FROM User WHERE UserId=?";
+        return DBUtil.selectOne(query, mapper, userId);
+    }
 }
