@@ -48,6 +48,7 @@ public class RoomDAO {
     }
 
     public void delete(Integer roomId) {
+        System.out.println("Inside delete: " + roomId);
         String query = "DELETE FROM Room WHERE RoomId=?";
         DBUtil.executeUpdate(query, roomId);
     }
