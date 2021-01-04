@@ -4,6 +4,7 @@ import com.hagz_hotels.hotels_booking.Controllers.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelImageDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.HotelImage;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
+import com.hagz_hotels.hotels_booking.Util.JsonResponse;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,9 +40,12 @@ public class DeleteImageService extends HttpServlet {
         hotelImage.setImageId(Integer.valueOf(request.getParameter("imageId")));
         if (!Auth.authorizeJsonHotel(request, response, hotelImage.getHotelId()))
             return;
+        JsonResponse jsonResponse = new JsonResponse();
         File image = new File(imagePath + "/" + hotelImage.getName());
         Files.delete(image.toPath());
         hotelImageDAO.delete(Integer.valueOf(request.getParameter("imageId")));
+        System.out.println(jsonResponse);
+        response.getWriter().println(jsonResponse);
     }
 
 }
