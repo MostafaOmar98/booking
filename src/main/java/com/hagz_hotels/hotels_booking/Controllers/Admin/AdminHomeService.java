@@ -32,13 +32,11 @@ public class AdminHomeService extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!Auth.authenticate(request, response, authType))
+            return;
+
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        if (Auth.isAuth(user, authType) != Auth.Status.OK) {
-            session.invalidate();
-            response.sendRedirect("index.jsp");
-            return;
-        }
         Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
         if (hotel == null)
             request.getRequestDispatcher("/WEB-INF/add-hotel.jsp").forward(request, response);

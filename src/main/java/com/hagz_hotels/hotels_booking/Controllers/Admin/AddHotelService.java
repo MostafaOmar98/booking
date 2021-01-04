@@ -26,13 +26,11 @@ public class AddHotelService extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!Auth.authenticate(request, response, authType))
+            return;
+
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        if (Auth.isAuth(user, authType) != Auth.Status.OK) {
-            session.invalidate();
-            response.sendRedirect("index.jsp");
-            return;
-        }
         // TODO: Backend validation on name
         String name = request.getParameter("name");
         hotelDAO.create(name, user.getUserId());

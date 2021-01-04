@@ -28,13 +28,8 @@ public class AddHotelImageService extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        if (Auth.isAuth(user, authType) != Auth.Status.OK) {
-            session.invalidate();
-            response.sendRedirect("index.jsp");
+        if (!Auth.authenticate(request, response, authType))
             return;
-        }
 
         // TODO : Finish Image
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
