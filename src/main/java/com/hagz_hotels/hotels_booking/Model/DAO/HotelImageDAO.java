@@ -25,9 +25,9 @@ public class HotelImageDAO {
         return list.get(list.size() - 1).getImageId();
     }
 
-    public void create(Integer hotelId) {
+    public Integer create(Integer hotelId) {
         String query = "INSERT INTO HotelImage (HotelId) VALUES(?)";
-        DBUtil.executeUpdate(query, hotelId);
+        return DBUtil.insert(query, hotelId);
     }
 
     public void delete(Integer imageId) {
