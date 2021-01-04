@@ -18,18 +18,22 @@
 
     <title>Hotel Management</title>
 </head>
-<body>
+<body style="background-color:#FF6F61">
 <input type="hidden" id="hotelId" value="<%=hotel.getHotelId()%>">
 <div class="container">
     <div class="row" id="nameDiv">
         <label for="name">Name: </label>
-        <input type="text" name="name" id="name" value="<%=hotel.getName()%>" disabled><br>
-        <button type="button" id="changeNameBtn">Change</button>
+        <input class="form-control" type="text" name="name" id="name" value="<%=hotel.getName()%>" required disabled>
+    </div>
+    <div class="row justify-content-end">
+        <button class="col-1" type="button" id="changeNameBtn">Change</button>
     </div>
     <div class="row" id="phoneDiv">
         <label for="phone">Phone: </label>
-        <input type="text" name="phone" id="phone" value="<%=hotel.getPhone()%>" disabled><br>
-        <button type="button" id="changePhoneBtn">Change</button>
+        <input type="text" name="phone" id="phone" value="<%=hotel.getPhone()%>" disabled>
+    </div>
+    <div class="row justify-content-end">
+        <button class="col-1" type="button" id="changePhoneBtn">Change</button>
     </div>
 </div>
 <div class="container">
@@ -42,6 +46,8 @@
             <th>Max Children</th>
             <th>Price Per Night</th>
             <th>Facilities</th>
+            <th>Delete</th>
+            <th>Update</th>
         </tr>
         </thead>
         <tbody>
@@ -50,24 +56,24 @@
             for (Room room : rooms) {
                 out.println("<tr>");
                 out.println("<td>");
-                out.println("<input disabled name=\"type\" value=\"" + room.getType() + "\"");
+                out.println("<input type=\"text\" required disabled name=\"type\" value=\"" + room.getType() + "\"");
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println("<input disabled name=\"maxAdults\" value=\"" + room.getMaxAdults() + "\"");
+                out.println("<input type=\"number\" min=\"0\" required disabled name=\"maxAdults\" value=\"" + room.getMaxAdults() + "\"");
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println("<input disabled name=\"maxChildren\" value=\"" + room.getMaxChildren() + "\"");
+                out.println("<input type=\"number\" min=\"0\" required disabled name=\"maxChildren\" value=\"" + room.getMaxChildren() + "\"");
                 out.println("</td>\n");
 
 
                 out.println("<td>");
-                out.println("<input disabled name=\"pricePerNight\" value=\"" + room.getPricePerNight() + "\"");
+                out.println("<input type=\"number\" min=\"0\" required disabled name=\"pricePerNight\" value=\"" + room.getPricePerNight() + "\"");
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println("<input disabled name=\"facilities\" " + "class=\"input" + idx + "\" " + "value=\"" + room.getFacilities() + "\">"); // ONLY CORRECT ONE
+                out.println("<input type=\"text\" disabled name=\"facilities\" " + "value=\"" + room.getFacilities() + "\">");
                 out.println("</td>\n");
 
                 out.println("<td>");
@@ -75,7 +81,7 @@
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println("<button type=\"button\" " + "class=\"roomDeleteBtn btn-danger\">Delete</button>");
+                out.println("<button type=\"button\" " + "class=\"roomDeleteBtn btn-danger btn\">Delete</button>");
                 out.println("</td>");
 
                 out.println("<td>");
@@ -104,15 +110,26 @@
                 </div>
                 <form action="add-room" method="post">
                     <div class="modal-body">
-                        <label for="type">Type: </label><input type="text" id="type" name="type"><br>
-                        <label for="maxAdults">Max Adults: </label><input type="text" id="maxAdults"
-                                                                          name="maxAdults"><br>
-                        <label for="maxChildren">Max Children: </label><input type="text" id="maxChildren"
-                                                                              name="maxChildren"><br>
-                        <label for="pricePerNight">Price Per Night: </label><input type="text" id="pricePerNight"
-                                                                                   name="pricePerNight"><br>
-                        <label for="facilities">Facilities: </label><input type="text" id="facilities"
-                                                                           name="facilities"><br>
+                        <div class="form-group">
+                            <label for="type">Type: </label>
+                            <input class="form-check" type="text" id="type" name="type" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="maxAdults">Max Adults: </label>
+                            <input class="form-check" type="number" min="0" required id="maxAdults" name="maxAdults">
+                        </div>
+                        <div class="form-group">
+                            <label for="maxChildren">Max Children: </label>
+                            <input class="form-check" type="number" min="0" required id="maxChildren" name="maxChildren">
+                        </div>
+                        <div class="form-group">
+                            <label for="pricePerNight">Price Per Night: </label>
+                            <input class="form-check" type="number" min="0" step="0.01" required id="pricePerNight" name="pricePerNight">
+                        </div>
+                        <div class="form-group">
+                            <label for="facilities">Facilities: </label>
+                            <input class="form-check" type="text" id="facilities" name="facilities">
+                        </div>
                         <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>">
                     </div>
                     <div class="modal-footer">
@@ -125,7 +142,8 @@
     </div>
 </div>
 <br><br>
-<form action="add-hotel-image" method="post" enctype="multipart/form-data">
+<h2>Upload Image</h2>
+<form action="add-hotel-image" method="post" enctype="multipart/form-data" class="justify-content-center">
     <input type="file" name="image"><br>
     <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>"><br>
     <input type="submit" value="Upload">
@@ -138,13 +156,13 @@
             for (int i = 0; i < images.size(); ++i) {
                 out.println(
                         "<div class=\"col-4\">\n" +
-                        "<img src=\"image/" + images.get(i).getName() + "\" style=\"width:100%\" class=\"img\" imageId=\""+ images.get(i).getImageId() +"\">\n" +
-                        "</div>");
+                                "<img src=\"image/" + images.get(i).getName() + "\" style=\"width:100%\" class=\"img\" imageId=\"" + images.get(i).getImageId() + "\">\n" +
+                                "</div>");
             }
         %>
     </div>
     <br><br>
-    <button id="deleteImageBtn" class="btn-danger">Delete</button>
+    <button id="deleteImageBtn" class="btn btn-danger">Delete</button>
 </div>
 
 
