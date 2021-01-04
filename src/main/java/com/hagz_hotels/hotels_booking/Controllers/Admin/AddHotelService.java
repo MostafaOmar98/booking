@@ -31,9 +31,12 @@ public class AddHotelService extends HttpServlet {
 
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-        // TODO: Backend validation on name
+
         String name = request.getParameter("name");
-        hotelDAO.create(name, user.getUserId());
+        // bypass of frontend will not affect backend.
+        if (!name.equals("") || hotelDAO.findByAdminId(user.getUserId()) != null) {
+            hotelDAO.create(name, user.getUserId());
+        }
         response.sendRedirect("admin-home");
     }
 }
