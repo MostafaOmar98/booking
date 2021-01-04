@@ -1,5 +1,8 @@
 package com.hagz_hotels.hotels_booking.Model.DTO;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class ReservationDTO {
     Integer clientId;
     String clientName;
@@ -9,12 +12,40 @@ public class ReservationDTO {
     Integer roomId;
     String status;
 
+    LocalDate checkIn;
+    LocalDate checkOut;
+    LocalDateTime createdAt;
+
     public Integer getClientId() {
         return clientId;
     }
 
     public void setClientId(Integer clientId) {
         this.clientId = clientId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDate getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(LocalDate checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public LocalDate getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(LocalDate checkOut) {
+        this.checkOut = checkOut;
     }
 
     public String getClientName() {

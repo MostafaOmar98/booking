@@ -51,7 +51,9 @@ public class AdminReservationsService extends HttpServlet {
             r.setClientPhone(user.getPhone());
             r.setRoomId(cr.getRoomId());
             r.setStatus(cr.getStatusName());
-
+            r.setCheckIn(cr.getCheckIn());
+            r.setCheckOut(cr.getCheckOut());
+            r.setCreatedAt(cr.getCreatedAt());
             reservations.add(r);
         }
         request.setAttribute("reservations", reservations);
