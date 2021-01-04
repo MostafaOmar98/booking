@@ -38,13 +38,16 @@ public class AdminHomeService extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
-        if (hotel == null)
+        if (hotel == null) {
             request.getRequestDispatcher("/WEB-INF/add-hotel.jsp").forward(request, response);
+            return;
+        }
         else {
             request.setAttribute("hotel", hotel);
             request.setAttribute("rooms", roomDAO.findByHotelID(hotel.getHotelId()));
             request.setAttribute("images", hotelImageDAO.findByHotelId(hotel.getHotelId()));
             request.getRequestDispatcher("/WEB-INF/hotel-management.jsp").forward(request, response);
+            return;
         }
     }
 }
