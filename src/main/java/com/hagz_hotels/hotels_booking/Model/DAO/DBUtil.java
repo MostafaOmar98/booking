@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class DBUtil {
-    public static Connection getConnection() {
+    private static Connection getConnection() {
         Connection con = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -19,7 +19,7 @@ public class DBUtil {
         return con;
     }
 
-    public static void close(Connection con, PreparedStatement stmt, ResultSet set) {
+    private static void close(Connection con, PreparedStatement stmt, ResultSet set) {
         try {
             if (set != null)
                 set.close();
@@ -31,7 +31,7 @@ public class DBUtil {
             e.printStackTrace();
         }
     }
-    public static void close(Connection con, PreparedStatement stmt) {
+    private static void close(Connection con, PreparedStatement stmt) {
         close (con, stmt, null);
     }
 
