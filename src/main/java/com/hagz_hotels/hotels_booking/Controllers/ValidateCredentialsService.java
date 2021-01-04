@@ -32,11 +32,10 @@ public class ValidateCredentialsService extends HttpServlet {
         {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            jsonResponse.setAttr("error", "ok");
             jsonResponse.setAttr("redirect", getServletContext().getContextPath() + "/index.jsp");
         }
         else
-            jsonResponse.setAttr("error", "user_not_found");
-        response.getWriter().println(jsonResponse.toJson());
+            jsonResponse.setAttr("email_error", "email_not_found");
+        response.getWriter().println(jsonResponse);
     }
 }

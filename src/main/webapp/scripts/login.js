@@ -9,9 +9,11 @@ $(function () {
 
         // TODO: Error Highlighting
         $.post("validate-credentials", params, function (data, status) {
-            if (data["error"] === "ok") {
-                window.location.href = data["redirect"];
+            if (data["email_error"] !== undefined) {
+                // TODO: Show error
             }
+            else
+                window.location.href = data["redirect"];
         }, "json")
     })
 })
