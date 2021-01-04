@@ -4,7 +4,7 @@ import java.time.*;
 
 public class ClientRoomReservation {
     enum Status{
-        PENDING, CHECKED_IN;
+        PENDING, CONFIRMED, CHECKED_IN, CHECKED_OUT, CANCELED;
     }
     private Integer clientId;
     private Integer roomId;
@@ -68,5 +68,9 @@ public class ClientRoomReservation {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void setStatus(String status) {
+        this.status = Status.valueOf(status);
     }
 }
