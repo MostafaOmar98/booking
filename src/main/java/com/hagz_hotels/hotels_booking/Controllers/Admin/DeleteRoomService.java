@@ -3,7 +3,6 @@ package com.hagz_hotels.hotels_booking.Controllers.Admin;
 
 import com.hagz_hotels.hotels_booking.Controllers.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
-import com.hagz_hotels.hotels_booking.Model.Entities.Room;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 import com.hagz_hotels.hotels_booking.Util.JsonResponse;
 
@@ -12,10 +11,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/update-room")
-public class UpdateRoomService extends HttpServlet {
+@WebServlet("/delete-room")
+public class DeleteRoomService extends HttpServlet {
 
     RoomDAO roomDAO;
     User.Type authType = User.Type.ADMIN;
@@ -30,23 +30,12 @@ public class UpdateRoomService extends HttpServlet {
         if (!Auth.authenticateJson(request, response, authType))
             return;
 
-
-        // Invalid input format will be handled by frontend. Frontend bypass will return 500 Internal Server Error which is intended.
-        Integer roomId = Integer.valueOf(request.getParameter("roomId")),
-                maxAdults = Integer.valueOf(request.getParameter("maxAdults")),
-                maxChildren = Integer.valueOf(request.getParameter("maxChildren"));
-        Float pricePerNight = Float.valueOf(request.getParameter("pricePerNight"));
-        String type = request.getParameter("type"),
-                facilities = request.getParameter("facilities");
+        Integer roomId = Integer.valueOf(request.getParameter("roomId"));
 
         if (!Auth.authorizeJsonRoom(request, response, roomId))
             return;
-
         JsonResponse jsonResponse = new JsonResponse();
-        if (type.equals(""))
-            jsonResponse.setAttr("type_error", "type_empty");
-        else
-            roomDAO.update(roomId, pricePerNight, type, maxAdults, maxChildren, facilities);
+        roomDAO.delete(roomId);
         response.getWriter().println(jsonResponse);
     }
 }

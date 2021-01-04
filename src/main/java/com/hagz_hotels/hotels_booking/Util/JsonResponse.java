@@ -12,7 +12,7 @@ public class JsonResponse {
     public void setAttr(String key, String value) {
         mp.put(key, value);
     }
-    public String toJson() {
+    public String toString() {
         StringBuilder ret = new StringBuilder("{\n");
         Iterator it = mp.entrySet().iterator();
         while(it.hasNext()) {

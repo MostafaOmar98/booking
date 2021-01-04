@@ -24,19 +24,18 @@ public class ValidateCredentialsService extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setHeader("Content-Type", "application/json");
-        String email = request.getParameter("email"), password = request.getParameter("password"), type = request.getParameter("type");
+        response.setContentType("application/json");
+        String email = request.getParameter("email"), password = request.getParameter("password"), type = request.getParameter("type"); // TODO: username instead of email
         User user = userDAO.findByEmailAndPasswordAndType(email, password, type);
         JsonResponse jsonResponse = new JsonResponse();
         if (user != null)
         {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            jsonResponse.setAttr("error", "ok");
             jsonResponse.setAttr("redirect", getServletContext().getContextPath() + "/index.jsp");
         }
         else
-            jsonResponse.setAttr("error", "user_not_found");
-        response.getWriter().println(jsonResponse.toJson());
+            jsonResponse.setAttr("email_error", "email_not_found");
+        response.getWriter().println(jsonResponse);
     }
 }

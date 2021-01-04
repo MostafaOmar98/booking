@@ -1,10 +1,11 @@
 <%@ page import="com.hagz_hotels.hotels_booking.Model.Entities.Hotel" %>
 <%@ page import="com.hagz_hotels.hotels_booking.Model.Entities.Room" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.hagz_hotels.hotels_booking.Model.Entities.HotelImage" %>
 <%
     Hotel hotel = (Hotel) request.getAttribute("hotel");
     ArrayList<Room> rooms = (ArrayList<Room>) request.getAttribute("rooms");
-    String imagesPath = "/home/bekh/IdeaProjects/hotels-booking/images/" + hotel.getHotelId(); // TODO: change absolute path
+    ArrayList<HotelImage> images = (ArrayList<HotelImage>) request.getAttribute("images");
 %>
 
 <!doctype html>
@@ -66,7 +67,7 @@
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println("<input disabled name=\"facilities\" " + "class=\"input" + idx + "\" "+ "value=\"" + room.getFacilities() + "\">"); // ONLY CORRECT ONE
+                out.println("<input disabled name=\"facilities\" " + "class=\"input" + idx + "\" " + "value=\"" + room.getFacilities() + "\">"); // ONLY CORRECT ONE
                 out.println("</td>\n");
 
                 out.println("<td>");
@@ -74,7 +75,11 @@
                 out.println("</td>\n");
 
                 out.println("<td>");
-                out.println("<button type=\"button\" " + "class=\"roomBtn\">Update</button>");
+                out.println("<button type=\"button\" " + "class=\"roomDeleteBtn btn-danger\">Delete</button>");
+                out.println("</td>");
+
+                out.println("<td>");
+                out.println("<button type=\"button\" " + "class=\"roomUpdateBtn\">Update</button>");
                 out.println("</td>");
 
                 out.println("</tr>");
@@ -127,37 +132,19 @@
 </form>
 
 <br><br>
-<div id="hotelImages" class="carousel slide" data-ride="carousel">
-
-    <!-- Indicators -->
-    <ul class="carousel-indicators">
-        <li data-target="#hotelImages" data-slide-to="0" class="active"></li>
-        <li data-target="#hotelImages" data-slide-to="1"></li>
-        <li data-target="#hotelImages" data-slide-to="2"></li>
-    </ul>
-
-    <!-- The slideshow -->
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="<%=imagesPath + "/1.png"%>" alt="Los Angeles">
-        </div>
-        <div class="carousel-item">
-            <img src="<%=imagesPath + "/2.png"%>" alt="Chicago">
-        </div>
-        <div class="carousel-item">
-            <img src="<%=imagesPath + "/3.png"%>>" alt="New York">
-        </div>
-        <h1><%=imagesPath + "/3.png"%></h1>
+<div class="container">
+    <div class="row">
+        <%
+            for (int i = 0; i < images.size(); ++i) {
+                out.println(
+                        "<div class=\"col-4\">\n" +
+                        "<img src=\"image/" + images.get(i).getName() + "\" style=\"width:100%\" class=\"img\" imageId=\""+ images.get(i).getImageId() +"\">\n" +
+                        "</div>");
+            }
+        %>
     </div>
-
-    <!-- Left and right controls -->
-    <a class="carousel-control-prev" href="#hotelImages" data-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </a>
-    <a class="carousel-control-next" href="#hotelImages" data-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </a>
-
+    <br><br>
+    <button id="deleteImageBtn" class="btn-danger">Delete</button>
 </div>
 
 
