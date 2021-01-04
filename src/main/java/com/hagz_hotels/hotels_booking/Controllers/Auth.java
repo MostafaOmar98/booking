@@ -13,6 +13,7 @@ import java.io.IOException;
 
 public class Auth {
 
+
     public enum Status{
         OK, AUTHORIZATION_ERROR, AUTHENTICATION_ERROR
     }
@@ -33,7 +34,6 @@ public class Auth {
         User user = (User)session.getAttribute("user");
         if (user == null || user.getType() != authType)
         {
-            session.invalidate();
             response.sendRedirect("index.jsp");
             return false;
         }
@@ -48,7 +48,6 @@ public class Auth {
             JsonResponse jsonResponse = new JsonResponse();
             jsonResponse.setAttr("error", "not_authenticated");
             response.getWriter().println(jsonResponse);
-            session.invalidate();
             return false;
         }
         return true;
@@ -80,5 +79,15 @@ public class Auth {
         jsonResponse.setAttr("error", "not_authorized");
         response.getWriter().println(jsonResponse);
         return false;
+    }
+
+    public static boolean authorizeHotel(HttpServletRequest request, HttpServletResponse response, Integer hotelId) throws IOException {
+        HttpSession session = request.getSession();
+        User user = (User)(session.getAttribute("user"));
+        if (!hotelDAO.has(user.getUserId(), hotelId)) {
+            response.sendRedirect("index.jsp");
+            return false;
+        }
+        return true;
     }
 }
