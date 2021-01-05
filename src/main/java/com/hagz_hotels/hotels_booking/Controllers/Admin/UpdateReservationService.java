@@ -3,9 +3,15 @@ package com.hagz_hotels.hotels_booking.Controllers.Admin;
 
 import com.hagz_hotels.hotels_booking.Controllers.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.ClientRoomReservationDAO;
+import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
+import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
+import com.hagz_hotels.hotels_booking.Model.DAO.UserDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.ClientRoomReservation;
+import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
+import com.hagz_hotels.hotels_booking.Model.Entities.Room;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 import com.hagz_hotels.hotels_booking.Util.JsonResponse;
+import com.hagz_hotels.hotels_booking.Util.MailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,11 +25,17 @@ import java.io.IOException;
 public class UpdateReservationService extends HttpServlet {
 
     ClientRoomReservationDAO clientRoomReservationDAO;
+    UserDAO userDAO;
+    RoomDAO roomDAO;
+    HotelDAO hotelDAO;
     User.Type authType = User.Type.ADMIN;
 
     @Override
     public void init() throws ServletException {
         clientRoomReservationDAO = new ClientRoomReservationDAO();
+        userDAO = new UserDAO();
+        roomDAO = new RoomDAO();
+        hotelDAO = new HotelDAO();
     }
 
     @Override
@@ -44,8 +56,19 @@ public class UpdateReservationService extends HttpServlet {
             jsonResponse.setAttr("error", "invalid_change");
         else if (state.equals("CHECKED_OUT") && !reservation.getStatusName().equals("CHECKED_IN"))
             jsonResponse.setAttr("error", "invalid_change");
-        else
+        else {
             clientRoomReservationDAO.updateStatus(reservationId, state);
+            if (state.equals("CANCELED")) {
+                User client = userDAO.findById(reservation.getClientId());
+                Room room = roomDAO.findById(reservation.getRoomId());
+                Hotel hotel = hotelDAO.findById(room.getHotelId());
+                MailUtil.sendMail(client.getEmail(), "[Booking App] A recent reservation of yours has been canceled",
+                        "Your reservation for room " + room.getRoomId() + " Has been canceled\n" +
+                                "Contact the hotel for more info\n" +
+                                "Hotel Name: " + hotel.getName() + "\n" +
+                                "Hotel Phone: " + hotel.getPhone() + "\n");
+            }
+        }
         response.getWriter().println(jsonResponse);
     }
 }

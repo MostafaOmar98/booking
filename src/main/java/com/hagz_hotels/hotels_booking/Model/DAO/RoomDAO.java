@@ -57,4 +57,9 @@ public class RoomDAO {
         String query = "SELECT * FROM Room WHERE RoomId=? AND HotelId=?";
         return DBUtil.selectOne(query, mapper, roomId, hotelId) != null;
     }
+
+    public Room findById(Integer roomId) {
+        String query = "SELECT * FROM Room WHERE RoomId=?";
+        return DBUtil.selectOne(query, mapper, roomId);
+    }
 }
