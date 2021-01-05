@@ -18,19 +18,28 @@
     <div class="form-group row">
       <label for="inputEmail3" class="col-sm-2 col-form-label">Address </label>
       <div class="col-sm-4">
-        <input type="text"  class="form-control" id="location" name="location"placeholder="Cairo" >
+        <input type="text"  class="form-control" id="address" name="location"placeholder="Cairo" >
+        <span class="error">
+          <p id="address-error"></p>
+        </span>
       </div>
     </div>
     <div class="form-group row">
       <label for="inputEmail3" class="col-sm-2 col-form-label">Check In </label>
       <div class="col-sm-10">
         <input type="date" class="form-control" id="check-in" >
+        <span class="error">
+          <p id="check-in-error"></p>
+        </span>
       </div>
     </div>
     <div class="form-group row">
       <label for="inputPassword3" class="col-sm-2 col-form-label">Checkout</label>
       <div class="col-sm-10">
         <input type="date" class="form-control" id="check-out" >
+        <span class="error">
+          <p id="check-out-error"></p>
+        </span>
       </div>
     </div>
     <fieldset class="form-group">
