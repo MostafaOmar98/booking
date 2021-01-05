@@ -6,6 +6,7 @@ public class ClientRoomReservation {
     enum Status{
         PENDING, CONFIRMED, CHECKED_IN, CHECKED_OUT, CANCELED;
     }
+    private Integer ReservationId;
     private Integer clientId;
     private Integer roomId;
     private LocalDateTime createdAt;
@@ -14,6 +15,14 @@ public class ClientRoomReservation {
     private Float totalPrice;
     private Status status;
 
+
+    public Integer getReservationId() {
+        return ReservationId;
+    }
+
+    public void setReservationId(Integer reservationId) {
+        ReservationId = reservationId;
+    }
     public Integer getClientId() {
         return clientId;
     }

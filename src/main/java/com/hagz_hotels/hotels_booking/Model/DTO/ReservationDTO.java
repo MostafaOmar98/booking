@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ReservationDTO {
+    Integer ReservationId;
+
     Integer clientId;
     String clientName;
     String clientPhone;
@@ -15,6 +17,14 @@ public class ReservationDTO {
     LocalDate checkIn;
     LocalDate checkOut;
     LocalDateTime createdAt;
+
+    public Integer getReservationId() {
+        return ReservationId;
+    }
+
+    public void setReservationId(Integer reservationId) {
+        ReservationId = reservationId;
+    }
 
     public Integer getClientId() {
         return clientId;

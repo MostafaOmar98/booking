@@ -45,6 +45,7 @@ public class AdminReservationsService extends HttpServlet {
         for (ClientRoomReservation cr : clientRoomReservations) {
             ReservationDTO r = new ReservationDTO();
             User user = userDAO.findById(cr.getClientId());
+            r.setReservationId(cr.getReservationId());
             r.setClientId(user.getUserId());
             r.setClientEmail(user.getEmail());
             r.setClientName(user.getName());

@@ -14,6 +14,7 @@ public class ClientRoomReservationDAO {
         public ClientRoomReservation apply(ResultSet set) {
             ClientRoomReservation r = new ClientRoomReservation();
             try {
+                r.setReservationId(set.getInt("ReservationId"));
                 r.setRoomId(set.getInt("RoomId"));
                 r.setClientId(set.getInt("ClientId"));
                 r.setCheckIn(set.getDate("CheckIn").toLocalDate());
@@ -33,5 +34,15 @@ public class ClientRoomReservationDAO {
                 "WHERE ClientRoomReservation.RoomId = Room.RoomId " +
                 "AND Room.HotelId=?";
         return DBUtil.selectAll(query, mapper, hotelId);
+    }
+
+    public ClientRoomReservation findById(Integer reservationId) {
+        String query = "SELECT * FROM ClientRoomReservation WHERE ReservationId=?";
+        return DBUtil.selectOne(query, mapper, reservationId);
+    }
+
+    public void updateStatus(Integer reservationId, String status) {
+        String query = "UPDATE ClientRoomReservation SET Status=? WHERE ReservationId=?";
+        DBUtil.executeUpdate(query, status, reservationId);
     }
 }

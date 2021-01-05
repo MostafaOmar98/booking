@@ -82,6 +82,7 @@
             out.println("</td>");
 
             out.println("<td>");
+            out.println("<input type='hidden' id='rid' value='" + r.getReservationId() + "'>");
             out.println("<button class=\"btn btn-danger cancelBtn\">Cancel</button>");
             out.println("<button class=\"updateBtn\">Update</button>");
             out.println("</td>");
