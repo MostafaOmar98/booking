@@ -4,8 +4,9 @@ import java.time.*;
 
 public class ClientRoomReservation {
     enum Status{
-        PENDING, CHECKED_IN;
+        PENDING, CONFIRMED, CHECKED_IN, CHECKED_OUT, CANCELED;
     }
+    private Integer ReservationId;
     private Integer clientId;
     private Integer roomId;
     private LocalDateTime createdAt;
@@ -14,6 +15,14 @@ public class ClientRoomReservation {
     private Float totalPrice;
     private Status status;
 
+
+    public Integer getReservationId() {
+        return ReservationId;
+    }
+
+    public void setReservationId(Integer reservationId) {
+        ReservationId = reservationId;
+    }
     public Integer getClientId() {
         return clientId;
     }
@@ -65,8 +74,14 @@ public class ClientRoomReservation {
     public Status getStatus() {
         return status;
     }
-
+    public String getStatusName() {
+        return status.name();
+    }
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void setStatus(String status) {
+        this.status = Status.valueOf(status);
     }
 }
