@@ -45,7 +45,7 @@ public class UpdateHotelService extends HttpServlet {
             return;
 
         JsonResponse jsonResponse = new JsonResponse();
-        if (name.equals(""))
+        if (name  != null && name.equals(""))
             jsonResponse.setAttr("name_error", "name_empty");
         else {
             hotelDAO.update(

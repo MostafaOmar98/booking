@@ -35,7 +35,7 @@ public class ValidateCredentialsService extends HttpServlet {
             jsonResponse.setAttr("redirect", getServletContext().getContextPath() + "/index.jsp");
         }
         else
-            jsonResponse.setAttr("email_error", "email_not_found");
+            jsonResponse.setAttr("error", "email_not_found");
         response.getWriter().println(jsonResponse);
     }
 }
