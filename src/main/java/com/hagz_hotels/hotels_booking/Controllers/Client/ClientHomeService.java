@@ -11,23 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/search-hotel")
-public class SearchHotel extends HttpServlet {
+@WebServlet("/client-home")
+public class ClientHomeService extends HttpServlet {
     User.Type authType = User.Type.CLIENT;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        ///todo check if we should extend this to allow admin too
-        if (Auth.isAuth(user, authType) != Auth.Status.OK) {
-            session.invalidate();
-            response.sendRedirect("index.jsp");
+        if (!Auth.authenticate(request, response, authType))
             return;
-        }
 
-        request.getRequestDispatcher("/WEB-INF/client/search.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/client/client-home.jsp").forward(request, response);
     }
 }
