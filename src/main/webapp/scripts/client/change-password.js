@@ -9,11 +9,7 @@ $(function (){
         if(!validateEmpty(e)){
             return;
         }
-        if(!checkEquality(password1, password2)){
-            document.getElementById("password-retype-error").innerText = "the passwords are not identical";
-            let dangerClasses = " alert alert-danger";
-            document.getElementById("password-retype-error").classList.add("alert");
-            document.getElementById("password-retype-error").classList.add("alert-danger");
+        if(!checkEquality("password-retype-error",password1, password2)){
             return;
         }
         params={
@@ -43,9 +39,22 @@ $(function (){
         })
     });
 });
-function checkEquality(password1, password2){
-    return password1 === password2;
-}function validateEmpty(e){
+function checkEquality(errorId,password1, password2){
+    if(password1 === password2){
+        document.getElementById(errorId).innerText='';
+        document.getElementById(errorId).classList.remove("alert");
+        document.getElementById(errorId).classList.remove("alert-danger");
+        return true;
+    }
+    else{
+        document.getElementById(errorId).innerText = "the passwords are not identical";
+        document.getElementById(errorId).classList.add("alert");
+        document.getElementById(errorId).classList.add("alert-danger");
+        return;
+        return false;
+    }
+}
+function validateEmpty(e){
     const arr= ["password1", "password2"];
     let ret = true;
     arr.forEach((element)=>{
