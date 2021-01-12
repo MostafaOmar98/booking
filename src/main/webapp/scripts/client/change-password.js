@@ -11,6 +11,9 @@ $(function (){
         }
         if(!checkEquality(password1, password2)){
             document.getElementById("password-retype-error").innerText = "the passwords are not identical";
+            let dangerClasses = " alert alert-danger";
+            document.getElementById("password-retype-error").classList.add("alert");
+            document.getElementById("password-retype-error").classList.add("alert-danger");
             return;
         }
         params={
@@ -49,12 +52,15 @@ function checkEquality(password1, password2){
         if(isEmptyById(element)){
             document.getElementById(element+"-error").textContent = "can't be empty";
             let dangerClasses = " alert alert-danger";
-            document.getElementById(element + "-error-span").className += dangerClasses;
+            document.getElementById(element + "-error-span").classList.add("alert");
+            document.getElementById(element + "-error-span").classList.add("alert-danger");
             e.preventDefault();
             ret = false;
         }
         else{
             document.getElementById(element+"-error").textContent = '';
+            document.getElementById(element+'-error').classList.remove("alert");
+            document.getElementById(element+'-error').classList.remove("alert-danger");
 
         }
     });

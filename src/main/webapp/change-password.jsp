@@ -17,7 +17,7 @@
     <form align="center">
         <div class="form-group row align-items-center">
 
-            <div class="col-5" align="center">
+            <div class="col-6 offset-3" align="center">
                 <div align="center">
                     <label for="password1" class="col-5 col-form-label">New Password</label>
                 </div>
@@ -31,12 +31,12 @@
         </div>
         <div class="form-group row">
 
-            <div class="error col-5" align="center" role="alert" id="password1-error-span">
+            <div class="error col-6 offset-3" align="center" role="alert" id="password1-error-span">
                      <p id="password1-error"></p>
             </div>
         </div>
         <div class="form-group row align-items-center" align="center">
-            <div class="col-5">
+            <div class="col-6 offset-3">
             <div align="center">
 
                 <label for="password2">Confirm Password</label>
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="form-group row align-items-center" align="center">
-            <div class="error col-5" role="alert" id="password2-error-span">
+            <div class="error col-6 offset-3" role="alert" id="password2-error-span">
                      <p id="password2-error"></p>
             </div>
         </div>
