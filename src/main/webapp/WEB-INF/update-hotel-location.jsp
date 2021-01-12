@@ -45,6 +45,7 @@
         window.alert("Your browser doesn't support geolocation");
 
     let selectedPositionMarker = null;
+    let popup = null;
 
     function initMap(position) {
         let lnglatArray = [position.coords.longitude, position.coords.latitude];
@@ -59,12 +60,23 @@
             selectedPositionMarker = new mapboxgl.Marker();
             selectedPositionMarker.setLngLat(lnglatArray);
             selectedPositionMarker.addTo(map);
+
+            popup = new mapboxgl.Popup({
+                closeOnClick: false,
+                closeOnMove: false,
+            });
             map.addControl(geocoder);
             map.on('click', selectPosition)
         });
     }
 
-    function getAddres() {
+    function getAddress(lng, lat) {
+
+    }
+
+    function selectPosition(e) {
+        console.log(e);
+        selectedPositionMarker.setLngLat(e.lngLat);
         let mapboxClient = mapboxSdk({accessToken: mapboxgl.accessToken});
         let geocodingClient = mapboxClient.geocoding;
         geocodingClient.reverseGeocode({
@@ -72,16 +84,12 @@
         }).send().then(response => {
             // GeoJSON document with geocoding matches
             const match = response.body;
-            console.log(match.features[0]);
-            return match.features[0].address;
+            console.log(match);
+            let address = match.features[1].place_name;
+            popup.setHTML("<b>" + address + "<b>");
+            selectedPositionMarker.setPopup(popup);
+            selectedPositionMarker.togglePopup();
         });
-    }
-
-    function selectPosition(e) {
-        // selectedPositionMarker.remove();
-        console.log(e);
-        selectedPositionMarker.setLngLat(e.lngLat);
-        let address = getAddress(e.lngLat.lng, e.lngLat.lat);
     }
 
 </script>
