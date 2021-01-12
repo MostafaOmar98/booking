@@ -49,15 +49,16 @@ DROP TABLE IF EXISTS `ClientRoomReservation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ClientRoomReservation` (
+                                         `ReservationId` int NOT NULL AUTO_INCREMENT,
                                          `ClientId` int NOT NULL,
                                          `RoomId` int NOT NULL,
                                          `CreatedAt` datetime NOT NULL,
                                          `CheckIn` date NOT NULL,
                                          `CheckOut` date NOT NULL,
-                                         `Status` enum('PENDING','CHECKED_IN') DEFAULT NULL,
+                                         `Status` enum('PENDING','CONFIRMED','CHECKED_IN','CHECKED_OUT','CANCELED') DEFAULT 'PENDING',
                                          `TotalPrice` float NOT NULL,
-                                         PRIMARY KEY (`ClientId`,`RoomId`,`CreatedAt`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                                         PRIMARY KEY (`ReservationId`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +67,7 @@ CREATE TABLE `ClientRoomReservation` (
 
 LOCK TABLES `ClientRoomReservation` WRITE;
 /*!40000 ALTER TABLE `ClientRoomReservation` DISABLE KEYS */;
+INSERT INTO `ClientRoomReservation` (`ReservationId`, `ClientId`, `RoomId`, `CreatedAt`, `CheckIn`, `CheckOut`, `Status`, `TotalPrice`) VALUES (1,3,16,'2021-01-04 21:06:36','2021-01-05','2021-01-05','CANCELED',30),(2,3,16,'2021-01-04 21:06:37','2021-01-05','2021-01-05','CHECKED_OUT',30),(3,3,16,'2021-01-04 21:06:56','2021-01-05','2021-01-05','CANCELED',30),(4,3,16,'2021-01-04 21:06:57','2021-01-05','2021-01-05','CHECKED_OUT',30),(5,3,16,'2021-01-04 21:06:58','2021-01-05','2021-01-05','PENDING',30),(6,3,16,'2021-01-04 21:06:59','2021-01-05','2021-01-05','PENDING',30),(7,3,16,'2021-01-04 21:07:00','2021-01-05','2021-01-05','PENDING',30),(8,3,16,'2021-01-04 21:07:01','2021-01-05','2021-01-05','PENDING',30),(9,3,16,'2021-01-04 22:11:42','2021-01-05','2021-01-05','PENDING',30),(10,3,16,'2021-01-04 22:11:46','2021-01-05','2021-01-05','CONFIRMED',30),(11,3,16,'2021-01-04 22:11:47','2021-01-05','2021-01-05','CONFIRMED',30),(12,3,16,'2021-01-04 22:11:53','2021-01-05','2021-01-05','CHECKED_IN',30),(13,3,16,'2021-01-04 22:11:54','2021-01-05','2021-01-05','CHECKED_OUT',30),(14,3,16,'2021-01-04 22:11:58','2021-01-05','2021-01-05','CHECKED_OUT',30),(15,3,16,'2021-01-04 22:11:59','2021-01-05','2021-01-05','CHECKED_OUT',30),(16,3,16,'2021-01-04 22:12:06','2021-01-05','2021-01-05','CANCELED',30),(17,3,16,'2021-01-04 22:12:07','2021-01-05','2021-01-05','CANCELED',30),(18,3,16,'2021-01-04 22:12:08','2021-01-05','2021-01-05','CANCELED',30);
 /*!40000 ALTER TABLE `ClientRoomReservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +87,7 @@ CREATE TABLE `Hotel` (
                          `Phone` varchar(255) DEFAULT '',
                          `AdminId` int NOT NULL,
                          PRIMARY KEY (`HotelId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +96,7 @@ CREATE TABLE `Hotel` (
 
 LOCK TABLES `Hotel` WRITE;
 /*!40000 ALTER TABLE `Hotel` DISABLE KEYS */;
-INSERT INTO `Hotel` (`HotelId`, `Name`, `Latitude`, `Longitude`, `Address`, `Phone`, `AdminId`) VALUES (1,'Marina23',NULL,NULL,NULL,'Shaghalew',1);
+INSERT INTO `Hotel` (`HotelId`, `Name`, `Latitude`, `Longitude`, `Address`, `Phone`, `AdminId`) VALUES (1,'zd',NULL,NULL,NULL,'012021',1),(2,'test',NULL,NULL,NULL,'',2);
 /*!40000 ALTER TABLE `Hotel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,7 +111,7 @@ CREATE TABLE `HotelImage` (
                               `HotelId` int NOT NULL,
                               `ImageId` int NOT NULL AUTO_INCREMENT,
                               PRIMARY KEY (`ImageId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +120,7 @@ CREATE TABLE `HotelImage` (
 
 LOCK TABLES `HotelImage` WRITE;
 /*!40000 ALTER TABLE `HotelImage` DISABLE KEYS */;
-INSERT INTO `HotelImage` (`HotelId`, `ImageId`) VALUES (1,1),(1,2),(1,3);
+INSERT INTO `HotelImage` (`HotelId`, `ImageId`) VALUES (1,13),(2,14),(2,16),(1,21);
 /*!40000 ALTER TABLE `HotelImage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +140,7 @@ CREATE TABLE `Room` (
                         `HotelId` int DEFAULT NULL,
                         `Facilities` varchar(10000) DEFAULT '',
                         PRIMARY KEY (`RoomId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +149,7 @@ CREATE TABLE `Room` (
 
 LOCK TABLES `Room` WRITE;
 /*!40000 ALTER TABLE `Room` DISABLE KEYS */;
-INSERT INTO `Room` (`RoomId`, `PricePerNight`, `Type`, `MaxAdults`, `MaxChildren`, `HotelId`, `Facilities`) VALUES (1,21,'Suite',0,20,1,'Sauna Kaman'),(2,0.4321,'Master Bedroom',3,50,1,'Sauna'),(3,242,'One',1,1,1,''),(4,10.5,'Oia',2,10,1,'Ba7r');
+INSERT INTO `Room` (`RoomId`, `PricePerNight`, `Type`, `MaxAdults`, `MaxChildren`, `HotelId`, `Facilities`) VALUES (16,2,'a',2,2,1,'2');
 /*!40000 ALTER TABLE `Room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +170,7 @@ CREATE TABLE `User` (
                         PRIMARY KEY (`UserId`),
                         UNIQUE KEY `Email` (`Email`),
                         UNIQUE KEY `Phone` (`Phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,7 +179,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` (`UserId`, `Name`, `Email`, `Phone`, `Type`, `Password`) VALUES (1,'Bekh','mostafa.omar.m.s@gmail.com','0102','ADMIN','123');
+INSERT INTO `User` (`UserId`, `Name`, `Email`, `Phone`, `Type`, `Password`) VALUES (1,'Bekh','mostafa.omar.m.s@gmail.com','0102','ADMIN','123'),(2,'hanafy','ay7aga@gmail.com','0120','ADMIN','123'),(3,'khaled','khaled@gmail.com','010','CLIENT','123');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -190,4 +192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-03 19:00:54
+-- Dump completed on 2021-01-05 20:22:52

@@ -6,3 +6,4 @@ src/main/java/com/hagz_hotels/hotels_booking/Controllers/servlettemplate.java
 src/main/webapp/WEB-INF/dummy_template.jsp
 images/
 /src/main/java/com/hagz_hotels/hotels_booking/Model/DAO/conf.java
+other/

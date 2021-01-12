@@ -62,4 +62,9 @@ public class HotelDAO {
         String query = "SELECT * FROM Hotel Where AdminId=? AND HotelId=?";
         return DBUtil.selectOne(query, mapper, adminId, hotelId) != null;
     }
+
+    public Hotel findById(Integer hotelId) {
+        String query = "SELECT * FROM Hotel WHERE HotelId=?";
+        return DBUtil.selectOne(query, mapper, hotelId);
+    }
 }
