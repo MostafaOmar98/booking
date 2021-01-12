@@ -35,6 +35,6 @@ public class UpdateHotelLocationService extends HttpServlet {
 
         Hotel hotel = hotelDAO.findById(hotelId);
         request.setAttribute("hotel", hotel);
-        request.getRequestDispatcher("/WEB-INF/update-hotel-location.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/admin/update-hotel-location.jsp").forward(request, response);
     }
 }

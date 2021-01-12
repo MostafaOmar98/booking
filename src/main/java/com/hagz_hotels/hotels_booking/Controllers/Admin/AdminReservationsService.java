@@ -58,6 +58,6 @@ public class AdminReservationsService extends HttpServlet {
             reservations.add(r);
         }
         request.setAttribute("reservations", reservations);
-        request.getRequestDispatcher("/WEB-INF/admin-reservations.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/admin/admin-reservations.jsp").forward(request, response);
     }
 }
