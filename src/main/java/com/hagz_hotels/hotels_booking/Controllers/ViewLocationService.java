@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/location")
-public class LocationService extends HttpServlet {
+@WebServlet("/view-hotel-location")
+public class ViewLocationService extends HttpServlet {
 
     HotelDAO hotelDAO;
 
@@ -27,6 +27,6 @@ public class LocationService extends HttpServlet {
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
         Hotel hotel = hotelDAO.findById(hotelId);
         request.setAttribute("hotel", hotel);
-        request.getRequestDispatcher("/WEB-INF/hotel-location.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view-hotel-location.jsp").forward(request, response);
     }
 }

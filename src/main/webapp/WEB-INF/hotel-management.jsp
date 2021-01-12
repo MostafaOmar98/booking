@@ -166,6 +166,10 @@
 </div>
 
 <a href="admin-reservations?hotelId=<%=hotel.getHotelId()%>">To Reservations</a>
+<form action="update-hotel-location" method="post">
+    <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>">
+    <input type="submit" value="Update Location">
+</form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
