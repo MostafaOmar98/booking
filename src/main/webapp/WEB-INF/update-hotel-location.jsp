@@ -1,8 +1,12 @@
+<%@ page import="com.hagz_hotels.hotels_booking.Model.Entities.Hotel" %>
+<%
+    Hotel hotel = (Hotel) request.getAttribute("hotel");
+%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8'/>
-    <title>Local search app</title>
+    <title>Update Hotel Location</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet'/>
@@ -11,24 +15,30 @@
           href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
           type='text/css'/>
     <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #map {
+        position: absolute;
+        top: 100px;
+        height: 80%;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
 <body>
-
+<input type="hidden" name="hotelLng" value="<%=hotel.getLongitude()%>">
+<input type="hidden" name="hotelLat" value="<%=hotel.getLatitude()%>">
+<input type="hidden" id="hotelId" value="<%=hotel.getHotelId()%>">
+<button id="updateLocationBtn">Update Location</button>
+<span id="successSpan" hidden>Location Updated</span>
 <div id='map'></div>
-
 </body>
 <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiYmVraDk4IiwiYSI6ImNranJ2bDIyajJjb2Iyc21qanBxaXNzeHAifQ.39NuO-aTrDV0x5kTlzmXqA';
@@ -39,8 +49,19 @@
         placeholder: 'Enter location'
     });
 
+    let hotelLngElement = document.getElementsByName("hotelLng")[0];
+    let hotelLatElement = document.getElementsByName("hotelLat")[0];
+
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(initMap);
+        if (hotelLngElement.value === "null")
+            navigator.geolocation.getCurrentPosition(initMap);
+        else
+            initMap({
+                coords: {
+                    longitude: hotelLngElement.value,
+                    latitude: hotelLatElement.value
+                }
+            });
     } else
         window.alert("Your browser doesn't support geolocation");
 
@@ -48,6 +69,7 @@
     let popup = null;
 
     function initMap(position) {
+        console.log(position);
         let lnglatArray = [position.coords.longitude, position.coords.latitude];
 
         let map = new mapboxgl.Map({
@@ -70,13 +92,11 @@
         });
     }
 
-    function getAddress(lng, lat) {
-
-    }
-
     function selectPosition(e) {
         console.log(e);
         selectedPositionMarker.setLngLat(e.lngLat);
+        hotelLngElement.value = e.lngLat.lng;
+        hotelLatElement.value = e.lngLat.lat;
         let mapboxClient = mapboxSdk({accessToken: mapboxgl.accessToken});
         let geocodingClient = mapboxClient.geocoding;
         geocodingClient.reverseGeocode({
@@ -91,6 +111,17 @@
             selectedPositionMarker.togglePopup();
         });
     }
+
+    document.getElementById("updateLocationBtn").addEventListener('click', function(){
+        params ={
+            hotelId: document.getElementById("hotelId").value,
+            longitude: hotelLngElement.value,
+            latitude: hotelLatElement.value
+        };
+        $.post("update-hotel", params, function(data, status){
+            document.getElementById("successSpan").removeAttribute("hidden");
+        })
+    })
 
 </script>
 

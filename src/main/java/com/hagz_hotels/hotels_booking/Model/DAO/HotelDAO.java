@@ -16,7 +16,11 @@ public class HotelDAO {
                 hotel.setHotelId(set.getInt("HotelId"));
                 hotel.setName(set.getString("Name"));
                 hotel.setLatitude(set.getFloat("Latitude"));
+                if (set.wasNull())
+                    hotel.setLatitude(null);
                 hotel.setLongitude(set.getFloat("Longitude"));
+                if (set.wasNull())
+                    hotel.setLongitude(null);
                 hotel.setAddress(set.getString("Address"));
                 hotel.setPhone(set.getString("Phone"));
                 hotel.setAdminId(set.getInt("AdminId"));
