@@ -40,85 +40,33 @@
 <span id="successSpan" hidden>Location Updated</span>
 <div id='map'></div>
 </body>
+<script src="scripts/util/map-util.js"></script>
 <script>
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVraDk4IiwiYSI6ImNranJ2bDIyajJjb2Iyc21qanBxaXNzeHAifQ.39NuO-aTrDV0x5kTlzmXqA';
-    let geocoder = new MapboxGeocoder({ // Initialize the geocoder
-        accessToken: mapboxgl.accessToken, // Set the access token
-        mapboxgl: mapboxgl, // Set the mapbox-gl instance
-        marker: false, // Do not use the default marker style
-        placeholder: 'Enter location'
-    });
-
     let hotelLngElement = document.getElementsByName("hotelLng")[0];
     let hotelLatElement = document.getElementsByName("hotelLat")[0];
 
+    function selectPosition(e) {
+        // console.log(e);
+        hotelLngElement.value = e.lngLat.lng;
+        hotelLatElement.value = e.lngLat.lat;
+    }
+
     if (navigator.geolocation) {
         if (hotelLngElement.value === "null")
-            navigator.geolocation.getCurrentPosition(initMap);
+            navigator.geolocation.getCurrentPosition(initMapDefault, selectPosition);
         else
-            initMap({
-                coords: {
-                    longitude: hotelLngElement.value,
-                    latitude: hotelLatElement.value
-                }
-            });
+            initMap(hotelLngElement.value, hotelLatElement.value, selectPosition);
     } else
         window.alert("Your browser doesn't support geolocation");
 
-    let selectedPositionMarker = null;
-    let popup = null;
 
-    function initMap(position) {
-        console.log(position);
-        let lnglatArray = [position.coords.longitude, position.coords.latitude];
-
-        let map = new mapboxgl.Map({
-            container: 'map', // Container ID
-            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
-            center: lnglatArray, // Starting position [lng, lat]
-            zoom: 18, // Starting zoom level
-        });
-        map.on('load', function () {
-            selectedPositionMarker = new mapboxgl.Marker();
-            selectedPositionMarker.setLngLat(lnglatArray);
-            selectedPositionMarker.addTo(map);
-
-            popup = new mapboxgl.Popup({
-                closeOnClick: false,
-                closeOnMove: false,
-            });
-            map.addControl(geocoder);
-            map.on('click', selectPosition)
-        });
-    }
-
-    function selectPosition(e) {
-        console.log(e);
-        selectedPositionMarker.setLngLat(e.lngLat);
-        hotelLngElement.value = e.lngLat.lng;
-        hotelLatElement.value = e.lngLat.lat;
-        let mapboxClient = mapboxSdk({accessToken: mapboxgl.accessToken});
-        let geocodingClient = mapboxClient.geocoding;
-        geocodingClient.reverseGeocode({
-            query: [e.lngLat.lng, e.lngLat.lat]
-        }).send().then(response => {
-            // GeoJSON document with geocoding matches
-            const match = response.body;
-            console.log(match);
-            let address = match.features[1].place_name;
-            popup.setHTML("<b>" + address + "<b>");
-            selectedPositionMarker.setPopup(popup);
-            selectedPositionMarker.togglePopup();
-        });
-    }
-
-    document.getElementById("updateLocationBtn").addEventListener('click', function(){
-        params ={
+    document.getElementById("updateLocationBtn").addEventListener('click', function () {
+        params = {
             hotelId: document.getElementById("hotelId").value,
             longitude: hotelLngElement.value,
             latitude: hotelLatElement.value
         };
-        $.post("update-hotel", params, function(data, status){
+        $.post("update-hotel", params, function (data, status) {
             document.getElementById("successSpan").removeAttribute("hidden");
         })
     })
