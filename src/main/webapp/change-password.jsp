@@ -19,7 +19,7 @@
     <form>
         <div class="form-group">
             <label for="password1">New Password</label>
-            <input type="password" class="form-control" id="password1" aria-describedby="emailHelp" placeholder="New Password">
+            <input type="password" class="form-control" id="password1" placeholder="New Password">
             <small id="password-help" class="form-text text-muted">Make sure your password is 8 characters or more.</small>
         </div>
         <div class="form-group">
