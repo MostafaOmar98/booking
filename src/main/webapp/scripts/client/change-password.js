@@ -4,22 +4,21 @@ $(function (){
     let submitBtn = document.getElementById("change-password-btn");
     submitBtn.addEventListener("click" , function (e){
         e.preventDefault();
-        let password1 = document.getElementById("password1");
-        let password2 = document.getElementById("password2");
+        let password1 = document.getElementById("password1").value;
+        let password2 = document.getElementById("password2").value;
         if(!checkEquality(password1, password2)){
             document.getElementById("password-retype-error").innerText = "the passwords are not identical";
             return;
         }
         params={
            newPassword: password1
-        }
+        };
         $.ajax({
             type:"POST",
             url: "update-password",
-            params: params,
+            data: params,
             success: function (data) {
                 if (data["error"] !== undefined) {
-
                     console.log("received nothing");
                     return;
                 }
