@@ -33,3 +33,6 @@ $(function () {
 
     })
 })
+function enableSubmit(){
+    document.getElementById("login-submit").disabled=false;
+}
