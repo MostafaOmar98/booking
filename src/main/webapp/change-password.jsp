@@ -28,9 +28,9 @@
         </div>
         <div class="error"><p id="password-retype-error"></p></div>
         <div class="g-recaptcha" data-sitekey="6LclGiIaAAAAAFRWupUInlrJlSwJC01lq4PGPOFe" data-callback="enableSubmit"></div>
-        <input type="submit" id="change-password-btn" class="btn btn-primary"  value="submit" hidden/>
+        <input type="submit" id="change-password-btn" class="btn btn-primary"  value="submit" >
         <div id="success" role="alert">
-            <p class="update-status"></p>
+            <p id="update-status"></p>
         </div>
     </form>
 </div>
