@@ -2,8 +2,6 @@ package com.hagz_hotels.hotels_booking.Model.DAO;
 
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.function.Function;
@@ -37,5 +35,9 @@ public class UserDAO {
     public User findById(Integer userId) {
         String query = "SELECT * FROM User WHERE UserId=?";
         return DBUtil.selectOne(query, mapper, userId);
+    }
+    public void update(String Name, String email, String phoneNumber, String password,Integer UserId){
+        String query = "UPDATE User SET Name=?, Email=?, Phone=?, Password=? WHERE UserId=?";
+        DBUtil.executeUpdate(query, Name, email, phoneNumber, password, UserId);
     }
 }
