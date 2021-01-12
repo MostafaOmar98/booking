@@ -1,57 +1,89 @@
-<%@ page import="com.hagz_hotels.hotels_booking.Model.Entities.Hotel" %>
-<%
-    Hotel hotel = (Hotel) request.getAttribute("hotel");
-%>
-
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <meta charset='utf-8'/>
+    <title>Local search app</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet'/>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet'
+          href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
+          type='text/css'/>
+    <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-    <title>Hotel Location</title>
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-<div id="mapid" style="height: 600px;">
 
-</div>
+<div id='map'></div>
+
 </body>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-      crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-        crossorigin=""></script>
 <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYmVraDk4IiwiYSI6ImNranJ2bDIyajJjb2Iyc21qanBxaXNzeHAifQ.39NuO-aTrDV0x5kTlzmXqA';
+    let geocoder = new MapboxGeocoder({ // Initialize the geocoder
+        accessToken: mapboxgl.accessToken, // Set the access token
+        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+        marker: false, // Do not use the default marker style
+        placeholder: 'Enter location'
+    });
 
-    let map = L.map('mapid');
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(initMap);
+    } else
+        window.alert("Your browser doesn't support geolocation");
 
-    function getLocation() {
-        if (navigator.geolocation) {
-            console.log("OK");
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            window.alert("Your browser does not support geolocation");
-        }
+    let selectedPositionMarker = null;
+
+    function initMap(position) {
+        let lnglatArray = [position.coords.longitude, position.coords.latitude];
+
+        let map = new mapboxgl.Map({
+            container: 'map', // Container ID
+            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+            center: lnglatArray, // Starting position [lng, lat]
+            zoom: 18, // Starting zoom level
+        });
+        map.on('load', function () {
+            selectedPositionMarker = new mapboxgl.Marker();
+            selectedPositionMarker.setLngLat(lnglatArray);
+            selectedPositionMarker.addTo(map);
+            map.addControl(geocoder);
+            map.on('click', selectPosition)
+        });
     }
 
-
-    function showPosition(position) {
-        map.setView([position.coords.latitude, position.coords.longitude], 13);
-        // map.setView([51.505, -0.09], 13);
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken: 'pk.eyJ1IjoiYmVraDk4IiwiYSI6ImNranJ2bDIyajJjb2Iyc21qanBxaXNzeHAifQ.39NuO-aTrDV0x5kTlzmXqA'
-        }).addTo(map);
+    function getAddres() {
+        let mapboxClient = mapboxSdk({accessToken: mapboxgl.accessToken});
+        let geocodingClient = mapboxClient.geocoding;
+        geocodingClient.reverseGeocode({
+            query: [e.lngLat.lng, e.lngLat.lat]
+        }).send().then(response => {
+            // GeoJSON document with geocoding matches
+            const match = response.body;
+            console.log(match.features[0]);
+            return match.features[0].address;
+        });
     }
 
-    getLocation()
+    function selectPosition(e) {
+        // selectedPositionMarker.remove();
+        console.log(e);
+        selectedPositionMarker.setLngLat(e.lngLat);
+        let address = getAddress(e.lngLat.lng, e.lngLat.lat);
+    }
+
 </script>
-</body>
+
 </html>
