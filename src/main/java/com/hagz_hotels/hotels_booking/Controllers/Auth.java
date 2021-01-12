@@ -39,6 +39,25 @@ public class Auth {
         }
         return true;
     }
+    public static boolean authenticate(HttpServletRequest request, HttpServletResponse response, User.Type []authType) throws IOException {
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        boolean valid = false;
+        if (user == null )
+        {
+            response.sendRedirect("index.jsp");
+            return false;
+        }
+        for (User.Type type:authType) {
+            valid = valid || user.getType() == type;
+        }
+        if (!valid)
+        {
+            response.sendRedirect("index.jsp");
+            return false;
+        }
+        return true;
+    }
 
     public static boolean authenticateJson(HttpServletRequest request, HttpServletResponse response, User.Type authType) throws IOException {
         HttpSession session = request.getSession();
