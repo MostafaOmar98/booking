@@ -9,7 +9,9 @@ function selectPosition(e) {
 
 if (navigator.geolocation) {
     if (hotelLngElement.value === "null")
-        navigator.geolocation.getCurrentPosition(initMapDefault, selectPosition);
+        navigator.geolocation.getCurrentPosition(function(position){
+            initMap(position.coords.longitude, position.coords.latitude, selectPosition);
+        });
     else
         initMap(hotelLngElement.value, hotelLatElement.value, selectPosition);
 } else
