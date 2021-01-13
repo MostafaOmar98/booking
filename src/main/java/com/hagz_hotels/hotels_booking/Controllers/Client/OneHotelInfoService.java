@@ -29,10 +29,12 @@ public class OneHotelInfoService extends HttpServlet {
     User.Type authType = User.Type.CLIENT;
     HotelDAO hotelDAO;
     RoomDAO roomDAO;
+    HotelImageDAO hotelImageDAO;
     @Override
     public void init() throws ServletException {
         hotelDAO = new HotelDAO();
         roomDAO = new RoomDAO();
+        hotelImageDAO = new HotelImageDAO();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,8 +43,10 @@ public class OneHotelInfoService extends HttpServlet {
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
         Hotel hotel = hotelDAO.findById(hotelId);
         List<Room> rooms = roomDAO.findByHotelID(hotelId);
+        List<HotelImage> images = hotelImageDAO.findByHotelId(hotelId);
         request.setAttribute("hotel", hotel);
         request.setAttribute("rooms", rooms);
+        request.setAttribute("images", images);
         request.getRequestDispatcher("/WEB-INF/client/one-hotel-info.jsp").forward(request, response);
     }
 }
