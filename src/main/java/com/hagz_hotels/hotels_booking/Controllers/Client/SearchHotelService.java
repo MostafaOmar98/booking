@@ -1,8 +1,11 @@
 package com.hagz_hotels.hotels_booking.Controllers.Client;
 
 import com.hagz_hotels.hotels_booking.Controllers.Auth;
+import com.hagz_hotels.hotels_booking.Model.DAO.ClientHotelReviewDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
+import com.hagz_hotels.hotels_booking.Model.DAO.HotelImageDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
+import com.hagz_hotels.hotels_booking.Model.DTO.HotelSearchResultDTO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,15 +27,19 @@ public class SearchHotelService extends HttpServlet {
     User.Type authType = User.Type.CLIENT;
     HotelDAO hotelDAO;
     RoomDAO roomDAO;
+    ClientHotelReviewDAO clientHotelReviewDAO;
+    HotelImageDAO hotelImageDAO;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
     public void init() throws ServletException {
         hotelDAO = new HotelDAO();
         roomDAO = new RoomDAO();
+        clientHotelReviewDAO= new ClientHotelReviewDAO();
+        hotelImageDAO = new HotelImageDAO();
     }
 
-    private double sphericalDistance(Float lng1, Float lat1, Float lng2, Float lat2) {
+    private Float sphericalDistance(Float lng1, Float lat1, Float lng2, Float lat2) {
         final int R = 6371; // Radius of the earth
 
         double latDistance = Math.toRadians(lat2 - lat1);
@@ -42,9 +50,7 @@ public class SearchHotelService extends HttpServlet {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c * 1000; // convert to meters
 
-        distance = Math.pow(distance, 2);
-
-        return Math.sqrt(distance);
+        return (float)distance;
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,18 +65,32 @@ public class SearchHotelService extends HttpServlet {
         LocalDate checkOut = LocalDate.parse(request.getParameter("checkOut"), dtf);
 
         List<Hotel> hotels = hotelDAO.findByCriteria(adults, children, checkIn, checkOut);
-        hotels.sort(new Comparator<Hotel>() {
+        List<HotelSearchResultDTO> results = new ArrayList<>();
+
+        for (Hotel hotel : hotels) {
+            HotelSearchResultDTO r = new HotelSearchResultDTO();
+            r.setHotelId(hotel.getHotelId());
+            r.setHotelName(hotel.getName());
+            r.setHotelRate(clientHotelReviewDAO.findAverageRatingByHotelId(hotel.getHotelId()));
+            r.setImageId(hotelImageDAO.findOneByHotelId(hotel.getHotelId()).getImageId());
+            r.setMinPrice(roomDAO.getMinAvailablePriceByCriteria(adults, children, checkIn, checkOut, hotel.getHotelId()));
+            r.setMaxPrice(roomDAO.getMaxAvailablePriceByCriteria(adults, children, checkIn, checkOut, hotel.getHotelId()));
+            r.setDistance(sphericalDistance(longitude, latitude, hotel.getLongitude(), hotel.getLatitude()));
+            results.add(r);
+        }
+
+        results.sort(new Comparator<HotelSearchResultDTO>() {
             @Override
-            public int compare(Hotel h1, Hotel h2) {
-                double d = sphericalDistance(h1.getLongitude(), h1.getLatitude(), longitude, latitude) - sphericalDistance(h2.getLongitude(), h2.getLatitude(), longitude, latitude);
-                if (d < 0)
+            public int compare(HotelSearchResultDTO r1, HotelSearchResultDTO r2) {
+                if (r1.getDistance() < r2.getDistance())
                     return -1;
-                else if (d == 0)
-                    return 0;
-                return 1;
+                else if (r1.getDistance() > r2.getDistance())
+                    return 1;
+                return 0;
             }
         });
-        request.setAttribute("hotels", hotels);
+
+        request.setAttribute("results", results);
         request.getRequestDispatcher("/WEB-INF/client/list-hotels.jsp").forward(request, response);
     }
 }

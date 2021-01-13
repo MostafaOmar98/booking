@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -29,6 +30,19 @@ public class RoomDAO {
                 throwables.printStackTrace();
             }
             return room;
+        }
+    };
+
+    Function<ResultSet, Float> priceMapper = new Function<ResultSet, Float>() {
+        @Override
+        public Float apply(ResultSet set) {
+            Float price = null;
+            try {
+                price = set.getFloat("Price");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return price;
         }
     };
 
@@ -61,5 +75,33 @@ public class RoomDAO {
     public Room findById(Integer roomId) {
         String query = "SELECT * FROM Room WHERE RoomId=?";
         return DBUtil.selectOne(query, mapper, roomId);
+    }
+
+    public Float getMinAvailablePriceByCriteria(Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut, Integer hotelId) {
+        String query = "SELECT MIN(PricePerNight) as Price FROM Room WHERE " +
+                "Room.HotelId = ? AND " +
+                "MaxAdults >= ? AND " +
+                "MaxChildren >= ? AND " +
+                "NOT EXISTS (" +
+                "SELECT * FROM ClientRoomReservation WHERE " +
+                "Room.RoomId = ClientRoomReservation.RoomId AND " +
+                "(Status = \"CHECKED_OUT\" OR Status = \"CANCELED\") AND " +
+                "((CheckIn <= ? AND CheckOut >= ?) OR (CheckIn <= ? AND CheckOut >= ?))" +
+                ") GROUP BY HotelId";
+        return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkIn, checkOut, checkOut);
+    }
+
+    public Float getMaxAvailablePriceByCriteria(Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut, Integer hotelId) {
+        String query = "SELECT MAX(PricePerNight) as Price FROM Room WHERE " +
+                "Room.HotelId = ? AND " +
+                "MaxAdults >= ? AND " +
+                "MaxChildren >= ? AND " +
+                "NOT EXISTS (" +
+                "SELECT * FROM ClientRoomReservation WHERE " +
+                "Room.RoomId = ClientRoomReservation.RoomId AND " +
+                "(Status = \"CHECKED_OUT\" OR Status = \"CANCELED\") AND " +
+                "((CheckIn <= ? AND CheckOut >= ?) OR (CheckIn <= ? AND CheckOut >= ?))" +
+                ") GROUP BY HotelId ";
+        return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkIn, checkOut, checkOut);
     }
 }
