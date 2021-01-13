@@ -4,7 +4,7 @@ public class HotelSearchResultDTO {
     Integer hotelId;
     String hotelName;
     Float hotelRate;
-    Integer imageId;
+    String imageLink;
     Float minPrice;
     Float maxPrice;
     Float distance;
@@ -33,12 +33,12 @@ public class HotelSearchResultDTO {
         this.hotelRate = hotelRate;
     }
 
-    public Integer getImageId() {
-        return imageId;
+    public String getImageLink() {
+        return imageLink;
     }
 
-    public void setImageId(Integer imageId) {
-        this.imageId = imageId;
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     public Float getMinPrice() {
@@ -65,16 +65,4 @@ public class HotelSearchResultDTO {
         this.distance = distance;
     }
 
-    @Override
-    public String toString() {
-        return "HotelSearchResultDTO{" +
-                "hotelId=" + hotelId +
-                ", hotelName='" + hotelName + '\'' +
-                ", hotelRate=" + hotelRate +
-                ", imageId=" + imageId +
-                ", minPrice=" + minPrice +
-                ", maxPrice=" + maxPrice +
-                ", distance=" + distance +
-                '}';
-    }
 }

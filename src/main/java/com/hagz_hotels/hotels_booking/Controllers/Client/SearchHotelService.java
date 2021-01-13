@@ -7,6 +7,7 @@ import com.hagz_hotels.hotels_booking.Model.DAO.HotelImageDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
 import com.hagz_hotels.hotels_booking.Model.DTO.HotelSearchResultDTO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
+import com.hagz_hotels.hotels_booking.Model.Entities.HotelImage;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
 import javax.servlet.ServletException;
@@ -72,7 +73,11 @@ public class SearchHotelService extends HttpServlet {
             r.setHotelId(hotel.getHotelId());
             r.setHotelName(hotel.getName());
             r.setHotelRate(clientHotelReviewDAO.findAverageRatingByHotelId(hotel.getHotelId()));
-            r.setImageId(hotelImageDAO.findOneByHotelId(hotel.getHotelId()).getImageId());
+            HotelImage imageId = hotelImageDAO.findOneByHotelId(hotel.getHotelId());
+            if (imageId == null)
+                r.setImageLink("0/default.png");
+            else
+                r.setImageLink(imageId.getName());
             r.setMinPrice(roomDAO.getMinAvailablePriceByCriteria(adults, children, checkIn, checkOut, hotel.getHotelId()));
             r.setMaxPrice(roomDAO.getMaxAvailablePriceByCriteria(adults, children, checkIn, checkOut, hotel.getHotelId()));
             r.setDistance(sphericalDistance(longitude, latitude, hotel.getLongitude(), hotel.getLatitude()));
