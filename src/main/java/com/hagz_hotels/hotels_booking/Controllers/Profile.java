@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -19,7 +20,12 @@ public class Profile extends HttpServlet {
             return ;
         }
         else{
-            response.sendRedirect("profile.jsp");
+            HttpSession session = request.getSession();
+            User user = (User)session.getAttribute("user");
+            request.setAttribute("name",user.getName());
+            request.setAttribute("phone",user.getPhone());
+            request.setAttribute("email",user.getEmail());
+            request.getRequestDispatcher("/WEB-INF/profile.jsp").forward(request, response);
 
         }
 
