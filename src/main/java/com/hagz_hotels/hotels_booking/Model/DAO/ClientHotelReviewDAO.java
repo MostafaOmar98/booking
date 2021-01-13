@@ -40,12 +40,19 @@ public class ClientHotelReviewDAO {
     };
 
     public List<ClientHotelReview> findByHotelId(Integer hotelId) {
-        String query = "SELECT * FROM ClientHotelReview WHERE HotelId=?";
+        String query = "SELECT * FROM ClientHotelReview, ClientRoomReservation, Room WHERE " +
+                "ClientHotelReview.ReservationId = ClientRoomReservation.ReservationId AND " +
+                "ClientRoomReservation.RoomId = Room.RoomId AND " +
+                "Room.HotelId=?";
         return DBUtil.selectAll(query, mapper, hotelId);
     }
 
     public Float findAverageRatingByHotelId(Integer hotelId) {
-        String query = "SELECT AVG(Stars) as avg FROM ClientHotelReview WHERE HotelId=? GROUP BY HotelId";
+        String query = "SELECT AVG(Stars) as avg FROM ClientHotelReview, ClientRoomReservation, Room WHERE " +
+                "ClientHotelReview.ReservationId = ClientRoomReservation.ReservationId AND " +
+                "ClientRoomReservation.RoomId = Room.RoomId AND " +
+                "Room.HotelId=? " +
+                "GROUP BY HotelId";
         return DBUtil.selectOne(query, avgRateMapper, hotelId);
     }
 }
