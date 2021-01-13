@@ -165,7 +165,8 @@
     <button id="deleteImageBtn" class="btn btn-danger">Delete</button>
 </div>
 
-<a href="admin-reservations?hotelId=<%=hotel.getHotelId()%>">To Reservations</a>
+<a href="admin-reservations?hotelId=<%=hotel.getHotelId()%>">To Reservations</a><br>
+<a href="hotel-reviews?hotelId=<%=hotel.getHotelId()%>">To Reviews</a><br>
 <form action="update-hotel-location" method="post">
     <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>">
     <input type="submit" value="Update Location">
