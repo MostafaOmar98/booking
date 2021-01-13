@@ -60,7 +60,7 @@
     <div class="form-group row">
         <label for="inputEmail3" class="col-sm-2 col-form-label">Check In </label>
         <div class="col-sm-10">
-            <input type="date" class="form-control" id="check-in">
+            <input type="date" class="form-control" id="check-in" name="checkIn">
             <span class="error">
           <p id="check-in-error"></p>
         </span>
@@ -69,7 +69,7 @@
     <div class="form-group row">
         <label for="inputPassword3" class="col-sm-2 col-form-label">Checkout</label>
         <div class="col-sm-10">
-            <input type="date" class="form-control" id="check-out">
+            <input type="date" class="form-control" id="check-out" name="checkOut">
             <span class="error">
           <p id="check-out-error"></p>
         </span>
