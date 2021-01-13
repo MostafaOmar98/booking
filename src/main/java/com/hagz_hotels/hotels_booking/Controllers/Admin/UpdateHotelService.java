@@ -53,7 +53,6 @@ public class UpdateHotelService extends HttpServlet {
                     request.getParameter("name"),
                     latitude,
                     longitude,
-                    request.getParameter("address"),
                     request.getParameter("phone"),
                     adminId
             );

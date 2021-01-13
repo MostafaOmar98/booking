@@ -2,11 +2,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYmVraDk4IiwiYSI6ImNranJ2bDIyajJjb2Iyc21qanBxa
 
 let selectedPositionMarker = null;
 let map = null;
-function initMapDefault(position, selectCallback) {
-    initMap(position.coords.longitude, position.coords.latitude, selectCallback);
-}
 
-function initMap(lng, lat, selectCallback) {
+function initMap(lng, lat, selectCallback, blockDefault=false) {
     // initializing map
     map = new mapboxgl.Map({
         container: 'map', // Container ID
@@ -35,8 +32,10 @@ function initMap(lng, lat, selectCallback) {
         // Adding the onclick event
         map.on('click', function(e){
             // console.log(e);
-            selectPositionDefault(e);
-            selectCallback(e);
+            if (!blockDefault)
+                selectPositionDefault(e);
+            if (selectCallback != null)
+                selectCallback(e);
         });
     });
 }

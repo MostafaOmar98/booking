@@ -86,7 +86,7 @@
             </div>
         </div>
         <div class="row">
-            <legend class="col-form-label col-sm-2 pt-0">Number of Adults</legend>
+            <legend class="col-form-label col-sm-2 pt-0">Number of Children</legend>
             <div class="col-sm-10">
                 <div class="form-check">
                     <input class="form-check-input" type="number" name="n-children" id="n-children" value="0" min="0"

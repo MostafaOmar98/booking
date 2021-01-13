@@ -85,10 +85,9 @@ public class RoomDAO {
                 "NOT EXISTS (" +
                 "SELECT * FROM ClientRoomReservation WHERE " +
                 "Room.RoomId = ClientRoomReservation.RoomId AND " +
-                "(Status = \"CHECKED_OUT\" OR Status = \"CANCELED\") AND " +
-                "((CheckIn <= ? AND CheckOut >= ?) OR (CheckIn <= ? AND CheckOut >= ?))" +
+                DBUtil.OVERLAPPING_RESERVATION +
                 ") GROUP BY HotelId";
-        return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkIn, checkOut, checkOut);
+        return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkOut);
     }
 
     public Float getMaxAvailablePriceByCriteria(Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut, Integer hotelId) {
@@ -99,9 +98,32 @@ public class RoomDAO {
                 "NOT EXISTS (" +
                 "SELECT * FROM ClientRoomReservation WHERE " +
                 "Room.RoomId = ClientRoomReservation.RoomId AND " +
-                "(Status = \"CHECKED_OUT\" OR Status = \"CANCELED\") AND " +
-                "((CheckIn <= ? AND CheckOut >= ?) OR (CheckIn <= ? AND CheckOut >= ?))" +
+                DBUtil.OVERLAPPING_RESERVATION +
                 ") GROUP BY HotelId ";
-        return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkIn, checkOut, checkOut);
+        return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkOut);
+    }
+
+    public List<Room> findByCriteria(Integer hotelId, Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut) {
+        String query = "SELECT * FROM Room WHERE " +
+                "Room.HotelId = ? AND " +
+                "MaxAdults >= ? AND " +
+                "MaxChildren >= ? AND " +
+                "NOT EXISTS (" +
+                "SELECT * FROM ClientRoomReservation WHERE " +
+                "Room.RoomId = ClientRoomReservation.RoomId AND " +
+                DBUtil.OVERLAPPING_RESERVATION + ")";
+        System.out.println(query);
+        return DBUtil.selectAll(query, mapper, hotelId, adults, children, checkIn, checkOut);
+    }
+
+    public boolean isAvaialble(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+        String query = "SELECT * FROM Room WHERE " +
+                "RoomId=? AND " +
+                "NOT EXISTS (" +
+                "SELECT * FROM ClientRoomReservation WHERE " +
+                "Room.RoomId = ClientRoomReservation.RoomId AND " +
+                DBUtil.OVERLAPPING_RESERVATION +
+                ")";
+        return DBUtil.selectOne(query, mapper, roomId, checkIn, checkOut) != null;
     }
 }

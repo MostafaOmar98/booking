@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.function.Function;
 
 public class DBUtil {
+    public final static String OVERLAPPING_RESERVATION = "NOT (Status = 'CHECKED_OUT' OR " +
+            "Status = 'CACNELED' OR " +
+            "? >= CheckOut OR CheckIn >= ?) "; // (?, ?) should be (checkIn, checkOut) in order.
+
     private static Connection getConnection() {
         Connection con = null;
         try {

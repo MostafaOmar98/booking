@@ -27,8 +27,9 @@
     <div class="row hotel">
         <div class="container">
             <div class="row">
-                <a href="view-hotel?hotelId=<%=result.getHotelId()%>"><h2><%=result.getHotelName()%>
-                </h2>
+                <a href="one-hotel-info?hotelId=<%=result.getHotelId()%>&n-adults=<%=request.getParameter("n-adults")%>&n-children=<%=request.getParameter("n-children")%>&checkIn=<%=request.getParameter("checkIn")%>&checkOut=<%=request.getParameter("checkOut")%>">
+                    <h2><%=result.getHotelName()%>
+                    </h2>
                 </a>
             </div>
             <div class="row">

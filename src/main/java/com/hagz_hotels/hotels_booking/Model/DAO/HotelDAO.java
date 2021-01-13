@@ -23,7 +23,6 @@ public class HotelDAO {
                 hotel.setLongitude(set.getFloat("Longitude"));
                 if (set.wasNull())
                     hotel.setLongitude(null);
-                hotel.setAddress(set.getString("Address"));
                 hotel.setPhone(set.getString("Phone"));
                 hotel.setAdminId(set.getInt("AdminId"));
                 return hotel;
@@ -44,15 +43,13 @@ public class HotelDAO {
         return DBUtil.insert(query, name, adminId);
     }
 
-    public void update(Integer hotelId, String name, Float latitude, Float longitude, String address, String phone, Integer adminId) {
+    public void update(Integer hotelId, String name, Float latitude, Float longitude, String phone, Integer adminId) {
         if (name != null)
             update(hotelId, "Name", name);
         if (latitude != null)
             update(hotelId, "Latitude", latitude);
         if (longitude != null)
             update(hotelId, "Longitude", longitude);
-        if (address != null)
-            update(hotelId, "Address", address);
         if (phone != null)
             update(hotelId, "Phone", phone);
         if (adminId != null)
@@ -83,13 +80,12 @@ public class HotelDAO {
                 "NOT EXISTS (" +
                 "SELECT * FROM ClientRoomReservation WHERE " +
                 "Room.RoomId = ClientRoomReservation.RoomId AND " +
-                "(Status = \"CHECKED_OUT\" OR Status = \"CANCELED\") AND " +
-                "((CheckIn <= ? AND CheckOut >= ?) OR (CheckIn <= ? AND CheckOut >= ?))" +
+                DBUtil.OVERLAPPING_RESERVATION +
                 ") " +
                 ") ";
         System.out.println(query);
         System.out.println(checkIn);
         System.out.println(checkOut);
-        return DBUtil.selectAll(query, mapper, adults, children, checkIn, checkIn, checkOut, checkOut);
+        return DBUtil.selectAll(query, mapper, adults, children, checkIn, checkOut);
     }
 }
