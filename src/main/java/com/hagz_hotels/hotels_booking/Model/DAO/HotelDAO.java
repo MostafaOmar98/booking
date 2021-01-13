@@ -80,8 +80,7 @@ public class HotelDAO {
                 "NOT EXISTS (" +
                 "SELECT * FROM ClientRoomReservation WHERE " +
                 "Room.RoomId = ClientRoomReservation.RoomId AND " +
-                "(Status = \"CHECKED_OUT\" OR Status = \"CANCELED\") AND " +
-                "((CheckIn <= ? AND CheckOut >= ?) OR (CheckIn <= ? AND CheckOut >= ?))" +
+                DBUtil.OVERLAPPING_RESERVATION +
                 ") " +
                 ") ";
         System.out.println(query);
