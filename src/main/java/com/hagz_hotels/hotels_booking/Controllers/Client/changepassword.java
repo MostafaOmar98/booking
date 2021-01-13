@@ -17,7 +17,6 @@ public class changepassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(!Auth.authenticate(request,response,authType)){
-            response.sendRedirect("index.jsp");
             return ;
         }
         response.sendRedirect("change-password.jsp");
