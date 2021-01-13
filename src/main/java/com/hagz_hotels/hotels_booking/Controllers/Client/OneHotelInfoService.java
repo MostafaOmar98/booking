@@ -30,6 +30,7 @@ public class OneHotelInfoService extends HttpServlet {
     HotelDAO hotelDAO;
     RoomDAO roomDAO;
     HotelImageDAO hotelImageDAO;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     @Override
     public void init() throws ServletException {
         hotelDAO = new HotelDAO();
@@ -41,8 +42,13 @@ public class OneHotelInfoService extends HttpServlet {
         if (!Auth.authenticate(request, response, authType))
             return;
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
+        Integer adults = Integer.valueOf(request.getParameter("n-adults"));
+        Integer children = Integer.valueOf(request.getParameter("n-children"));
+        System.out.println(request.getParameter("checkIn"));
+        LocalDate checkIn = LocalDate.parse(request.getParameter("checkIn"), dtf);
+        LocalDate checkOut = LocalDate.parse(request.getParameter("checkOut"), dtf);
         Hotel hotel = hotelDAO.findById(hotelId);
-        List<Room> rooms = roomDAO.findByHotelID(hotelId);
+        List<Room> rooms = roomDAO.findByCriteria(hotelId, adults, children, checkIn, checkOut);
         List<HotelImage> images = hotelImageDAO.findByHotelId(hotelId);
         request.setAttribute("hotel", hotel);
         request.setAttribute("rooms", rooms);

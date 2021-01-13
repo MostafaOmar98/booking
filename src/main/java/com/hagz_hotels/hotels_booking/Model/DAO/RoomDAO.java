@@ -104,4 +104,18 @@ public class RoomDAO {
                 ") GROUP BY HotelId ";
         return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkIn, checkOut, checkOut);
     }
+
+    public List<Room> findByCriteria(Integer hotelId, Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut) {
+        String query = "SELECT * FROM Room WHERE " +
+                "Room.HotelId = ? AND " +
+                "MaxAdults >= ? AND " +
+                "MaxChildren >= ? AND " +
+                "NOT EXISTS (" +
+                "SELECT * FROM ClientRoomReservation WHERE " +
+                "Room.RoomId = ClientRoomReservation.RoomId AND " +
+                "(Status = \"CHECKED_OUT\" OR Status = \"CANCELED\") AND " +
+                "((CheckIn <= ? AND CheckOut >= ?) OR (CheckIn <= ? AND CheckOut >= ?))" +
+                ")";
+        return DBUtil.selectAll(query, mapper, hotelId, adults, children, checkIn, checkIn, checkOut, checkOut);
+    }
 }

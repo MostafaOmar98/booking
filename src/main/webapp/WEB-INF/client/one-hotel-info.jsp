@@ -62,7 +62,7 @@
 <div class="form-group row">
     <label for="checkIn" class="col-sm-2 col-form-label">Check In </label>
     <div class="col-sm-10">
-        <input type="date" class="form-control" id="checkIn" name="checkIn">
+        <input type="date" class="form-control" id="checkIn" name="checkIn" value="<%=request.getParameter("checkIn")%>" disabled>
         <span class="error">
           <p id="check-in-error"></p>
         </span>
@@ -71,7 +71,7 @@
 <div class="form-group row">
     <label for="checkOut" class="col-sm-2 col-form-label">Checkout</label>
     <div class="col-sm-10">
-        <input type="date" class="form-control" id="checkOut" name="checkOut">
+        <input type="date" class="form-control" id="checkOut" name="checkOut" value="<%=request.getParameter("checkOut")%>" disabled>
         <span class="error">
           <p id="check-out-error"></p>
         </span>
@@ -82,7 +82,7 @@
         <legend class="col-form-label col-sm-2 pt-0">Number of Adults</legend>
         <div class="col-sm-10">
             <div class="form-check">
-                <input type="number" name="n-adults" id="n-adults" value="0" min="0" max="10">
+                <input type="number" name="n-adults" id="n-adults" value="<%=request.getParameter("n-adults")%>" min="0" max="10" disabled>
                 <%--                <input type="text">--%>
             </div>
         </div>
@@ -91,7 +91,7 @@
         <legend class="col-form-label col-sm-2 pt-0">Number of Children</legend>
         <div class="col-sm-10">
             <div class="form-check">
-                <input type="number" name="n-children" id="n-children" value="0" min="0" max="10">
+                <input type="number" name="n-children" id="n-children" value="<%=request.getParameter("n-children")%>" min="0" max="10" disabled>
             </div>
         </div>
     </div>
