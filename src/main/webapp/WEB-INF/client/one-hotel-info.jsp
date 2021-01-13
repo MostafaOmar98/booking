@@ -62,7 +62,8 @@
 <div class="form-group row">
     <label for="checkIn" class="col-sm-2 col-form-label">Check In </label>
     <div class="col-sm-10">
-        <input type="date" class="form-control" id="checkIn" name="checkIn" value="<%=request.getParameter("checkIn")%>" disabled>
+        <input type="date" class="form-control" id="checkIn" name="checkIn" value="<%=request.getParameter("checkIn")%>"
+               disabled>
         <span class="error">
           <p id="check-in-error"></p>
         </span>
@@ -71,7 +72,8 @@
 <div class="form-group row">
     <label for="checkOut" class="col-sm-2 col-form-label">Checkout</label>
     <div class="col-sm-10">
-        <input type="date" class="form-control" id="checkOut" name="checkOut" value="<%=request.getParameter("checkOut")%>" disabled>
+        <input type="date" class="form-control" id="checkOut" name="checkOut"
+               value="<%=request.getParameter("checkOut")%>" disabled>
         <span class="error">
           <p id="check-out-error"></p>
         </span>
@@ -82,7 +84,8 @@
         <legend class="col-form-label col-sm-2 pt-0">Number of Adults</legend>
         <div class="col-sm-10">
             <div class="form-check">
-                <input type="number" name="n-adults" id="n-adults" value="<%=request.getParameter("n-adults")%>" min="0" max="10" disabled>
+                <input type="number" name="n-adults" id="n-adults" value="<%=request.getParameter("n-adults")%>" min="0"
+                       max="10" disabled>
                 <%--                <input type="text">--%>
             </div>
         </div>
@@ -91,7 +94,8 @@
         <legend class="col-form-label col-sm-2 pt-0">Number of Children</legend>
         <div class="col-sm-10">
             <div class="form-check">
-                <input type="number" name="n-children" id="n-children" value="<%=request.getParameter("n-children")%>" min="0" max="10" disabled>
+                <input type="number" name="n-children" id="n-children" value="<%=request.getParameter("n-children")%>"
+                       min="0" max="10" disabled>
             </div>
         </div>
     </div>
@@ -113,40 +117,29 @@
         </thead>
         <tbody>
         <%
-            for (Room room : rooms) {
-                out.println("<tr>");
-                out.println("<td>");
-                out.println("<input type=\"text\" required disabled name=\"type\" value=\"" + room.getType() + "\"");
-                out.println("</td>\n");
-
-                out.println("<td>");
-                out.println("<input type=\"number\" min=\"0\" required disabled name=\"maxAdults\" value=\"" + room.getMaxAdults() + "\"");
-                out.println("</td>\n");
-
-                out.println("<td>");
-                out.println("<input type=\"number\" min=\"0\" required disabled name=\"maxChildren\" value=\"" + room.getMaxChildren() + "\"");
-                out.println("</td>\n");
-
-
-                out.println("<td>");
-                out.println("<input type=\"number\" min=\"0\" required disabled name=\"pricePerNight\" value=\"" + room.getPricePerNight() + "\"");
-                out.println("</td>\n");
-
-                out.println("<td>");
-                out.println("<input type=\"text\" disabled name=\"facilities\" " + "value=\"" + room.getFacilities() + "\">");
-                out.println("</td>\n");
-
-                out.println("<td>");
-                out.println("<input disabled hidden name=\"roomId\" value=\"" + room.getRoomId() + "\"");
-                out.println("</td>\n");
-
-                out.println("<td>");
-                out.println("<button type=\"button\" " + "class=\"reserveBtn\">Reserve</button>");
-                out.println("</td>");
-
-                out.println("</tr>");
-            }
+            for (Room r : rooms) {
         %>
+        <tr>
+            <td><%=r.getType()%>
+            </td>
+            <td><%=r.getMaxAdults()%>
+            </td>
+            <td><%=r.getMaxChildren()%>
+            </td>
+            <td><%=r.getPricePerNight()%>
+            </td>
+            <td><%=r.getFacilities()%>
+            </td>
+            <td>
+                <form action="reserve-room" method="post">
+                    <input type="hidden" name="roomId" value="<%=r.getRoomId()%>">
+                    <input type="hidden" name="checkIn" value="<%=request.getParameter("checkIn")%>">
+                    <input type="hidden" name="checkOut" value="<%=request.getParameter("checkOut")%>">
+                    <input type="submit" value="Reserve">
+                </form>
+            </td>
+        </tr>
+        <%}%>
         </tbody>
     </table>
 

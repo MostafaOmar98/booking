@@ -45,4 +45,10 @@ public class ClientRoomReservationDAO {
         String query = "UPDATE ClientRoomReservation SET Status=? WHERE ReservationId=?";
         DBUtil.executeUpdate(query, status, reservationId);
     }
+
+    public void create(Integer clientId, Integer roomId, LocalDate checkIn, LocalDate checkOut, Float totalPrice) {
+        String query = "INSERT INTO ClientRoomReservation (ClientId, RoomId, CreatedAt, CheckIn, CheckOut, STATUS, TotalPrice) VALUES " +
+                "(?, ?, NOW(), ?, ?, \"PENDING\", ?)";
+        DBUtil.executeUpdate(query, clientId, roomId, checkIn, checkOut, totalPrice);
+    }
 }
