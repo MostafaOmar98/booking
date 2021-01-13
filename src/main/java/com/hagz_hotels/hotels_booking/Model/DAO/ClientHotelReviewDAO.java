@@ -15,7 +15,7 @@ public class ClientHotelReviewDAO {
             ClientHotelReview ret = new ClientHotelReview();
             try {
                 ret.setClientId(set.getInt("ClientId"));
-                ret.setHotelId(set.getInt("HotelId"));
+                ret.setReservationId(set.getInt("ReservationId"));
                 ret.setCreatedAt(set.getTimestamp("CreatedAt").toLocalDateTime());
                 ret.setStars(set.getInt("Stars"));
                 ret.setComment(set.getString("Comment"));
