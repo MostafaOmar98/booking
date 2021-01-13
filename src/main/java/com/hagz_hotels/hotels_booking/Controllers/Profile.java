@@ -22,9 +22,6 @@ public class Profile extends HttpServlet {
         else{
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");
-            request.setAttribute("name",user.getName());
-            request.setAttribute("phone",user.getPhone());
-            request.setAttribute("email",user.getEmail());
             request.getRequestDispatcher("/WEB-INF/profile.jsp").forward(request, response);
 
         }
