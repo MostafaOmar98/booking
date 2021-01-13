@@ -5,7 +5,6 @@ public class Hotel {
     private String name;
     private Float latitude;
     private Float longitude;
-    private String address;
     private String phone;
     private Integer adminId;
 
@@ -18,7 +17,6 @@ public class Hotel {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.address = address;
         this.phone = phone;
         this.adminId = adminId;
     }
@@ -57,14 +55,6 @@ public class Hotel {
 
     public void setLongitude(Float longitude) {
         this.longitude = longitude;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getPhone() {
