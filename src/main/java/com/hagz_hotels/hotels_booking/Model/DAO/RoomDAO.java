@@ -100,7 +100,7 @@ public class RoomDAO {
                 "Room.RoomId = ClientRoomReservation.RoomId AND " +
                 DBUtil.OVERLAPPING_RESERVATION +
                 ") GROUP BY HotelId ";
-        return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkIn, checkOut, checkOut);
+        return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkOut);
     }
 
     public List<Room> findByCriteria(Integer hotelId, Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut) {
@@ -124,6 +124,6 @@ public class RoomDAO {
                 "Room.RoomId = ClientRoomReservation.RoomId AND " +
                 DBUtil.OVERLAPPING_RESERVATION +
                 ")";
-        return DBUtil.selectOne(query, mapper, roomId, checkIn, checkIn, checkOut, checkOut) != null;
+        return DBUtil.selectOne(query, mapper, roomId, checkIn, checkOut) != null;
     }
 }

@@ -86,6 +86,6 @@ public class HotelDAO {
         System.out.println(query);
         System.out.println(checkIn);
         System.out.println(checkOut);
-        return DBUtil.selectAll(query, mapper, adults, children, checkIn, checkIn, checkOut, checkOut);
+        return DBUtil.selectAll(query, mapper, adults, children, checkIn, checkOut);
     }
 }
