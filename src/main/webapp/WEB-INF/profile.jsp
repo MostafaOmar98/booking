@@ -14,13 +14,16 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
+<%
+    User user = (User)session.getAttribute("user");
+%>
 <div class="form-change" >
     <form action="">
         <div class="form-row">
             <div class="form-group">
                 <label for="display-name" class="col-lg-4">Disply Name</label>
                 <div class="col-lg-8">
-                    <input type="text"  id="display-name"class="form-control" value=<%=request.getAttribute("name")%>>
+                    <input type="text"  id="display-name"class="form-control" value="<%=user.getName()%>">
                 </div>
                 <div class="display-name-error" id="display-name-error-span">
                     <p id="display-name-error"></p>
@@ -31,7 +34,7 @@
             <div class="form-group">
                 <label for="display-name" class="col-lg-4">Email</label>
                 <div class="col-lg-8">
-                    <input type="email"  id="email" class="form-control" value=<%=request.getAttribute("email")%>>
+                    <input type="email"  id="email" class="form-control" value=<%=user.getEmail()%>>
                 </div>
                 <div class="email-error" id="email-error-span">
                     <p id="email-error"></p>
@@ -42,7 +45,7 @@
             <div class="form-group">
                 <label for="phone" class="col-lg-4">Phone Number</label>
                 <div class="col-lg-8">
-                    <input type="tel"  id="phone"class="form-control" value= <%=request.getAttribute("phone")%>>
+                    <input type="tel"  id="phone"class="form-control" value= <%=user.getPhone()%>>
                 </div>
                 <div class="phone-error" id="phone-error-span">
                     <p id="phone-error"></p>
