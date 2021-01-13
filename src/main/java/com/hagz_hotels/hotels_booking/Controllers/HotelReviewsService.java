@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/hotel-reviews")
-public class ViewReviewsService extends HttpServlet {
+public class HotelReviewsService extends HttpServlet {
 
     RoomDAO roomDAO;
     UserDAO userDAO;
