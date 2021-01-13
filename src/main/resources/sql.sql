@@ -24,11 +24,11 @@ DROP TABLE IF EXISTS `ClientHotelReview`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ClientHotelReview` (
                                      `ClientId` int NOT NULL,
-                                     `HotelId` int NOT NULL,
+                                     `ReservationId` int NOT NULL,
                                      `CreatedAt` datetime NOT NULL,
                                      `Stars` int NOT NULL,
                                      `Comment` text NOT NULL,
-                                     PRIMARY KEY (`ClientId`,`HotelId`,`CreatedAt`)
+                                     PRIMARY KEY (`ClientId`,`ReservationId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -58,7 +58,7 @@ CREATE TABLE `ClientRoomReservation` (
                                          `Status` enum('PENDING','CONFIRMED','CHECKED_IN','CHECKED_OUT','CANCELED') DEFAULT 'PENDING',
                                          `TotalPrice` float NOT NULL,
                                          PRIMARY KEY (`ReservationId`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `ClientRoomReservation` (
 
 LOCK TABLES `ClientRoomReservation` WRITE;
 /*!40000 ALTER TABLE `ClientRoomReservation` DISABLE KEYS */;
-INSERT INTO `ClientRoomReservation` (`ReservationId`, `ClientId`, `RoomId`, `CreatedAt`, `CheckIn`, `CheckOut`, `Status`, `TotalPrice`) VALUES (19,3,16,'2021-01-05 21:55:55','2021-01-05','2021-01-07','CANCELED',30),(20,3,16,'2021-01-05 21:55:56','2021-01-05','2021-01-07','CANCELED',30),(21,3,16,'2021-01-05 21:55:57','2021-01-05','2021-01-07','CANCELED',30),(22,3,16,'2021-01-05 21:55:57','2021-01-05','2021-01-07','CANCELED',30),(23,3,16,'2021-01-05 21:55:58','2021-01-05','2021-01-07','CANCELED',30),(24,3,16,'2021-01-05 21:55:59','2021-01-05','2021-01-07','CANCELED',30),(25,3,16,'2021-01-05 21:55:59','2021-01-05','2021-01-07','CANCELED',30),(26,3,16,'2021-01-05 21:56:00','2021-01-05','2021-01-07','CANCELED',30),(27,3,16,'2021-01-05 21:56:01','2021-01-05','2021-01-07','CANCELED',30),(28,3,16,'2021-01-05 21:56:01','2021-01-05','2021-01-07','CHECKED_OUT',30),(29,3,16,'2021-01-05 21:56:02','2021-01-05','2021-01-07','CHECKED_IN',30),(30,3,16,'2021-01-05 21:56:03','2021-01-05','2021-01-07','CANCELED',30);
+INSERT INTO `ClientRoomReservation` (`ReservationId`, `ClientId`, `RoomId`, `CreatedAt`, `CheckIn`, `CheckOut`, `Status`, `TotalPrice`) VALUES (19,3,16,'2021-01-05 21:55:55','2021-01-05','2021-01-07','CANCELED',30),(20,3,16,'2021-01-05 21:55:56','2021-01-05','2021-01-07','CANCELED',30),(21,3,16,'2021-01-05 21:55:57','2021-01-05','2021-01-07','CANCELED',30),(22,3,16,'2021-01-05 21:55:57','2021-01-05','2021-01-07','CANCELED',30),(23,3,16,'2021-01-05 21:55:58','2021-01-05','2021-01-07','CANCELED',30),(24,3,16,'2021-01-05 21:55:59','2021-01-05','2021-01-07','CANCELED',30),(25,3,16,'2021-01-05 21:55:59','2021-01-05','2021-01-07','CANCELED',30),(26,3,16,'2021-01-05 21:56:00','2021-01-05','2021-01-07','CANCELED',30),(27,3,16,'2021-01-05 21:56:01','2021-01-05','2021-01-07','CANCELED',30),(28,3,16,'2021-01-05 21:56:01','2021-01-05','2021-01-07','CHECKED_OUT',30),(29,3,16,'2021-01-05 21:56:02','2021-01-05','2021-01-07','CHECKED_IN',30),(30,3,16,'2021-01-05 21:56:03','2021-01-05','2021-01-07','CANCELED',30),(31,3,18,'2021-01-13 21:16:48','2021-01-14','2021-01-15','PENDING',10),(32,3,19,'2021-01-13 21:59:29','2021-01-12','2021-01-15','PENDING',702),(33,3,20,'2021-01-13 21:59:37','2021-01-12','2021-01-15','PENDING',36639);
 /*!40000 ALTER TABLE `ClientRoomReservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,4 +191,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-13  4:49:38
+-- Dump completed on 2021-01-13 22:32:42
