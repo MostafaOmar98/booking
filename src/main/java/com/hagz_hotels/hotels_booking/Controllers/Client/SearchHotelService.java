@@ -31,7 +31,7 @@ public class SearchHotelService extends HttpServlet {
     ClientHotelReviewDAO clientHotelReviewDAO;
     HotelImageDAO hotelImageDAO;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
+    final String DEFAULT_IMAGE = "0/default.jpg";
     @Override
     public void init() throws ServletException {
         hotelDAO = new HotelDAO();
@@ -75,12 +75,15 @@ public class SearchHotelService extends HttpServlet {
             r.setHotelRate(clientHotelReviewDAO.findAverageRatingByHotelId(hotel.getHotelId()));
             HotelImage imageId = hotelImageDAO.findOneByHotelId(hotel.getHotelId());
             if (imageId == null)
-                r.setImageLink("0/default.png");
+                r.setImageLink(DEFAULT_IMAGE);
             else
                 r.setImageLink(imageId.getName());
             r.setMinPrice(roomDAO.getMinAvailablePriceByCriteria(adults, children, checkIn, checkOut, hotel.getHotelId()));
             r.setMaxPrice(roomDAO.getMaxAvailablePriceByCriteria(adults, children, checkIn, checkOut, hotel.getHotelId()));
-            r.setDistance(sphericalDistance(longitude, latitude, hotel.getLongitude(), hotel.getLatitude()));
+            if (hotel.getLongitude() == null)
+                r.setDistance((float) 1e30);
+            else
+                r.setDistance(sphericalDistance(longitude, latitude, hotel.getLongitude(), hotel.getLatitude()));
             results.add(r);
         }
 
