@@ -39,4 +39,9 @@ public class HotelImageDAO {
         String query = "SELECT * FROM HotelImage WHERE HotelId=?";
         return DBUtil.selectAll(query, mapper, hotelId);
     }
+
+    public HotelImage findOneByHotelId(Integer hotelId) {
+        String query = "SELECT * FROM HotelImage WHERE HotelId=?";
+        return DBUtil.selectOne(query, mapper, hotelId);
+    }
 }

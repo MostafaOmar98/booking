@@ -67,3 +67,25 @@ function isEmptyById(elementId){
 }
 const submitBtn = document.getElementById("search-btn");
 submitBtn.addEventListener("click" , validate);
+
+
+// ---- Add Location stuff
+function selectPosition(e) {
+    document.getElementsByName("lng")[0].value = e.lngLat.lng;
+    document.getElementsByName("lat")[0].value = e.lngLat.lat;
+}
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        initMap(position.coords.longitude, position.coords.latitude, selectPosition);
+        selectPosition({
+            lngLat: {
+                lng: position.coords.longitude,
+                lat: position.coords.latitude
+            }
+        });
+    });
+}
+
+$('#addLocationModal').on('shown.bs.modal', function() {
+    map.invalidateSize();
+});

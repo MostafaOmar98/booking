@@ -4,6 +4,8 @@ import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.function.Function;
 
 public class HotelDAO {
@@ -70,5 +72,24 @@ public class HotelDAO {
     public Hotel findById(Integer hotelId) {
         String query = "SELECT * FROM Hotel WHERE HotelId=?";
         return DBUtil.selectOne(query, mapper, hotelId);
+    }
+
+    public List<Hotel> findByCriteria(Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut) {
+        String query = "SELECT * FROM Hotel WHERE EXISTS (" +
+                "SELECT * FROM Room WHERE " +
+                "Room.HotelId = Hotel.HotelId AND " +
+                "MaxAdults >= ? AND " +
+                "MaxChildren >= ? AND " +
+                "NOT EXISTS (" +
+                "SELECT * FROM ClientRoomReservation WHERE " +
+                "Room.RoomId = ClientRoomReservation.RoomId AND " +
+                "(Status = \"CHECKED_OUT\" OR Status = \"CANCELED\") AND " +
+                "((CheckIn <= ? AND CheckOut >= ?) OR (CheckIn <= ? AND CheckOut >= ?))" +
+                ") " +
+                ") ";
+        System.out.println(query);
+        System.out.println(checkIn);
+        System.out.println(checkOut);
+        return DBUtil.selectAll(query, mapper, adults, children, checkIn, checkIn, checkOut, checkOut);
     }
 }
