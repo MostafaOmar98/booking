@@ -13,6 +13,7 @@
     <%
         for (HotelSearchResultDTO result : results) {
     %>
+    <hr/>
     <div class="row">
         <div class="container">
             <div class="row">
@@ -31,7 +32,7 @@
                 <h3>Price Range: <%=result.getMinPrice()%> ~ <%=result.getMaxPrice()%></h3>
             </div>
             <div class="row">
-                <h3>Distance From Specified Location: <%=result.getDistance()%></h3>
+                <h3>Distance From Specified Location: <%=result.getDistance() > 1e30 ? "No Location Specified" : result.getDistance()%></h3>
             </div>
         </div>
     </div>
