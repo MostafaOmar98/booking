@@ -55,4 +55,15 @@ public class ClientHotelReviewDAO {
                 "GROUP BY HotelId";
         return DBUtil.selectOne(query, avgRateMapper, hotelId);
     }
+
+    public void create(Integer clientId, Integer reservationId, Integer stars, String comment) {
+        String query = "INSERT INTO ClientHotelReview (ClientId, ReservationId, CreatedAt, Stars, Comment) VALUE " +
+                "(?, ?, NOW(), ?, ?)";
+        DBUtil.executeUpdate(query, clientId, reservationId, stars, comment);
+    }
+
+    public Boolean has(Integer reservationId) {
+        String query = "SELECT * FROM ClientHotelReview WHERE ReservationId=?";
+        return DBUtil.selectOne(query, mapper, reservationId) != null;
+    }
 }
