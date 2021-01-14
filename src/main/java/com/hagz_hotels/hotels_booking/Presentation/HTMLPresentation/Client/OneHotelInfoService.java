@@ -1,6 +1,6 @@
 package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Client;
 
-import com.hagz_hotels.hotels_booking.Util.Auth;
+import com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public.HTMLAuth;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelImageDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -35,7 +36,7 @@ public class OneHotelInfoService extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!Auth.authenticate(request, response, authType))
+        if (!HTMLAuth.authorizeUserType(request, response, authType))
             return;
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
         Integer adults = Integer.valueOf(request.getParameter("n-adults"));
@@ -43,9 +44,17 @@ public class OneHotelInfoService extends HttpServlet {
         System.out.println(request.getParameter("checkIn"));
         LocalDate checkIn = LocalDate.parse(request.getParameter("checkIn"), dtf);
         LocalDate checkOut = LocalDate.parse(request.getParameter("checkOut"), dtf);
-        Hotel hotel = hotelDAO.findById(hotelId);
-        List<Room> rooms = roomDAO.findByCriteria(hotelId, adults, children, checkIn, checkOut);
-        List<HotelImage> images = hotelImageDAO.findByHotelId(hotelId);
+        Hotel hotel = null;
+        List<Room> rooms = null;
+        List<HotelImage> images = null;
+        try {
+            hotel = hotelDAO.findById(hotelId);
+            rooms = roomDAO.findByCriteria(hotelId, adults, children, checkIn, checkOut);
+            images = hotelImageDAO.findByHotelId(hotelId);
+
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
         request.setAttribute("hotel", hotel);
         request.setAttribute("rooms", rooms);
         request.setAttribute("images", images);
