@@ -49,7 +49,7 @@ function validateEmpty(e){
     return ret;
 }
 function isEmptyById(elementId){
-    return document.getElementById(elementId).value.length == 0;
+    return document.getElementById(elementId).value.length === 0;
 }
 function validateEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -59,7 +59,7 @@ function validateEmail(email) {
         return false;
     }
     else{
-        removeAlert(document,"element");
+        removeAlert(document,"email");
         return true;
     }
 }
