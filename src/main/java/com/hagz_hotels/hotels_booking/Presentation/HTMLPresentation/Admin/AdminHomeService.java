@@ -15,39 +15,43 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/admin-home")
 public class AdminHomeService extends HttpServlet {
 
-    private HotelDAO hotelDAO;
-    private RoomDAO roomDAO;
-    private HotelImageDAO hotelImageDAO;
+    private final HotelDAO hotelDAO = new HotelDAO();
+    private final RoomDAO roomDAO = new RoomDAO();
+    private final HotelImageDAO hotelImageDAO = new HotelImageDAO();
     private final User.Type authType = User.Type.ADMIN;
-    @Override
-    public void init() throws ServletException {
-        hotelDAO = new HotelDAO();
-        roomDAO = new RoomDAO();
-        hotelImageDAO = new HotelImageDAO();
-    }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!Auth.authenticate(request, response, authType))
-            return;
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try {
+            Auth.authorizeUserType(request, authType);
+        } catch (Auth.AuthenticationException e) {
+            response.sendRedirect("index.jsp");
+            e.printStackTrace();
+        } catch (Auth.AuthorizationException e) {
+            response.sendRedirect("/WEB-INF/public/unauthorized.jsp");
+            e.printStackTrace();
+        }
 
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
-        if (hotel == null) {
-            request.getRequestDispatcher("/WEB-INF/admin/add-hotel.jsp").forward(request, response);
-            return;
-        }
-        else {
-            request.setAttribute("hotel", hotel);
-            request.setAttribute("rooms", roomDAO.findByHotelID(hotel.getHotelId()));
-            request.setAttribute("images", hotelImageDAO.findByHotelId(hotel.getHotelId()));
-            request.getRequestDispatcher("/WEB-INF/admin/hotel-management.jsp").forward(request, response);
-            return;
+        User user = (User) session.getAttribute("user");
+        try {
+            Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
+            if (hotel == null) {
+                request.getRequestDispatcher("/WEB-INF/admin/add-hotel.jsp").forward(request, response);
+            } else {
+                request.setAttribute("hotel", hotel);
+                request.setAttribute("rooms", roomDAO.findByHotelID(hotel.getHotelId()));
+                request.setAttribute("images", hotelImageDAO.findByHotelId(hotel.getHotelId()));
+                request.getRequestDispatcher("/WEB-INF/admin/hotel-management.jsp").forward(request, response);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new ServletException();
         }
     }
 }
