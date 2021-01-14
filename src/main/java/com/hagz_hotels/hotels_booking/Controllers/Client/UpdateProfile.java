@@ -32,6 +32,8 @@ public class UpdateProfile extends HttpServlet {
 
 
         userDAO.update(newName, newEmail, newPhone,user.getPassword(),user.getUserId());
+        user = userDAO.findById(user.getUserId());
+        session.setAttribute("user",user);
         JsonResponse jsonResponse = new JsonResponse();
         jsonResponse.setAttr("status", "updated successfully");
         jsonResponse.setAttr("success", "true");
