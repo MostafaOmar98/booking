@@ -5,17 +5,28 @@ import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
-import com.hagz_hotels.hotels_booking.Util.JsonResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.sql.SQLException;
 
 public class Auth {
 
+    public static class AuthException extends Exception {
+        AuthException() {
+            super();
+        }
 
-    public enum Status{
+        AuthException(String message) {
+            super(message);
+        }
+
+        AuthException(Status status) {
+            super(status.name());
+        }
+    }
+
+    public enum Status {
         OK, AUTHORIZATION_ERROR, AUTHENTICATION_ERROR
     }
 
@@ -26,100 +37,57 @@ public class Auth {
     public static Status isAuth(User user, User.Type authType) {
         if (user == null)
             return Status.AUTHENTICATION_ERROR;
-        else if(user.getType() != authType)
+        else if (user.getType() != authType)
             return Status.AUTHORIZATION_ERROR;
         return Status.OK;
     }
 
-    public static boolean authenticate(HttpServletRequest request, HttpServletResponse response, User.Type authType) throws IOException {
+    public static void authenticate(HttpServletRequest request) throws AuthException {
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        if (user == null || user.getType() != authType)
-        {
-            response.sendRedirect("index.jsp");
-            return false;
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new AuthException(Status.AUTHENTICATION_ERROR);
         }
-        return true;
-    }
-    public static boolean authenticate(HttpServletRequest request, HttpServletResponse response, User.Type []authType) throws IOException {
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        boolean valid = false;
-        if (user == null )
-        {
-            response.sendRedirect("index.jsp");
-            return false;
-        }
-        for (User.Type type:authType) {
-            valid = valid || user.getType() == type;
-        }
-        if (!valid)
-        {
-            response.sendRedirect("index.jsp");
-            return false;
-        }
-        return true;
     }
 
-    public static boolean authenticateJson(HttpServletRequest request, HttpServletResponse response, User.Type authType) throws IOException {
+    public static void authorizeUserType(HttpServletRequest request, User.Type... authTypes) throws AuthException {
+        authenticate(request);
         HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("user");
-        if (user == null || user.getType() != authType)
-        {
-            JsonResponse jsonResponse = new JsonResponse();
-            jsonResponse.setAttr("error", "not_authenticated");
-            response.getWriter().println(jsonResponse);
-            return false;
+        User user = (User) session.getAttribute("user");
+        boolean ok = false;
+        for (User.Type authType : authTypes) {
+            ok = ok || (authType == user.getType());
         }
-        return true;
+        if (!ok)
+            throw new AuthException(Status.AUTHORIZATION_ERROR);
     }
 
-    // assumes user is authenticated;
-    public static boolean authorizeJsonHotel(HttpServletRequest request, HttpServletResponse response, Integer hotelId) throws IOException {
+    public static void authorizeHotel(HttpServletRequest request, Integer hotelId) throws SQLException, ClassNotFoundException, AuthException {
+        authenticate(request);
         HttpSession session = request.getSession();
-        User user = (User)(session.getAttribute("user"));
+        User user = (User) (session.getAttribute("user"));
         if (!hotelDAO.has(user.getUserId(), hotelId)) {
-            JsonResponse jsonResponse = new JsonResponse();
-            jsonResponse.setAttr("error", "not_authorized");
-            response.getWriter().println(jsonResponse);
-            return false;
+            throw new AuthException(Status.AUTHORIZATION_ERROR);
         }
-        return true;
     }
 
-    // assumes user is authenticated
-    public static boolean authorizeJsonRoom(HttpServletRequest request, HttpServletResponse response, Integer roomId) throws IOException {
+    public static void authorizeRoom(HttpServletRequest request, Integer roomId) throws SQLException, ClassNotFoundException, AuthException {
+        authenticate(request);
         HttpSession session = request.getSession();
-        User user = (User)(session.getAttribute("user"));
+        User user = (User) (session.getAttribute("user"));
         Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
-        if (hotel != null) {
-            if (roomDAO.has(roomId, hotel.getHotelId()))
-                return true;
-        }
-        JsonResponse jsonResponse = new JsonResponse();
-        jsonResponse.setAttr("error", "not_authorized");
-        response.getWriter().println(jsonResponse);
-        return false;
+        if (hotel == null)
+            throw new AuthException(Status.AUTHORIZATION_ERROR);
+        if (!roomDAO.has(roomId, hotel.getHotelId()))
+            throw new AuthException(Status.AUTHORIZATION_ERROR);
     }
 
-    public static boolean authorizeHotel(HttpServletRequest request, HttpServletResponse response, Integer hotelId) throws IOException {
+    public static void authorizeReservation(HttpServletRequest request, Integer reservationId) throws AuthException, SQLException, ClassNotFoundException {
+        authenticate(request);
         HttpSession session = request.getSession();
-        User user = (User)(session.getAttribute("user"));
-        if (!hotelDAO.has(user.getUserId(), hotelId)) {
-            response.sendRedirect("index.jsp");
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean authorizeReservation(HttpServletRequest request, HttpServletResponse response, Integer reservationId) throws IOException {
-        HttpSession session = request.getSession();
-        User user = (User)(session.getAttribute("user"));
+        User user = (User) (session.getAttribute("user"));
         if (!clientRoomReservationDAO.has(reservationId, user.getUserId())) {
-            response.sendRedirect("index.jsp");
-            return false;
+            throw new AuthException(Status.AUTHORIZATION_ERROR);
         }
-        return true;
-
     }
 }
