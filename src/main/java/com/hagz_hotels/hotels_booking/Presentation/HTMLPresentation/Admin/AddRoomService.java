@@ -1,9 +1,8 @@
 package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Admin;
 
 
-import com.hagz_hotels.hotels_booking.Util.Auth;
-import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
-import com.hagz_hotels.hotels_booking.Model.Entities.User;
+import com.hagz_hotels.hotels_booking.Business.Admin.AddRoom;
+import com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public.HTMLAuth;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,39 +10,35 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/add-room")
 public class AddRoomService extends HttpServlet {
 
-    RoomDAO roomDAO;
-    User.Type authType = User.Type.ADMIN;
-
-    @Override
-    public void init() throws ServletException {
-        roomDAO = new RoomDAO();
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!Auth.authenticate(request, response, authType))
-            return;
-
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
-        if (!Auth.authorizeHotel(request, response, hotelId))
-            return;
 
-        String type = request.getParameter("type");
-        // Frontent will validate, bypassing of validation will not affect backend.
-        if (!type.equals("")) {
-            roomDAO.create(
-                    Float.valueOf(request.getParameter("pricePerNight")),
-                    request.getParameter("type"),
-                    Integer.valueOf(request.getParameter("maxAdults")),
-                    Integer.valueOf(request.getParameter("maxChildren")),
-                    hotelId,
-                    request.getParameter("facilities")
-            );
+        try {
+            if (!HTMLAuth.authorizeHotel(request, response, hotelId))
+                return;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
         }
+
+        Float pricePerNight = Float.valueOf(request.getParameter("pricePerNight"));
+        String type = request.getParameter("type");
+        Integer maxAdults = Integer.valueOf(request.getParameter("maxAdults"));
+        Integer maxChildren = Integer.valueOf(request.getParameter("maxChildren"));
+        String facilities = request.getParameter("facilities");
+        try {
+            AddRoom.execute(pricePerNight, type, maxAdults, maxChildren, hotelId, facilities);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+
+        // Frontent will validate, bypassing of validation will not affect backend.
         response.sendRedirect("admin-home");
     }
 }
