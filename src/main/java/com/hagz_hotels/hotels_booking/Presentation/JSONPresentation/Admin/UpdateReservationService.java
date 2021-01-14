@@ -20,6 +20,7 @@ public class UpdateReservationService extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
         Integer reservationId = Integer.valueOf(request.getParameter("reservationId"));
         try {
             if (!JSONAuth.authorizeAdminReservation(request, response, reservationId))
