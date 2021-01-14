@@ -89,4 +89,13 @@ public class Auth {
             throw new AuthorizationException("User with id " + user.getUserId() + " not authorized on reservation id " + reservationId);
         }
     }
+
+    public static void authorizeAdminReservation(HttpServletRequest request, Integer reservationId) throws AuthenticationException, SQLException, ClassNotFoundException, AuthorizationException {
+        authenticate(request);
+        HttpSession session = request.getSession();
+        User user = (User) (session.getAttribute("user"));
+        if (!clientRoomReservationDAO.hasAdmin(reservationId, user.getUserId()))
+            throw new AuthorizationException("Admin with id " + user.getUserId() + " not authoried on reservation id " + reservationId);
+    }
+
 }

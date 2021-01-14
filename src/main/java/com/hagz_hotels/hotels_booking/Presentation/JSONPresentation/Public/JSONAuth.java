@@ -109,4 +109,27 @@ public class JSONAuth {
         response.getWriter().println(jsonResponse);
         return false;
     }
+
+    public static boolean authorizeAdminReservation(HttpServletRequest request, HttpServletResponse response, Integer reservationId) throws IOException, SQLException, ClassNotFoundException {
+        JsonResponse jsonResponse = new JsonResponse();
+        try {
+            Auth.authorizeAdminReservation(request, reservationId);
+            return true;
+        } catch (Auth.AuthenticationException e) {
+            jsonResponse.setAttr("error", "NOT_AUTHENTICATED");
+            e.printStackTrace();
+        } catch (Auth.AuthorizationException e) {
+            jsonResponse.setAttr("error", "NOT_AUTHORIZED");
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            throw new SQLException();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new ClassNotFoundException();
+        }
+        response.setContentType("application/json");
+        response.getWriter().println(jsonResponse);
+        return false;
+    }
 }

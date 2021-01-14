@@ -56,4 +56,14 @@ public class ClientRoomReservationDAO {
         String query = "SELECT * FROM ClientRoomReservation WHERE ReservationId=? AND ClientId=?";
         return DBUtil.selectOne(query, mapper, reservationId, userId) != null;
     }
+
+    public boolean hasAdmin(Integer reservationId, Integer adminId) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM ClientRoomReservation, Room, Hotel, User WHERE " +
+                "ClientRoomReservation.RoomId=Room.RoomId AND " +
+                "Room.HotelId = Hotel.HotelId AND " +
+                "Hotel.AdminId = User.UserId AND " +
+                "ClientRoomReservation.ReservationId=? AND " +
+                "User.Userid=?";
+        return DBUtil.selectOne(query, mapper, reservationId, adminId) != null;
+    }
 }
