@@ -35,4 +35,16 @@ public class UserDAO {
         String query = "UPDATE User SET Name=?, Email=?, Phone=?, Password=? WHERE UserId=?";
         DBUtil.executeUpdate(query, Name, email, phoneNumber, password, UserId);
     }
+    public User findByEmail(String email) throws SQLException, ClassNotFoundException{
+        String query = "SELECT * FROM User WHERE Email=?";
+        return DBUtil.selectOne(query,mapper,email);
+    }
+    public User findByUserName(String username) throws SQLException, ClassNotFoundException{
+        String query = "SELECT * FROM User WHERE Name=?";
+        return DBUtil.selectOne(query,mapper,username);
+    }
+    public Integer create(String email, String password, String username) throws SQLException, ClassNotFoundException {
+        String query = "Insert into User (Email, Password, Name) values (?, ?, ?)";
+        return DBUtil.insert(query, email, password, username);
+    }
 }
