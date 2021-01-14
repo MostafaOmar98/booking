@@ -4,7 +4,6 @@ import com.hagz_hotels.hotels_booking.Business.conf;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelImageDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.HotelImage;
 
-import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
