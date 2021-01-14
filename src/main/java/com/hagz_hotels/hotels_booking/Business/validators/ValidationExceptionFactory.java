@@ -1,7 +1,6 @@
 package com.hagz_hotels.hotels_booking.Business.validators;
 
-import com.hagz_hotels.hotels_booking.Business.validators.exceptions.EmailExistException;
-import com.hagz_hotels.hotels_booking.Business.validators.exceptions.InvalidEmailException;
+import com.hagz_hotels.hotels_booking.Business.validators.exceptions.*;
 
 public class ValidationExceptionFactory {
     static Exception getEmailException(EmailValidator.Status status){
@@ -11,12 +10,18 @@ public class ValidationExceptionFactory {
             case INVALID:
                 return new InvalidEmailException("Invalid Email");
             default:
-                return null;
+                return new undefinedBehaviorException("undefined behavior");
         }
     }
-    static Exception getUserNameException(){
-        // TODO: 1/14/21
-        return null;
+    static Exception getUserNameException(NameValidator.Status status){
+        switch (status){
+            case USED:
+                return new UserNameExistException("username already used");
+            case INVALID:
+                return new InvalidUserNameException("Invalid username");
+            default:
+                return new undefinedBehaviorException("undefined behavior");
+        }
     }
 }
 
