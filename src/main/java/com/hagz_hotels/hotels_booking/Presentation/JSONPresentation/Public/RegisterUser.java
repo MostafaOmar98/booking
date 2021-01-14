@@ -1,9 +1,15 @@
 package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public;
 
 import com.hagz_hotels.hotels_booking.Business.validators.EmailValidator;
+import com.hagz_hotels.hotels_booking.Business.validators.NameValidator;
 import com.hagz_hotels.hotels_booking.Business.validators.exceptions.EmailExistException;
 import com.hagz_hotels.hotels_booking.Business.validators.exceptions.InvalidEmailException;
+import com.hagz_hotels.hotels_booking.Business.validators.exceptions.InvalidUserNameException;
+import com.hagz_hotels.hotels_booking.Model.DAO.UserDAO;
+import com.hagz_hotels.hotels_booking.Model.Entities.User;
+import com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.JSONExceptionFactory;
 import com.hagz_hotels.hotels_booking.Util.JsonResponse;
+import com.hagz_hotels.hotels_booking.Util.MailUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,27 +28,34 @@ public class RegisterUser extends HttpServlet {
     // TODO: 1/14/21 validate username is not in database
     // TODO: 1/14/21 add username col to database
     EmailValidator emailValidator = new EmailValidator();
+    NameValidator nameValidator = new NameValidator();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
             emailValidator.validate(request);
+            nameValidator.validate(request);
+            String RegisteredEmail = (String) request.getParameter("email");
+            String RegisteredName = (String) request.getParameter("username");
 
-        } catch (EmailExistException e) {
+            String RegisteredPassword  = "1234";/// // TODO: 1/14/21 generate password
+            // TODO: 1/14/21 send mail
+//            MailUtil.sendMail(RegisteredEmail,"Registeration Confirmation","password is : "+RegisterdPassword);
             JsonResponse jsonResponse = new JsonResponse();
-            jsonResponse.setAttr("status", "Email already exists");
-            jsonResponse.setAttr("success", "false");
+            UserDAO userDAO = new UserDAO();
+            Integer userId = userDAO.create(RegisteredEmail,RegisteredPassword,RegisteredName);
+            jsonResponse.setAttr("status", "Email registered successfully !!");
+            jsonResponse.setAttr("Email", RegisteredEmail);
+            jsonResponse.setAttr("success", "true");
             response.setContentType("application/json");
             response.getWriter().println(jsonResponse);
-        } catch (InvalidEmailException e) {
-            JsonResponse jsonResponse = new JsonResponse();
-            jsonResponse.setAttr("status", "Email is invalid");
-            jsonResponse.setAttr("success", "false");
+
+
+        }
+        catch (Exception e) {
+            JsonResponse jsonResponse = JSONExceptionFactory.getJSONResponse(e);
             response.setContentType("application/json");
             response.getWriter().println(jsonResponse);
-        } catch (Exception e) {
-            ///// TODO: 1/14/21 check any other errors
-            e.printStackTrace();
         }
     }
 }
