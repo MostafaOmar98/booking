@@ -1,9 +1,8 @@
 package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Admin;
 
 
-import com.hagz_hotels.hotels_booking.Util.Auth;
+import com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public.JSONAuth;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
-import com.hagz_hotels.hotels_booking.Model.Entities.User;
 import com.hagz_hotels.hotels_booking.Util.JsonResponse;
 
 import javax.servlet.ServletException;
@@ -12,12 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/delete-room")
 public class DeleteRoomService extends HttpServlet {
 
     RoomDAO roomDAO;
-    User.Type authType = User.Type.ADMIN;
     @Override
     public void init() throws ServletException {
         roomDAO = new RoomDAO();
@@ -26,15 +25,20 @@ public class DeleteRoomService extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        if (!Auth.authenticateJson(request, response, authType))
-            return;
-
         Integer roomId = Integer.valueOf(request.getParameter("roomId"));
+        try {
+            if (!JSONAuth.authorizeRoom(request, response, roomId))
+                return;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
 
-        if (!Auth.authorizeJsonRoom(request, response, roomId))
-            return;
         JsonResponse jsonResponse = new JsonResponse();
-        roomDAO.delete(roomId);
+        try {
+            roomDAO.delete(roomId);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
         response.getWriter().println(jsonResponse);
     }
 }
