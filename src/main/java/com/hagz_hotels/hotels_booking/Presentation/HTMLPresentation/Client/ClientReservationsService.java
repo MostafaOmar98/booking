@@ -3,11 +3,7 @@ package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Client;
 
 import com.hagz_hotels.hotels_booking.Business.Client.GetClientReservations;
 import com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public.HTMLAuth;
-import com.hagz_hotels.hotels_booking.Util.Auth;
-import com.hagz_hotels.hotels_booking.Model.DAO.ClientHotelReviewDAO;
-import com.hagz_hotels.hotels_booking.Model.DAO.ClientRoomReservationDAO;
 import com.hagz_hotels.hotels_booking.Business.DTO.ReservationDTOForClient;
-import com.hagz_hotels.hotels_booking.Model.Entities.ClientRoomReservation;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
 import javax.servlet.ServletException;
@@ -17,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/client-reservations")
