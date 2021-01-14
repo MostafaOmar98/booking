@@ -28,7 +28,8 @@ public class AdminHomeService extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HTMLAuth.authorizeUserType(request, response, authType);
+        if (!HTMLAuth.authorizeUserType(request, response, authType))
+            return;
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
