@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.hagz_hotels.hotels_booking.Model.DTO.HotelSearchResultDTO" %>
+<%@ page import="com.hagz_hotels.hotels_booking.Business.DTO.HotelSearchResultDTO" %>
 <%
     List<HotelSearchResultDTO> results = (List<HotelSearchResultDTO>) request.getAttribute("results");
 %>
