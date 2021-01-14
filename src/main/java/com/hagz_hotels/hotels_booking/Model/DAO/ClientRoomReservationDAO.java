@@ -51,4 +51,14 @@ public class ClientRoomReservationDAO {
                 "(?, ?, NOW(), ?, ?, \"PENDING\", ?)";
         DBUtil.executeUpdate(query, clientId, roomId, checkIn, checkOut, totalPrice);
     }
+
+    public List<ClientRoomReservation> findAllByClientId(Integer clientId) {
+        String query = "SELECT * FROM ClientRoomReservation WHERE ClientId=?";
+        return DBUtil.selectAll(query, mapper, clientId);
+    }
+
+    public boolean has(Integer reservationId, Integer userId) {
+        String query = "SELECT * FROM ClientRoomReservation WHERE ReservationId=? AND ClientId=?";
+        return DBUtil.selectOne(query, mapper, reservationId, userId) != null;
+    }
 }

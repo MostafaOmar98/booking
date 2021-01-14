@@ -4,7 +4,7 @@ package com.hagz_hotels.hotels_booking.Controllers.Admin;
 import com.hagz_hotels.hotels_booking.Controllers.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.ClientRoomReservationDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.UserDAO;
-import com.hagz_hotels.hotels_booking.Model.DTO.ReservationDTO;
+import com.hagz_hotels.hotels_booking.Model.DTO.ReservationDTOForAdmin;
 import com.hagz_hotels.hotels_booking.Model.Entities.ClientRoomReservation;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +40,9 @@ public class AdminReservationsService extends HttpServlet {
             return;
 
         List<ClientRoomReservation> clientRoomReservations = clientRoomReservationDAO.findAllByHotelId(hotelId);
-        List<ReservationDTO> reservations = new ArrayList<>();
+        List<ReservationDTOForAdmin> reservations = new ArrayList<>();
         for (ClientRoomReservation cr : clientRoomReservations) {
-            ReservationDTO r = new ReservationDTO();
+            ReservationDTOForAdmin r = new ReservationDTOForAdmin();
             User user = userDAO.findById(cr.getClientId());
             r.setReservationId(cr.getReservationId());
             r.setClientId(user.getUserId());
