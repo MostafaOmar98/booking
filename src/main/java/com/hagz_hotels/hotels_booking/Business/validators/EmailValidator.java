@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 public class EmailValidator extends MyValidator {
     UserDAO userDAO = new UserDAO();
     public EmailValidator(){
-        parameter= "email";
+        this.parameter= "email";
     }
     @Override
     public boolean validate(HttpServletRequest request) throws Exception {
         if(parameterIsEmpty(request)){
-            throw ValidationExceptionFactory.getEmailException(Status.INVALID);
+            throw ValidationExceptionFactory.getEmailException(Status.EMPTY);
         }
-        String email = request.getParameter(parameter);
+        String email = (String) request.getParameter(parameter);
         if(isValidEmailAddress(email)){
             User user = userDAO.findByEmail(email);
             if(user == null){
@@ -27,7 +27,7 @@ public class EmailValidator extends MyValidator {
         throw ValidationExceptionFactory.getEmailException(Status.INVALID);
     }
     static enum Status{
-        OK,USED,INVALID
+        OK,USED,INVALID,EMPTY
     }
     static public boolean isValidEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";

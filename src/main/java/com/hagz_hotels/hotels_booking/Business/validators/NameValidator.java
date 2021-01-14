@@ -8,13 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 public class NameValidator extends MyValidator{
     UserDAO userDAO = new UserDAO();
     public NameValidator(){
-        parameter = "username";
+        this.parameter = "username";
     }
     @Override
     public boolean validate(HttpServletRequest request) throws Exception {
         if(parameterIsEmpty(request))
-            throw ValidationExceptionFactory.getUserNameException(Status.INVALID);
-        String userName = (String) request.getAttribute("username");
+            throw ValidationExceptionFactory.getUserNameException(Status.EMPTY);
+        String userName = request.getParameter("username");
         if(validUserName(userName)){
             User user =userDAO.findByUserName(userName);
             if(user == null){
@@ -25,10 +25,10 @@ public class NameValidator extends MyValidator{
         throw ValidationExceptionFactory.getUserNameException(Status.INVALID);
     }
     enum Status{
-        USED,INVALID
+        USED,INVALID,EMPTY
     }
     Boolean validUserName(String username){
+        // TODO: 1/14/21 check criteria of checking username 
         return true;
     }
-
 }
