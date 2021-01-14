@@ -3,7 +3,7 @@ package com.hagz_hotels.hotels_booking.Model.Entities;
 import java.time.*;
 
 public class ClientRoomReservation {
-    enum Status{
+    public enum Status{
         PENDING, CONFIRMED, CHECKED_IN, CHECKED_OUT, CANCELED;
     }
     private Integer ReservationId;
