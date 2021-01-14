@@ -4,9 +4,13 @@ import com.hagz_hotels.hotels_booking.Business.validators.exceptions.*;
 import com.hagz_hotels.hotels_booking.Util.JsonResponse;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class JSONExceptionFactory {
-    static public JsonResponse getJSONResponse(Exception e){
+    static List<Class>ourExceptions= new LinkedList<>();
+
+    static public JsonResponse getJSONResponse(Exception e)  {
         String className= e.getClass().getName();
         JsonResponse jsonResponse = new JsonResponse();
         e.printStackTrace();
@@ -50,10 +54,23 @@ public class JSONExceptionFactory {
             jsonResponse.setAttr("success", "false");
             return jsonResponse;
         }
+        if(e instanceof  ShortPasswordException){
+            jsonResponse.setAttr("status", e.getMessage());
+            jsonResponse.setAttr("success", "false");
+            return jsonResponse;
+        }
+        if(e instanceof  InvalidPasswordException){
+            jsonResponse.setAttr("status", e.getMessage());
+            jsonResponse.setAttr("success", "false");
+            return jsonResponse;
+        }
         jsonResponse.setAttr("status", "unknown behavior");
         jsonResponse.setAttr("success" , "false");
         return jsonResponse;
 
+    }
+    static public void registerException(Object obj){
+        ourExceptions.add(obj.getClass());
     }
 
 }
