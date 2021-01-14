@@ -27,5 +27,17 @@ public class ValidationExceptionFactory {
                 return new undefinedBehaviorException("undefined behavior");
         }
     }
+    static Exception getPasswordException(PasswordValidator.Status status){
+        switch (status){
+            case INVALID:
+                return new InvalidPasswordException("Invalid Password");
+            case TOO_SHORT:
+                return new ShortPasswordException("Password must be at least 8 characters");
+            case EMPTY:
+                return new EmptyException("Password can't be empty");
+            default:
+                return  new undefinedBehaviorException("we faced internal problem please try later");
+        }
+    }
 }
 

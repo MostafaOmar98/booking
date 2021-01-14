@@ -12,16 +12,18 @@ $(function (){
         if(!checkEquality("password-retype-error",password1, password2)){
             return;
         }
-        params={
-           newPassword: password1
+        let params={
+           password: password1
         };
         $.ajax({
             type:"POST",
             url: "update-password",
             data: params,
             success: function (data) {
-                if (data["error"] !== undefined) {
+                if (data["success"] === "false") {
                     console.log("received nothing");
+                    document.getElementById("success").className += " alert alert-danger";
+                    document.getElementById('update-status').innerText = data["status"];
                     return;
                 }
                 else {
