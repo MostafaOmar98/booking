@@ -1,4 +1,4 @@
-<%@ page import="com.hagz_hotels.hotels_booking.Model.DTO.ReservationDTOForAdmin" %>
+<%@ page import="com.hagz_hotels.hotels_booking.Business.DTO.ReservationDTOForAdmin" %>
 <%@ page import="java.util.List" %>
 <%
     List<ReservationDTOForAdmin> reservations = (List<ReservationDTOForAdmin>) request.getAttribute("reservations");

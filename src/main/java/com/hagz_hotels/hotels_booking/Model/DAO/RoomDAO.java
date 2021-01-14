@@ -1,83 +1,70 @@
 package com.hagz_hotels.hotels_booking.Model.DAO;
 
-import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
 import com.hagz_hotels.hotels_booking.Model.Entities.Room;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 public class RoomDAO {
 
-    Function<ResultSet, Room> mapper = new Function<ResultSet, Room>() {
+    IMapper<ResultSet, Room> mapper = new IMapper<ResultSet, Room>() {
         @Override
-        public Room apply(ResultSet set) {
+        public Room apply(ResultSet set) throws SQLException {
             Room room = new Room();
-            try {
-                room.setRoomId(set.getInt("RoomId"));
-                room.setPricePerNight(set.getFloat("PricePerNight"));
-                room.setType(set.getString("Type"));
-                room.setMaxAdults(set.getInt("MaxAdults"));
-                room.setMaxChildren(set.getInt("MaxChildren"));
-                room.setHotelId(set.getInt("HotelId"));
-                room.setFacilities(set.getString("Facilities"));
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            room.setRoomId(set.getInt("RoomId"));
+            room.setPricePerNight(set.getFloat("PricePerNight"));
+            room.setType(set.getString("Type"));
+            room.setMaxAdults(set.getInt("MaxAdults"));
+            room.setMaxChildren(set.getInt("MaxChildren"));
+            room.setHotelId(set.getInt("HotelId"));
+            room.setFacilities(set.getString("Facilities"));
             return room;
         }
     };
 
-    Function<ResultSet, Float> priceMapper = new Function<ResultSet, Float>() {
+    IMapper<ResultSet, Float> priceMapper = new IMapper<ResultSet, Float>() {
         @Override
-        public Float apply(ResultSet set) {
+        public Float apply(ResultSet set) throws SQLException {
             Float price = null;
-            try {
-                price = set.getFloat("Price");
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            price = set.getFloat("Price");
             return price;
         }
     };
 
-    public List<Room> findByHotelID(Integer hotelId) {
+    public List<Room> findByHotelID(Integer hotelId) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM Room WHERE hotelId=?";
         return DBUtil.selectAll(query, mapper, hotelId);
     }
 
-    public void create(Float pricePerNight, String type, Integer maxAdults, Integer maxChildren, Integer hotelId, String facilities) {
+    public void create(Float pricePerNight, String type, Integer maxAdults, Integer maxChildren, Integer hotelId, String facilities) throws SQLException, ClassNotFoundException {
         String query = "INSERT INTO Room (PricePerNight, Type, MaxAdults, MaxChildren, HotelId, Facilities) VALUES(?, ?, ?, ?, ?, ?)";
         DBUtil.executeUpdate(query, pricePerNight, type, maxAdults, maxChildren, hotelId, facilities);
     }
 
-    public void update(Integer roomId, Float pricePerNight, String type, Integer maxAdults, Integer maxChildren, String facilities) {
+    public void update(Integer roomId, Float pricePerNight, String type, Integer maxAdults, Integer maxChildren, String facilities) throws SQLException, ClassNotFoundException {
         String query = "UPDATE Room SET PricePerNight=?, Type=?, maxAdults=?, maxChildren=?, facilities=? WHERE RoomId=?";
         DBUtil.executeUpdate(query, pricePerNight, type, maxAdults, maxChildren, facilities, roomId);
     }
 
-    public void delete(Integer roomId) {
+    public void delete(Integer roomId) throws SQLException, ClassNotFoundException {
         System.out.println("Inside delete: " + roomId);
         String query = "DELETE FROM Room WHERE RoomId=?";
         DBUtil.executeUpdate(query, roomId);
     }
 
-    public boolean has(Integer roomId, Integer hotelId) {
+    public boolean has(Integer roomId, Integer hotelId) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM Room WHERE RoomId=? AND HotelId=?";
         return DBUtil.selectOne(query, mapper, roomId, hotelId) != null;
     }
 
-    public Room findById(Integer roomId) {
+    public Room findById(Integer roomId) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM Room WHERE RoomId=?";
         return DBUtil.selectOne(query, mapper, roomId);
     }
 
-    public Float getMinAvailablePriceByCriteria(Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut, Integer hotelId) {
+    public Float getMinAvailablePriceByCriteria(Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut, Integer hotelId) throws SQLException, ClassNotFoundException {
         String query = "SELECT MIN(PricePerNight) as Price FROM Room WHERE " +
                 "Room.HotelId = ? AND " +
                 "MaxAdults >= ? AND " +
@@ -90,7 +77,7 @@ public class RoomDAO {
         return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkOut);
     }
 
-    public Float getMaxAvailablePriceByCriteria(Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut, Integer hotelId) {
+    public Float getMaxAvailablePriceByCriteria(Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut, Integer hotelId) throws SQLException, ClassNotFoundException {
         String query = "SELECT MAX(PricePerNight) as Price FROM Room WHERE " +
                 "Room.HotelId = ? AND " +
                 "MaxAdults >= ? AND " +
@@ -103,7 +90,7 @@ public class RoomDAO {
         return DBUtil.selectOne(query, priceMapper, hotelId, adults, children, checkIn, checkOut);
     }
 
-    public List<Room> findByCriteria(Integer hotelId, Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut) {
+    public List<Room> findByCriteria(Integer hotelId, Integer adults, Integer children, LocalDate checkIn, LocalDate checkOut) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM Room WHERE " +
                 "Room.HotelId = ? AND " +
                 "MaxAdults >= ? AND " +
@@ -116,7 +103,7 @@ public class RoomDAO {
         return DBUtil.selectAll(query, mapper, hotelId, adults, children, checkIn, checkOut);
     }
 
-    public boolean isAvaialble(Integer roomId, LocalDate checkIn, LocalDate checkOut) {
+    public boolean isAvailable(Integer roomId, LocalDate checkIn, LocalDate checkOut) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM Room WHERE " +
                 "RoomId=? AND " +
                 "NOT EXISTS (" +

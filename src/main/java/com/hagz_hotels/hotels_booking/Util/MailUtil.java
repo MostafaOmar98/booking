@@ -12,7 +12,7 @@ public class MailUtil {
     private static final String user = "badawymahmoud206@gmail.com";
     private static final String password = "yasserwsym77";
 
-    public static void sendMail(String to, String subject, String body) {
+    public static void sendMail(String to, String subject, String body) throws GeneralSecurityException, MessagingException {
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtps");
         props.put("mail.smtps.host", "smtp.gmail.com");
@@ -20,11 +20,7 @@ public class MailUtil {
         props.put("mail.smtps.auth", "true");
         props.put("mail.smtps.quitwait", "false");
         MailSSLSocketFactory sf = null;
-        try {
-            sf = new MailSSLSocketFactory();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        }
+        sf = new MailSSLSocketFactory();
         sf.setTrustAllHosts(true);
         props.put("mail.smtps.ssl.trust", "*");
         props.put("mail.smtps.ssl.socketFactory", sf);
@@ -33,21 +29,17 @@ public class MailUtil {
         session.setDebug(true);
 
         Message message = new MimeMessage(session);
-        try {
-            message.setSubject(subject);
-            message.setText(body);
+        message.setSubject(subject);
+        message.setText(body);
 
-            Address fromAddress = new InternetAddress(user);
-            Address toAddress = new InternetAddress(to);
-            message.setFrom(fromAddress);
-            message.setRecipient(Message.RecipientType.TO, toAddress);
+        Address fromAddress = new InternetAddress(user);
+        Address toAddress = new InternetAddress(to);
+        message.setFrom(fromAddress);
+        message.setRecipient(Message.RecipientType.TO, toAddress);
 
-            Transport transport = session.getTransport();
-            transport.connect(user, password);
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        Transport transport = session.getTransport();
+        transport.connect(user, password);
+        transport.sendMessage(message, message.getAllRecipients());
+        transport.close();
     }
 }
