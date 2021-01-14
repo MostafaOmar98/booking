@@ -21,9 +21,7 @@ import java.sql.SQLException;
 @WebServlet("/add-hotel")
 public class AddHotelService extends HttpServlet {
 
-    private final HotelDAO hotelDAO = new HotelDAO();
     private final User.Type authType = User.Type.ADMIN;
-    private final String imagePath = conf.imagePath;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
