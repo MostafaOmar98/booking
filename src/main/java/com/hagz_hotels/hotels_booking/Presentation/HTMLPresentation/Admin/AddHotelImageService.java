@@ -1,52 +1,38 @@
 package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Admin;
 
 
-import com.hagz_hotels.hotels_booking.Business.conf;
-import com.hagz_hotels.hotels_booking.Util.Auth;
-import com.hagz_hotels.hotels_booking.Model.DAO.HotelImageDAO;
-import com.hagz_hotels.hotels_booking.Model.Entities.HotelImage;
-import com.hagz_hotels.hotels_booking.Model.Entities.User;
+import com.hagz_hotels.hotels_booking.Business.Admin.AddHotelImage;
+import com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public.HTMLAuth;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
-import java.nio.file.Files;
+import java.sql.SQLException;
 
 @MultipartConfig
 @WebServlet("/add-hotel-image")
 public class AddHotelImageService extends HttpServlet {
 
-    HotelImageDAO hotelImageDAO;
-    User.Type authType = User.Type.ADMIN;
-    String imagePath;
-
-    @Override
-    public void init() throws ServletException {
-        hotelImageDAO = new HotelImageDAO();
-        imagePath = conf.imagePath;
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!Auth.authenticate(request, response, authType))
-            return;
-
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
-        if (!Auth.authorizeHotel(request, response, hotelId))
-            return;
 
-        Integer hotelImageId = hotelImageDAO.create(hotelId);
-        HotelImage hotelImage = new HotelImage();
-        hotelImage.setImageId(hotelImageId);
-        hotelImage.setHotelId(hotelId);
-        String image = imagePath + "/" + hotelImage.getName();
-        File file = new File(image);
-
+        try {
+            if (!HTMLAuth.authorizeHotel(request, response, hotelId))
+                return;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
         Part filePart = request.getPart("image");
         InputStream fileContent = filePart.getInputStream();
-        Files.copy(fileContent, file.toPath());
+        try {
+            AddHotelImage.execute(hotelId, fileContent);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+
         response.sendRedirect("admin-home");
     }
 }
