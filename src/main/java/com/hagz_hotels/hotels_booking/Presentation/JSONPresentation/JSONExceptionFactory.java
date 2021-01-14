@@ -40,6 +40,11 @@ public class JSONExceptionFactory {
             jsonResponse.setAttr("success", "false");
             return jsonResponse;
         }
+        if(e instanceof  EmptyException){
+            jsonResponse.setAttr("status", e.getMessage());
+            jsonResponse.setAttr("success", "false");
+            return jsonResponse;
+        }
         if(e instanceof undefinedBehaviorException){
             jsonResponse.setAttr("status", "undefined");
             jsonResponse.setAttr("success", "false");
