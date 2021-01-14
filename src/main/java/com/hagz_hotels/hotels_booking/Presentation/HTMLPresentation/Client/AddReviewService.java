@@ -3,8 +3,6 @@ package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Client;
 
 import com.hagz_hotels.hotels_booking.Business.Client.AddReview;
 import com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public.HTMLAuth;
-import com.hagz_hotels.hotels_booking.Util.Auth;
-import com.hagz_hotels.hotels_booking.Model.DAO.ClientHotelReviewDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
 import javax.servlet.ServletException;
