@@ -30,7 +30,7 @@ public class ValidationExceptionFactory {
     static Exception getPasswordException(PasswordValidator.Status status){
         switch (status){
             case INVALID:
-                return new InvalidPassword("Invalid Password");
+                return new InvalidPasswordException("Invalid Password");
             case TOO_SHORT:
                 return new ShortPasswordException("Password must be at least 8 characters");
             case EMPTY:
