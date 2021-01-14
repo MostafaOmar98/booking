@@ -4,11 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 
 public class PasswordValidator extends MyValidator{
 
-    PasswordValidator(){
+    public PasswordValidator(){
         this.parameter = "password";
     }
     @Override
-    boolean validate(HttpServletRequest request) throws Exception {
+    public boolean validate(HttpServletRequest request) throws Exception {
         if(parameterIsEmpty(request))
            throw ValidationExceptionFactory.getPasswordException(Status.EMPTY);
         String password = request.getParameter(parameter);
