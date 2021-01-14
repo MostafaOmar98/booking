@@ -2,12 +2,10 @@ package com.hagz_hotels.hotels_booking.Business.Client;
 
 import com.hagz_hotels.hotels_booking.Model.DAO.ClientRoomReservationDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
-import com.hagz_hotels.hotels_booking.Model.Entities.User;
 import com.hagz_hotels.hotels_booking.Util.Util;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class ReserveRoom {
     private static final RoomDAO roomDAO = new RoomDAO();
