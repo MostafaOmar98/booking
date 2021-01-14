@@ -1,6 +1,7 @@
 package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Admin;
 
 
+import com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public.HTMLAuth;
 import com.hagz_hotels.hotels_booking.Util.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelImageDAO;
@@ -27,15 +28,7 @@ public class AdminHomeService extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        try {
-            Auth.authorizeUserType(request, authType);
-        } catch (Auth.AuthenticationException e) {
-            response.sendRedirect("index.jsp");
-            e.printStackTrace();
-        } catch (Auth.AuthorizationException e) {
-            response.sendRedirect("/WEB-INF/public/unauthorized.jsp");
-            e.printStackTrace();
-        }
+        HTMLAuth.authorizeUserType(request, response, authType);
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
