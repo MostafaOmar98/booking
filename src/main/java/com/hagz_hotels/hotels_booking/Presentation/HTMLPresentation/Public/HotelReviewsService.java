@@ -30,6 +30,6 @@ public class HotelReviewsService extends HttpServlet {
             e.printStackTrace();
         }
         request.setAttribute("reviews", reviewDTOs);
-        request.getRequestDispatcher("/WEB-INF/hotel-reviews.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/public/hotel-reviews.jsp").forward(request, response);
     }
 }
