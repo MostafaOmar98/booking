@@ -1,7 +1,9 @@
 package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Admin;
 
 
+import com.hagz_hotels.hotels_booking.Business.Admin.AddHotel;
 import com.hagz_hotels.hotels_booking.Business.conf;
+import com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public.HTMLAuth;
 import com.hagz_hotels.hotels_booking.Util.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
@@ -14,34 +16,30 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/add-hotel")
 public class AddHotelService extends HttpServlet {
 
-    private HotelDAO hotelDAO;
-    private User.Type authType = User.Type.ADMIN;
-    private String imagePath;
-    @Override
-    public void init() throws ServletException {
-        hotelDAO = new HotelDAO();
-        imagePath = conf.imagePath;
-    }
+    private final HotelDAO hotelDAO = new HotelDAO();
+    private final User.Type authType = User.Type.ADMIN;
+    private final String imagePath = conf.imagePath;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!Auth.authenticate(request, response, authType))
-            return;
+       if (!HTMLAuth.authorizeUserType(request, response, authType))
+           return;
 
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
-
         String name = request.getParameter("name");
-        // bypass of frontend will not affect backend.
-        if (!name.equals("") || hotelDAO.findByAdminId(user.getUserId()) != null) {
-            Integer hotelId = hotelDAO.create(name, user.getUserId());
-            File hotelDir = new File(imagePath + "/" + hotelId);
-            hotelDir.mkdir();
+
+        try {
+            AddHotel.execute(user.getUserId(), name);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
         }
+
         response.sendRedirect("admin-home");
     }
 }
