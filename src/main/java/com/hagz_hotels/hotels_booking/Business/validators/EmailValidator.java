@@ -5,9 +5,11 @@ import com.hagz_hotels.hotels_booking.Model.Entities.User;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class EmailValidator implements Validator {
-    String parameter = "email";
+public class EmailValidator extends MyValidator {
     UserDAO userDAO = new UserDAO();
+    public EmailValidator(){
+        parameter= "email";
+    }
     @Override
     public boolean validate(HttpServletRequest request) throws Exception {
         if(parameterIsEmpty(request)){
@@ -23,12 +25,6 @@ public class EmailValidator implements Validator {
             throw  ValidationExceptionFactory.getEmailException(Status.USED) ;
         }
         throw ValidationExceptionFactory.getEmailException(Status.INVALID);
-    }
-
-    @Override
-    public boolean parameterIsEmpty(HttpServletRequest request ) {
-
-        return request.getParameter(this.parameter) != null;
     }
     static enum Status{
         OK,USED,INVALID
