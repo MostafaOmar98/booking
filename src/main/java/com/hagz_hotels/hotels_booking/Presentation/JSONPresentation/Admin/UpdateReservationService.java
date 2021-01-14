@@ -3,17 +3,7 @@ package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Admin;
 
 import com.hagz_hotels.hotels_booking.Business.Public.UpdateReservation;
 import com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public.JSONAuth;
-import com.hagz_hotels.hotels_booking.Util.Auth;
-import com.hagz_hotels.hotels_booking.Model.DAO.ClientRoomReservationDAO;
-import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
-import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
-import com.hagz_hotels.hotels_booking.Model.DAO.UserDAO;
-import com.hagz_hotels.hotels_booking.Model.Entities.ClientRoomReservation;
-import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
-import com.hagz_hotels.hotels_booking.Model.Entities.Room;
-import com.hagz_hotels.hotels_booking.Model.Entities.User;
 import com.hagz_hotels.hotels_booking.Util.JsonResponse;
-import com.hagz_hotels.hotels_booking.Util.MailUtil;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
