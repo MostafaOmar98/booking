@@ -6,9 +6,6 @@ public abstract class MyValidator {
     String parameter;
     abstract boolean validate(HttpServletRequest request) throws Exception;
     boolean parameterIsEmpty(HttpServletRequest request){
-            return request.getAttribute(parameter) == null;
+        return request.getParameter(this.parameter) == null;
     }
-
-
-
 }
