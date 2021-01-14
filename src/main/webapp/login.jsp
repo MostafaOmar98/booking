@@ -43,10 +43,16 @@
                             <input class="form-check-input" type="radio" id="client" name="type" value="CLIENT">
                             <label for="client" class="form-check-label bg-text">Client</label>
                         </div>
-                        <br>
-                        <button type="submit" id="login-submit"
-                                class="btn btn-primary float-right">Login
-                        </button>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <span class="text-danger align-bottom" id="loginError" hidden>Email Password combination not found</span>
+                            </div>
+                            <div class="col">
+                                <button type="submit" id="login-submit"
+                                        class="btn btn-primary float-right">Login
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -73,6 +79,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+<%--For custom styling--%>
 <script src="scripts/public/main.js"></script>
+<script src="scripts/login.js"></script>
 </body>
 </html>
