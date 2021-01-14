@@ -14,7 +14,7 @@ $( function (){
         if(!validateEmail(email.value)){
             return
         }
-        params= {name: displayName.value,email: email.value, phone: phone.value};
+        let params = {name: displayName.value,email: email.value, phone: phone.value};
         $.ajax({
             type:"POST",
             url:"update-profile",
