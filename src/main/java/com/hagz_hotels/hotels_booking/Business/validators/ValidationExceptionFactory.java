@@ -9,6 +9,8 @@ public class ValidationExceptionFactory {
                 return new EmailExistException("Email already used");
             case INVALID:
                 return new InvalidEmailException("Invalid Email");
+            case EMPTY:
+                return new EmptyException("Email can't be empty");
             default:
                 return new undefinedBehaviorException("undefined behavior");
         }
@@ -19,6 +21,8 @@ public class ValidationExceptionFactory {
                 return new UserNameExistException("username already used");
             case INVALID:
                 return new InvalidUserNameException("Invalid username");
+            case EMPTY:
+                return new EmptyException("Username can't be empty");
             default:
                 return new undefinedBehaviorException("undefined behavior");
         }
