@@ -1,5 +1,6 @@
 package com.hagz_hotels.hotels_booking.Controllers;
 
+import com.hagz_hotels.hotels_booking.Model.DAO.ClientRoomReservationDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
@@ -20,6 +21,7 @@ public class Auth {
 
     public static HotelDAO hotelDAO = new HotelDAO();
     public static RoomDAO roomDAO = new RoomDAO();
+    public static ClientRoomReservationDAO clientRoomReservationDAO = new ClientRoomReservationDAO();
 
     public static Status isAuth(User user, User.Type authType) {
         if (user == null)
@@ -108,5 +110,16 @@ public class Auth {
             return false;
         }
         return true;
+    }
+
+    public static boolean authorizeReservation(HttpServletRequest request, HttpServletResponse response, Integer reservationId) throws IOException {
+        HttpSession session = request.getSession();
+        User user = (User)(session.getAttribute("user"));
+        if (!clientRoomReservationDAO.has(reservationId, user.getUserId())) {
+            response.sendRedirect("index.jsp");
+            return false;
+        }
+        return true;
+
     }
 }
