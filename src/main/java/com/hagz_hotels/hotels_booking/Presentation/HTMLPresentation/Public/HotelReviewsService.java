@@ -1,4 +1,4 @@
-package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public;
+package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public;
 
 
 import com.hagz_hotels.hotels_booking.Business.Public.GetHotelReviews;
