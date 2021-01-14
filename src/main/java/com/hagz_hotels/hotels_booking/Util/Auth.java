@@ -12,17 +12,15 @@ import java.sql.SQLException;
 
 public class Auth {
 
-    public static class AuthException extends Exception {
-        AuthException() {
-            super();
-        }
-
-        AuthException(String message) {
+    public static class AuthenticationException extends Exception {
+        AuthenticationException(String message) {
             super(message);
         }
+    }
 
-        AuthException(Status status) {
-            super(status.name());
+    public static class AuthorizationException extends Exception {
+        AuthorizationException(String message) {
+            super(message);
         }
     }
 
@@ -42,15 +40,15 @@ public class Auth {
         return Status.OK;
     }
 
-    public static void authenticate(HttpServletRequest request) throws AuthException {
+    public static void authenticate(HttpServletRequest request) throws AuthenticationException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            throw new AuthException(Status.AUTHENTICATION_ERROR);
+            throw new AuthenticationException("User Not Logged in");
         }
     }
 
-    public static void authorizeUserType(HttpServletRequest request, User.Type... authTypes) throws AuthException {
+    public static void authorizeUserType(HttpServletRequest request, User.Type... authTypes) throws AuthenticationException, AuthorizationException {
         authenticate(request);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -59,35 +57,36 @@ public class Auth {
             ok = ok || (authType == user.getType());
         }
         if (!ok)
-            throw new AuthException(Status.AUTHORIZATION_ERROR);
+            throw new AuthorizationException("User Type " + user.getTypeName() + " Not Allowed Here");
     }
 
-    public static void authorizeHotel(HttpServletRequest request, Integer hotelId) throws SQLException, ClassNotFoundException, AuthException {
+    public static void authorizeHotel(HttpServletRequest request, Integer hotelId) throws SQLException, ClassNotFoundException, AuthenticationException, AuthorizationException {
         authenticate(request);
         HttpSession session = request.getSession();
         User user = (User) (session.getAttribute("user"));
         if (!hotelDAO.has(user.getUserId(), hotelId)) {
-            throw new AuthException(Status.AUTHORIZATION_ERROR);
+            throw new AuthorizationException("User with id " + user.getUserId() + " is not authorized on hotel " + hotelId);
         }
     }
 
-    public static void authorizeRoom(HttpServletRequest request, Integer roomId) throws SQLException, ClassNotFoundException, AuthException {
+    public static void authorizeRoom(HttpServletRequest request, Integer roomId) throws SQLException, ClassNotFoundException, AuthenticationException, AuthorizationException {
         authenticate(request);
         HttpSession session = request.getSession();
         User user = (User) (session.getAttribute("user"));
         Hotel hotel = hotelDAO.findByAdminId(user.getUserId());
+        String message = "User with id " + user.getUserId() + " not allowed on room id " + roomId;
         if (hotel == null)
-            throw new AuthException(Status.AUTHORIZATION_ERROR);
+            throw new AuthorizationException(message);
         if (!roomDAO.has(roomId, hotel.getHotelId()))
-            throw new AuthException(Status.AUTHORIZATION_ERROR);
+            throw new AuthorizationException(message);
     }
 
-    public static void authorizeReservation(HttpServletRequest request, Integer reservationId) throws AuthException, SQLException, ClassNotFoundException {
+    public static void authorizeReservation(HttpServletRequest request, Integer reservationId) throws SQLException, ClassNotFoundException, AuthenticationException, AuthorizationException {
         authenticate(request);
         HttpSession session = request.getSession();
         User user = (User) (session.getAttribute("user"));
         if (!clientRoomReservationDAO.has(reservationId, user.getUserId())) {
-            throw new AuthException(Status.AUTHORIZATION_ERROR);
+            throw new AuthorizationException("User with id " + user.getUserId() + " not authorized on reservation id " + reservationId);
         }
     }
 }
