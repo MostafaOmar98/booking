@@ -14,10 +14,10 @@ import java.io.IOException;
 
 @WebServlet(name = "edit-profile", value = "/profile")
 public class Profile extends HttpServlet {
-    User.Type[] authType = {User.Type.CLIENT};
+    User.Type[] authType = {User.Type.CLIENT, User.Type.ADMIN}; // Added by bekh
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(!Auth.authenticate(request,response,authType)){
+        if(!JSONAuth.authorizeUserType(request,response,authType[0], authType[1])){ // edited by bekh
             return ;
         }
         else{
