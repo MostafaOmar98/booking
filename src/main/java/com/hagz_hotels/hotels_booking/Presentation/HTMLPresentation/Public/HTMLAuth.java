@@ -11,18 +11,21 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class HTMLAuth {
-    public static void authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             Auth.authenticate(request);
+            return true;
         } catch (Auth.AuthenticationException e) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
         }
+        return false;
     }
 
-    public static void authorizeUserType(HttpServletRequest request, HttpServletResponse response, User.Type... authTypes) throws IOException {
+    public static boolean authorizeUserType(HttpServletRequest request, HttpServletResponse response, User.Type... authTypes) throws IOException {
         try {
             Auth.authorizeUserType(request, authTypes);
+            return true;
         } catch (Auth.AuthenticationException e) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
@@ -30,11 +33,13 @@ public class HTMLAuth {
             response.sendRedirect( "/WEB-INF/public/unauthorized.jsp");
             e.printStackTrace();
         }
+        return false;
     }
 
-    public static void authorizeHotel(HttpServletRequest request, HttpServletResponse response, Integer hotelId) throws IOException, SQLException, ClassNotFoundException {
+    public static boolean authorizeHotel(HttpServletRequest request, HttpServletResponse response, Integer hotelId) throws IOException, SQLException, ClassNotFoundException {
         try {
             Auth.authorizeHotel(request, hotelId);
+            return true;
         } catch (Auth.AuthenticationException e) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
@@ -48,11 +53,13 @@ public class HTMLAuth {
             e.printStackTrace();
             throw new ClassNotFoundException();
         }
+        return false;
     }
 
-    public static void authorizeRoom(HttpServletRequest request, HttpServletResponse response, Integer roomId) throws SQLException, ClassNotFoundException, IOException {
+    public static boolean authorizeRoom(HttpServletRequest request, HttpServletResponse response, Integer roomId) throws SQLException, ClassNotFoundException, IOException {
         try {
             Auth.authorizeRoom(request, roomId);
+            return true;
         } catch (Auth.AuthenticationException e) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
@@ -66,11 +73,13 @@ public class HTMLAuth {
             e.printStackTrace();
             throw new ClassNotFoundException();
         }
+        return false;
     }
 
-    public static void authorizeReservation(HttpServletRequest request, HttpServletResponse response, Integer reservationId) throws SQLException, ClassNotFoundException, IOException {
+    public static boolean authorizeReservation(HttpServletRequest request, HttpServletResponse response, Integer reservationId) throws SQLException, ClassNotFoundException, IOException {
         try {
             Auth.authorizeReservation(request, reservationId);
+            return true;
         } catch (Auth.AuthenticationException e) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
@@ -84,5 +93,6 @@ public class HTMLAuth {
             e.printStackTrace();
             throw new ClassNotFoundException();
         }
+        return false;
     }
 }
