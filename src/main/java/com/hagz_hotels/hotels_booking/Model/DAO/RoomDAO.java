@@ -103,7 +103,7 @@ public class RoomDAO {
         return DBUtil.selectAll(query, mapper, hotelId, adults, children, checkIn, checkOut);
     }
 
-    public boolean isAvaialble(Integer roomId, LocalDate checkIn, LocalDate checkOut) throws SQLException, ClassNotFoundException {
+    public boolean isAvailable(Integer roomId, LocalDate checkIn, LocalDate checkOut) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM Room WHERE " +
                 "RoomId=? AND " +
                 "NOT EXISTS (" +
