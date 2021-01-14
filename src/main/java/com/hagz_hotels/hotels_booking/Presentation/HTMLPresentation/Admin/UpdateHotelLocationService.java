@@ -1,6 +1,7 @@
 package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Admin;
 
 
+import com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public.HTMLAuth;
 import com.hagz_hotels.hotels_booking.Util.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.HotelDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.Hotel;
@@ -12,13 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/update-hotel-location")
 public class UpdateHotelLocationService extends HttpServlet {
 
 
-    User.Type authType = User.Type.ADMIN;
     HotelDAO hotelDAO;
+
     @Override
     public void init() throws ServletException {
         hotelDAO = new HotelDAO();
@@ -26,13 +28,20 @@ public class UpdateHotelLocationService extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!Auth.authenticate(request, response, authType))
-            return;
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
-        if (!Auth.authorizeHotel(request, response, hotelId))
-            return;
+        try {
+            if (!HTMLAuth.authorizeHotel(request, response, hotelId))
+                return;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
 
-        Hotel hotel = hotelDAO.findById(hotelId);
+        Hotel hotel = null;
+        try {
+            hotel = hotelDAO.findById(hotelId);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
         request.setAttribute("hotel", hotel);
         request.getRequestDispatcher("/WEB-INF/admin/update-hotel-location.jsp").forward(request, response);
     }
