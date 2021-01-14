@@ -3,7 +3,7 @@ package com.hagz_hotels.hotels_booking.Model.DTO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class ReservationDTO {
+public class ReservationDTOForAdmin {
     Integer ReservationId;
 
     Integer clientId;

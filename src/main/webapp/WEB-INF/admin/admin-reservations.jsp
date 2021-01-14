@@ -1,7 +1,7 @@
-<%@ page import="com.hagz_hotels.hotels_booking.Model.DTO.ReservationDTO" %>
+<%@ page import="com.hagz_hotels.hotels_booking.Model.DTO.ReservationDTOForAdmin" %>
 <%@ page import="java.util.List" %>
 <%
-    List<ReservationDTO> reservations = (List<ReservationDTO>) request.getAttribute("reservations");
+    List<ReservationDTOForAdmin> reservations = (List<ReservationDTOForAdmin>) request.getAttribute("reservations");
 %>
 
 <!doctype html>
@@ -45,7 +45,7 @@
     </tr>
     <tbody class="data-rows">
     <%
-        for (ReservationDTO r : reservations) {
+        for (ReservationDTOForAdmin r : reservations) {
             out.println("<tr>");
 
             out.println("<td>");
