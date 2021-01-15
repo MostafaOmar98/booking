@@ -3,38 +3,74 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<ReviewDTO> reviews = (List<ReviewDTO>) request.getAttribute("reviews");
+    request.setAttribute("hotelId", request.getParameter("hotelId")); // for navbar
 %>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%--    Bootstrap--%>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <%--    icons--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <%--    custom styling--%>
+    <link href="style/main.css" rel="stylesheet">
+    <style>
+        .checked{
+            color: orange;
+        }
+    </style>
     <title>Hotel Reviews</title>
 </head>
 <body>
-<header>Reviews</header>
+<%@include file="include/header-navbar.jsp" %>
+<h2>Reviews</h2>
 <%
     for (ReviewDTO r : reviews) {
 %>
-<div class="container">
+<div class="container-fluid mt-4">
     <div class="row">
-        <div class="col-3">
-            <%=r.getClientName()%>
-            <%=r.getStars()%> stars
-            <%=r.getCheckIn()%> - <%=r.getCheckout()%>
-            <%=r.getCreatedAt()%>
-            <%=r.getRoomType()%>
+        <div class="col-sm-4">
+            <div class="container-fluid">
+                <div class="row">
+                    <i class="fa fa-user mr-2 mb-2"></i> <span><%=r.getClientName()%></span>
+                </div>
+                <div class="row">
+                    <i class="fa fa-bed mr-2 mb-2"></i> <span><%=r.getRoomType()%></span>
+                </div>
+                <div class="row">
+                    <i class="fa fa-calendar mr-2 mb-2"></i> <span><%=r.getCheckIn()%> ~ <%=r.getCheckout()%></span>
+                </div>
+                <div class="row">
+                    <span class="fa fa-star <%=r.getStars() >= 1 ? "checked" : ""%>"></span>
+                    <span class="fa fa-star <%=r.getStars() >= 2 ? "checked" : ""%>"></span>
+                    <span class="fa fa-star <%=r.getStars() >= 3 ? "checked" : ""%>"></span>
+                    <span class="fa fa-star"<%=r.getStars() >= 4 ? "checked" : ""%>></span>
+                    <span class="fa fa-star"<%=r.getStars() >= 5 ? "checked" : ""%>></span>
+                </div>
+            </div>
         </div>
-        <div class="col-9">
-            <%=r.getComment()%>
+        <div class="col-8">
+            <small class="text-muted">Reviewed: <span><%=r.getCreatedAt()%></span></small>
+            <p><%=r.getComment()%>
+            </p>
         </div>
     </div>
 </div>
+<hr/>
 <%}%>
 
+<%--JQuery--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+<%--Popper--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+<%--Bootstrap js--%>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 </body>
 </html>
