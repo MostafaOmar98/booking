@@ -6,12 +6,13 @@ function validate(e){
     * todo add user messages to invalid inputs
     * 
     */
-   let checkIn =new Date(document.getElementById("check-in").value);
-   let checkOut = new Date(document.getElementById("check-out").value);
+   let checkIn = document.getElementById("check-in").value;
+   let checkOut = document.getElementById("check-out").value;
    let params ={
        checkIn: checkIn,
        checkOut: checkOut
    }
+   console.log(params);
    $.ajax({
         type:"POST",
         url:"search-hotels",
