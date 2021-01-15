@@ -19,6 +19,7 @@
     <title>Admin Reservations</title>
 </head>
 <body>
+<%@include file="include/header-navbar.jsp"%>
 <div class="container-fluid">
     <div class="row mb-2">
         <label class="col-sm-4 col-form-label" for="clientName"><b>Search with client name</b></label>
