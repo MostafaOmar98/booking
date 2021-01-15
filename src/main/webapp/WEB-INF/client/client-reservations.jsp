@@ -17,7 +17,7 @@
     <title>Client Reservations</title>
 </head>
 <body>
-<%@include file="include/header-navbar.jsp"%>
+<%@include file="include/header-navbar.jsp" %>
 <table class="table table-bordered">
     <tr>
         <th>Room Id</th>
@@ -70,7 +70,8 @@
                         <form action="add-review" method="post" id="reviewForm">
                             <div class="modal-body">
                                 <div class="form-check">
-                                    <select name="stars">
+                                    <label for="rate">Stars </label>
+                                    <select id="rate" name="stars">
                                         <option value="1" selected>1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -79,7 +80,8 @@
                                     </select>
                                 </div>
                                 <label> Comment
-                                    <textarea name="comment" form="reviewForm" placeholder="Add any comments here"></textarea>
+                                    <textarea name="comment" form="reviewForm"
+                                              placeholder="Add any comments here"></textarea>
                                 </label>
                                 <input type="hidden" name="reservationId" value="<%=r.getReservationId()%>">
                             </div>

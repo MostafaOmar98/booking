@@ -82,15 +82,9 @@
         </div>
     </div>
     <div class="row mb-2">
-        <label for="check-in" class="col-sm-2 col-form-label">Check In </label>
-        <div class="col-sm-10">
-            <input type="date" class="form-control" id="check-in" name="checkIn" disabled>
-        </div>
-    </div>
-    <div class="row mb-2">
         <label for="check-out" class="col-sm-2 col-form-label">Checkout</label>
         <div class="col-sm-10">
-            <input type="date" class="form-control" id="check-out" name="checkOut" disabled>
+            <input type="date" class="form-control" id="check-out" name="checkOut" value="<%=request.getParameter("checkOut")%>" disabled>
         </div>
     </div>
     <fieldset class="form-group">
@@ -98,7 +92,7 @@
             <legend class="col-form-label col-sm-2 pt-0">Number of Adults</legend>
             <div class="col-sm-10">
                 <div class="form-check">
-                    <input class="form-check-input" type="number" name="n-adults" id="n-adults" value="0" min="0"
+                    <input class="form-check-input" type="number" name="n-adults" id="n-adults" value="<%=request.getParameter("n-adults")%>" min="0"
                            max="10" disabled>
                 </div>
             </div>
@@ -107,7 +101,7 @@
             <legend class="col-form-label col-sm-2 pt-0">Number of Children</legend>
             <div class="col-sm-10">
                 <div class="form-check">
-                    <input class="form-check-input" type="number" name="n-children" id="n-children" value="0"
+                    <input class="form-check-input" type="number" name="n-children" id="n-children" value="<%=request.getParameter("n-children")%>"
                            min="0"
                            max="10" disabled>
                 </div>
