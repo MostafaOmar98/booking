@@ -186,10 +186,6 @@
     <button id="deleteImageBtn" class="btn btn-danger btn-lg"><i class="fa fa-trash"></i></button>
 </div>
 <hr/>
-<form action="update-hotel-location" method="post">
-    <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>">
-    <input type="submit" value="Update Location">
-</form>
 
 <%--JQuery--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

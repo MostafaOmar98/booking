@@ -12,6 +12,9 @@
                 <a class="nav-link" href="admin-reservations?hotelId=<%=request.getAttribute("hotelId")%>">Manage Reservations</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="update-hotel-location?hotelId=<%=request.getAttribute("hotelId")%>">Manage Location</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="hotel-reviews?hotelId=<%=request.getAttribute("hotelId")%>">Reviews</a>
             </li>
             <li class="nav-item dropdown">

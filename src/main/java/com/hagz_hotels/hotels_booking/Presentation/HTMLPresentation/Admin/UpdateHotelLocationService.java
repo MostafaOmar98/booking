@@ -27,7 +27,7 @@ public class UpdateHotelLocationService extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer hotelId = Integer.valueOf(request.getParameter("hotelId"));
         try {
             if (!HTMLAuth.authorizeHotel(request, response, hotelId))
