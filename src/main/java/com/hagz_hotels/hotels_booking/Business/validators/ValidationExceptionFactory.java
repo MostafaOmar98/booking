@@ -47,7 +47,22 @@ public class ValidationExceptionFactory {
                 /// todo extend invalid type exception
                 return new InvalidPasswordException("Invalid type");
             default:
-                return new undefinedBehaviorException("we facced internal problem");
+                return new undefinedBehaviorException("we faced internal problem");
+        }
+    }
+    public static Exception getIntervalException(DateIntervalValidator.State state){
+        switch (state){
+            case Empty:
+                return new EmptyException("Date can't be empty");
+            case StartBeforeToday:
+                return new InvalidPasswordException("Check in date can't be before today");
+            case StartEqualEnd:
+                return new InvalidPasswordException("Check out date can't be the same as check in");
+            case EndBeforeStart:
+                return new InvalidPasswordException("Check out date can't be before check in");
+            default:
+                return new undefinedBehaviorException("we faced internal problem");
+
         }
     }
 }
