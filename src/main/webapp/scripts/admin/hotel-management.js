@@ -13,18 +13,17 @@ $(function () {
         if (inp.attr("disabled") !== undefined) {
             // allow change
             inp.removeAttr("disabled");
-            btn.html("Done");
+            btn.html("<i class='fa fa-check'></i>");
         } else {
-            // TODO: Frontend validation
             inp.removeClass("border-danger");
             $(".field-error").remove();
             if (inp.val() === "" && inp.attr("id") === "name") {
                 inp.addClass("border-danger");
-                inp.parent().append("<span class='field-error'>Field can't be empty</span>")
+                inp.parent().parent().append("<div class='field-error col-sm-6 offset-6'><small class='text-danger text-muted'>Field can't be empty</small></div>")
             }
             else {
                 inp.attr("disabled", ''); // disallow  change
-                btn.html("Change");
+                btn.html("<i class='fa fa-edit'></i>");
                 params = {
                     hotelId: hotelId,
                 };
