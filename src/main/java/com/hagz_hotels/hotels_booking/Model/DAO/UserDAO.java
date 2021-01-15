@@ -32,9 +32,9 @@ public class UserDAO {
         DBUtil.executeUpdate(query, email, phone, password, UserId);
     }
 
-    public Integer create(String email, String password, String username, String type) throws SQLException, ClassNotFoundException {
-        String query = "Insert into User (Email, Password, Username, Type) values (?, ?, ?, ?)";
-        return DBUtil.insert(query, email, password, username, type);
+    public Integer create(String email, String password, String username, String type, String phone) throws SQLException, ClassNotFoundException {
+        String query = "Insert into User (Email, Password, Username, Type, phone) values (?, ?, ?, ?, ?)";
+        return DBUtil.insert(query, email, password, username, type, phone);
     }
 
     public User findByUserNameAndType(String username, String type) throws SQLException, ClassNotFoundException {

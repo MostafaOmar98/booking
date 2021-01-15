@@ -40,11 +40,12 @@ public class RegisterUser extends HttpServlet {
                 type =User.Type.CLIENT.toString();
             String RegisteredEmail =  request.getParameter("email");
             String RegisteredName =  request.getParameter("username");
+            String RegisteredPhone = request.getParameter("phone");
             String RegisteredPassword  = generateRandomPassword();/// // TODO: 1/14/21 generate password
             MailUtil.sendMail(RegisteredEmail,"Registeration Confirmation","password is : "+RegisteredPassword);
             JsonResponse jsonResponse = new JsonResponse();
             UserDAO userDAO = new UserDAO();
-            Integer userId = userDAO.create(RegisteredEmail,RegisteredPassword,RegisteredName, type);
+            Integer userId = userDAO.create(RegisteredEmail,RegisteredPassword,RegisteredName, type, RegisteredPhone);
             jsonResponse.setAttr("status", "Email registered successfully !!");
             jsonResponse.setAttr("Email", RegisteredEmail);
             jsonResponse.setAttr("success", "true");

@@ -1,11 +1,4 @@
-<%@ page import="com.hagz_hotels.hotels_booking.Model.Entities.User" %><%--
-  Created by IntelliJ IDEA.
-  User: tw3
-  Date: 1/14/21
-  Time: 4:02 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType= "text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Register</title>
@@ -17,59 +10,67 @@
     <link href="style/main.css" rel="stylesheet">
 </head>
 <body>
-<%--<%--%>
-<%--    pageContext--%>
-<%--%>--%>
-<%@include file= "/include/header-navbar.jsp" %>
+<%@include file="/include/header-navbar.jsp" %>
 
-<form action="">
-    <div class="form-row">
-        <div class="form-group">
-            <label for="username" class="col-lg-4">Username</label>
-            <div class="col-lg-8">
-                <input type="text"  id="username" class="form-control"  required>
-            </div>
-            <div class="username-error" id="username-error-span">
-                <p id="username-error"></p>
+<div class="container-fluid">
+    <form action="">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="username" class="col-sm-4 col-form-label">Username</label>
+                <div class="col-sm-8">
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="username-error" id="username-error-span">
+                    <small id="username-error"></small>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group">
-            <label for="email" class="col-lg-4">Email</label>
-            <div class="col-lg-8">
-                <input type="text"  id="email" class="form-control"  required>
-            </div>
-            <div class="email-error" id="email-error-span">
-                <p id="email-error"></p>
-            </div>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="admin" name="type" value="ADMIN" checked>
-                <label for="admin" class="form-check-label bg-text">Admin</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="client" name="type" value="CLIENT">
-                <label for="client" class="form-check-label bg-text">Client</label>
-            </div>
-            <div class="type-error" id="type-error-span">
-                <p id="type-error"></p>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="email" class="col-sm-4 col-form-label">Email</label>
+                <div class="col-lg-8">
+                    <input type="text" id="email" class="form-control" required>
+                </div>
+                <div class="email-error" id="email-error-span">
+                    <small id="email-error"></small>
+                </div>
             </div>
         </div>
-    </div>
-    <div align="right">
-        <button class="btn btn-primary" id="register"  >Register</button>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="phone" class="col-sm-4 col-form-label">Phone</label>
+                <div class="col-sm-8">
+                    <input type="text" id="phone" class="form-control" required>
+                </div>
+                <div class="phone-error" id="phone-error-span">
+                    <small id="phone-error"></small>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="admin" name="type" value="ADMIN" checked>
+                    <label for="admin" class="form-check-label bg-text">Admin</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="client" name="type" value="CLIENT">
+                    <label for="client" class="form-check-label bg-text">Client</label>
+                </div>
+                <div class="type-error" id="type-error-span">
+                    <p id="type-error"></p>
+                </div>
+            </div>
+        </div>
+        <div class="align-content-center">
+            <button class="btn btn-primary" id="register">Register</button>
 
-    </div>
-    <div id="success" role="alert">
-        <p id="update-status"></p>
-    </div>
-
-
-</form>
+        </div>
+        <div id="success" role="alert">
+            <p id="update-status"></p>
+        </div>
+    </form>
+</div>
 <script type="module" src="${pageContext.request.contextPath}/scripts/public/register.js"></script>
 <%--JQuery--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
