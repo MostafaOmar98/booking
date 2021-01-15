@@ -1,7 +1,4 @@
 $( function (){
-
-
-    let displayName = document.getElementById("display-name");
     let email = document.getElementById("email");
     let phone = document.getElementById("phone");
     let submitBtn =document.getElementById("edit-profile");
@@ -14,14 +11,15 @@ $( function (){
         if(!validateEmail(email.value)){
             return
         }
-        let params = {name: displayName.value,email: email.value, phone: phone.value};
+        let params = {email: email.value, phone: phone.value};
         $.ajax({
             type:"POST",
             url:"update-profile",
             data: params,
             success:function (data) {
-                document.getElementById("success").className += " alert alert-success";
-                document.getElementById('update-status').innerText = data["status"];
+                // document.getElementById("success").className += " alert alert-success";
+                // document.getElementById('update-status').innerText = data["status"];
+                window.location.href = "index.jsp";
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jgXHR);
@@ -33,7 +31,7 @@ $( function (){
     });
 });
 function validateEmpty(e){
-    const arr= ["display-name", "email", "phone"];
+    const arr= ["email", "phone"];
     let ret = true;
     arr.forEach((element)=>{
         if(isEmptyById(element)){

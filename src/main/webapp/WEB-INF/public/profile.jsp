@@ -1,68 +1,61 @@
-<%@ page import="com.hagz_hotels.hotels_booking.Model.Entities.User" %><%--
-  Created by IntelliJ IDEA.
-  User: tw3
-  Date: 1/13/21
-  Time: 12:17 AM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.hagz_hotels.hotels_booking.Model.Entities.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Profile</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/profile.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <%--    Bootstrap--%>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <%--    icons--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <%--    custom styling--%>
+    <link href="style/main.css" rel="stylesheet">
 </head>
 <body>
+<%@include file="include/header-navbar.jsp" %>
 <%
-    User user = (User)session.getAttribute("user");
+    User user = (User) session.getAttribute("user");
 %>
-<div class="form-change" >
+<div class="container-fluid">
     <form action="">
-        <div class="form-row">
-            <div class="form-group">
-                <label for="display-name" class="col-lg-4">Disply Name</label>
-                <div class="col-lg-8">
-                    <input type="text" id="display-name" class="form-control" value="<%=user.getUsername()%>" required>
-                </div>
-                <div class="display-name-error" id="display-name-error-span">
-                    <p id="display-name-error"></p>
-                </div>
+        <div class="form-row form-group">
+            <label for="email" class="col-sm-4 col-form-label">Email</label>
+            <div class="col-sm-8">
+                <input type="email" id="email" class="form-control" value="<%=user.getEmail()%>" required>
+            </div>
+            <div class="email-error" id="email-error-span">
+                <small id="email-error"></small>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="display-name" class="col-lg-4">Email</label>
-                <div class="col-lg-8">
-                    <input type="email"  id="email" class="form-control" value="<%=user.getEmail()%>" required>
-                </div>
-                <div class="email-error" id="email-error-span">
-                    <p id="email-error"></p>
-                </div>
+        <div class="form-row form-group">
+            <label for="phone" class="col-sm-4 col-form-label">Phone Number</label>
+            <div class="col-sm-8">
+                <input type="text" id="phone" class="form-control" value="<%=user.getPhone()%>" required>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="phone" class="col-lg-4">Phone Number</label>
-                <div class="col-lg-8">
-                    <input type="tel"  id="phone"class="form-control" value= "<%=user.getPhone()%>" required>
-                </div>
-                <div class="phone-error" id="phone-error-span">
-                    <p id="phone-error"></p>
-                </div>
+            <div class="phone-error" id="phone-error-span">
+                <p id="phone-error"></p>
             </div>
         </div>
         <div align="right">
-            <button class="btn btn-primary" id="edit-profile"  >Edit Profile</button>
+            <button class="btn btn-primary" id="edit-profile">Edit Profile</button>
 
         </div>
         <div id="success" role="alert">
             <p id="update-status"></p>
         </div>
-
     </form>
 </div>
+<%--JQuery--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="module" src="${pageContext.request.contextPath}/scripts/client/profile.js"></script>
+<%--Popper--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<%--Bootstrap js--%>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<script type="module" src="${pageContext.request.contextPath}/scripts/public/profile.js"></script>
 </body>
 </html>
