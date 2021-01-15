@@ -2,9 +2,7 @@ package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public;
 
 import com.hagz_hotels.hotels_booking.Business.validators.EmailValidator;
 import com.hagz_hotels.hotels_booking.Business.validators.NameValidator;
-import com.hagz_hotels.hotels_booking.Business.validators.exceptions.EmailExistException;
-import com.hagz_hotels.hotels_booking.Business.validators.exceptions.InvalidEmailException;
-import com.hagz_hotels.hotels_booking.Business.validators.exceptions.InvalidUserNameException;
+import com.hagz_hotels.hotels_booking.Business.validators.TypeValidator;
 import com.hagz_hotels.hotels_booking.Model.DAO.UserDAO;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
 import com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.JSONExceptionFactory;
@@ -29,20 +27,24 @@ public class RegisterUser extends HttpServlet {
     // TODO: 1/14/21 add username col to database
     EmailValidator emailValidator = new EmailValidator();
     NameValidator nameValidator = new NameValidator();
-
+    TypeValidator typeValidator = new TypeValidator();
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try{
             emailValidator.validate(request);
             nameValidator.validate(request);
-            String RegisteredEmail = (String) request.getParameter("email");
-            String RegisteredName = (String) request.getParameter("username");
-
+            String type = request.getParameter("type");
+            if(type != null)
+                typeValidator.validate(request);
+            else
+                type =User.Type.CLIENT.toString();
+            String RegisteredEmail =  request.getParameter("email");
+            String RegisteredName =  request.getParameter("username");
             String RegisteredPassword  = "1234";/// // TODO: 1/14/21 generate password
             MailUtil.sendMail(RegisteredEmail,"Registeration Confirmation","password is : "+RegisteredPassword);
             JsonResponse jsonResponse = new JsonResponse();
             UserDAO userDAO = new UserDAO();
-            Integer userId = userDAO.create(RegisteredEmail,RegisteredPassword,RegisteredName);
+            Integer userId = userDAO.create(RegisteredEmail,RegisteredPassword,RegisteredName, type);
             jsonResponse.setAttr("status", "Email registered successfully !!");
             jsonResponse.setAttr("Email", RegisteredEmail);
             jsonResponse.setAttr("success", "true");
