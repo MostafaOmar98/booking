@@ -9,9 +9,9 @@ public class SearchUser {
 
     private static final UserDAO userDAO = new UserDAO();
 
-    public static User execute(String email, String password, String type) throws SQLException, ClassNotFoundException {
+    public static User execute(String username, String password, String type) throws SQLException, ClassNotFoundException {
 
-        User user = userDAO.findByEmailAndPasswordAndType(email, password, type);
+        User user = userDAO.findByUserNameAndPasswordAndType(username, password, type);
         if (user == null)
             throw new IllegalArgumentException("User not found");
         return user;

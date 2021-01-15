@@ -26,9 +26,9 @@
                 <div class="col-3 middle-comp justify-content-end">
                     <form class="was-validated">
                         <div class="form-group">
-                            <input class="form-control" type="email" name="email" id="email" placeholder="Email"
+                            <input class="form-control" type="text" name="username" id="username" placeholder="Username"
                                    required>
-                            <div class="invalid-feedback">Please enter a non-empty valid email</div>
+                            <div class="invalid-feedback">Please enter a non-empty valid username</div>
                         </div>
                         <div class="form-group">
                             <input class="form-control" type="password" name="password" id="password"
@@ -45,7 +45,7 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col">
-                                <span class="text-danger align-bottom" id="loginError" hidden>Email Password combination not found</span>
+                                <span class="text-danger align-bottom" id="loginError" hidden>Username Password combination not found</span>
                             </div>
                             <div class="col">
                                 <button type="submit" id="login-submit"

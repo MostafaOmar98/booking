@@ -2,10 +2,10 @@ $(function () {
     let submitBtn = document.querySelector('#login-submit');
     submitBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        let email = document.getElementById("email"), password = document.getElementById("password"),
+        let username = document.getElementById("username"), password = document.getElementById("password"),
             type = document.querySelector('input[type="radio"][name="type"]:checked');
         let params = {
-            email: email.value,
+            username: username.value,
             password: password.value,
             type: type.value
         };

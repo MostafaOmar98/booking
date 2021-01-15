@@ -21,10 +21,6 @@ public class UserDAO {
         }
     };
 
-    public User findByEmailAndPasswordAndType(String email, String password, String type) throws SQLException, ClassNotFoundException {
-        String query = "SELECT * FROM User WHERE Email=? AND Password=? AND Type=?";
-        return DBUtil.selectOne(query, mapper, email, password, type);
-    }
 
     public User findById(Integer userId) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM User WHERE UserId=?";
@@ -49,5 +45,10 @@ public class UserDAO {
     public User findByEmailAndType(String email, String type) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM User WHERE Username=? AND Type=?";
         return DBUtil.selectOne(query,mapper,email, type);
+    }
+
+    public User findByUserNameAndPasswordAndType(String username, String password, String type) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM User WHERE Username=? AND Password=? AND Type=?";
+        return DBUtil.selectOne(query, mapper, username, password, type);
     }
 }

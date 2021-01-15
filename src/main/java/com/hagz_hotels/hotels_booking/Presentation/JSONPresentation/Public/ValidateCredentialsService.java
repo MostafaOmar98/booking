@@ -20,12 +20,12 @@ public class ValidateCredentialsService extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        String email = request.getParameter("email"), password = request.getParameter("password"), type = request.getParameter("type"); // TODO: username instead of email
+        String username = request.getParameter("username"), password = request.getParameter("password"), type = request.getParameter("type"); // TODO: username instead of email
 
         JsonResponse jsonResponse = new JsonResponse();
         User user = null;
         try {
-            user = SearchUser.execute(email, password, type);
+            user = SearchUser.execute(username, password, type);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
