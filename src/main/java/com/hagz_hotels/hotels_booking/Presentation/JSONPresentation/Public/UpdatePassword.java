@@ -1,4 +1,4 @@
-package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Client;
+package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public;
 
 import com.hagz_hotels.hotels_booking.Business.validators.PasswordValidator;
 import com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.JSONExceptionFactory;
