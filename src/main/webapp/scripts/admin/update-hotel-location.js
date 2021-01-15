@@ -1,10 +1,11 @@
 let hotelLngElement = document.getElementsByName("hotelLng")[0];
 let hotelLatElement = document.getElementsByName("hotelLat")[0];
-
+let succ = document.getElementById("successSpan");
 function selectPosition(e) {
     // console.log(e);
     hotelLngElement.value = e.lngLat.lng;
     hotelLatElement.value = e.lngLat.lat;
+    succ.setAttribute('hidden', '');
 }
 
 if (navigator.geolocation) {
