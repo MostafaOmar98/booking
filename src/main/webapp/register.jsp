@@ -78,9 +78,17 @@
 
 
 </form>
-
+<%
+   if(obj != null && ((User) obj).getType() == User.Type.ADMIN){
+%>
+<script type="module" src="${pageContext.request.contextPath}/scripts/admin/register.js"></script>
+<%
+   }else {
+%>
 <script type="module" src="${pageContext.request.contextPath}/scripts/public/register.js"></script>
-
+<%
+   }
+%>
 <%--JQuery--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <%--Popper--%>
