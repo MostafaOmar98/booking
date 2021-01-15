@@ -1,5 +1,6 @@
 package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public;
 
+import com.hagz_hotels.hotels_booking.Business.validators.EmailValidator;
 import com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public.JSONAuth;
 import com.hagz_hotels.hotels_booking.Util.Auth;
 import com.hagz_hotels.hotels_booking.Model.DAO.UserDAO;
@@ -33,7 +34,8 @@ public class UpdateProfile extends HttpServlet {
 
 
         try {
-            userDAO.update(newEmail, newPhone,user.getPassword(),user.getUserId());
+            if (EmailValidator.isValidEmailAddress(newEmail) && !newPhone.isEmpty())
+                userDAO.update(newEmail, newPhone,user.getPassword(),user.getUserId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
