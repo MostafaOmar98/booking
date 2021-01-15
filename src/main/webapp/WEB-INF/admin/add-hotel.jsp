@@ -36,7 +36,7 @@
     </div>
 </nav>
 <form action="add-hotel" method="post">
-    Hotel Name: <input type="text" name="name"><br>
+    Hotel Name: <input type="text" name="name" required><br>
     <p>Note that you will be able to add rest of the hotel info after adding it.</p><br>
     <input type="submit">
 </form><%--JQuery--%>
