@@ -29,12 +29,11 @@ public class UpdateProfile extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         String newPhone = request.getParameter("phone");
-        String newName = request.getParameter("name");
         String newEmail = request.getParameter("email");
 
 
         try {
-            userDAO.update(newName, newEmail, newPhone,user.getPassword(),user.getUserId());
+            userDAO.update(newEmail, newPhone,user.getPassword(),user.getUserId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

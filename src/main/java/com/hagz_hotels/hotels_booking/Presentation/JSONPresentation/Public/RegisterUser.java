@@ -40,7 +40,7 @@ public class RegisterUser extends HttpServlet {
                 type =User.Type.CLIENT.toString();
             String RegisteredEmail =  request.getParameter("email");
             String RegisteredName =  request.getParameter("username");
-            String RegisteredPassword  = "1234";/// // TODO: 1/14/21 generate password
+            String RegisteredPassword  = generateRandomPassword();/// // TODO: 1/14/21 generate password
             MailUtil.sendMail(RegisteredEmail,"Registeration Confirmation","password is : "+RegisteredPassword);
             JsonResponse jsonResponse = new JsonResponse();
             UserDAO userDAO = new UserDAO();
@@ -58,5 +58,19 @@ public class RegisterUser extends HttpServlet {
             response.setContentType("application/json");
             response.getWriter().println(jsonResponse);
         }
+    }
+
+    private String generateRandomPassword() {
+        int length = (int)(Math.random() * 5 + 8);
+        String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < length; ++i)
+        {
+            int randomIdx = (int)(Math.random() * alphaNumericString.length());
+            s.append(alphaNumericString.charAt(randomIdx));
+        }
+        return s.toString();
     }
 }

@@ -15,8 +15,9 @@ public class NameValidator extends MyValidator{
         if(parameterIsEmpty(request))
             throw ValidationExceptionFactory.getUserNameException(Status.EMPTY);
         String userName = request.getParameter("username");
+        String type = request.getParameter("type");
         if(validUserName(userName)){
-            User user =userDAO.findByUserName(userName);
+            User user =userDAO.findByUserNameAndType(userName, type);
             if(user == null){
                 return true;
             }
@@ -28,7 +29,6 @@ public class NameValidator extends MyValidator{
         USED,INVALID,EMPTY
     }
     Boolean validUserName(String username){
-        // TODO: 1/14/21 check criteria of checking username 
-        return true;
+        return !username.isEmpty();
     }
 }

@@ -16,8 +16,9 @@ public class EmailValidator extends MyValidator {
             throw ValidationExceptionFactory.getEmailException(Status.EMPTY);
         }
         String email = (String) request.getParameter(parameter);
+        String type = request.getParameter("type");
         if(isValidEmailAddress(email)){
-            User user = userDAO.findByEmail(email);
+            User user = userDAO.findByEmailAndType(email, type);
             if(user == null){
                 /// fine the email is valid and not used
                 return true;

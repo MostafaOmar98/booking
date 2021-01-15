@@ -31,20 +31,23 @@ public class UserDAO {
         return DBUtil.selectOne(query, mapper, userId);
     }
 
-    public void update(String Name, String email, String phoneNumber, String password, Integer UserId) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE User SET Username=?, Email=?, Phone=?, Password=? WHERE UserId=?";
-        DBUtil.executeUpdate(query, Name, email, phoneNumber, password, UserId);
+    public void update(String email, String phone, String password, Integer UserId) throws SQLException, ClassNotFoundException {
+        String query = "UPDATE User SET  Email=?, Phone=?, Password=? WHERE UserId=?";
+        DBUtil.executeUpdate(query, email, phone, password, UserId);
     }
-    public User findByEmail(String email) throws SQLException, ClassNotFoundException{
-        String query = "SELECT * FROM User WHERE Email=?";
-        return DBUtil.selectOne(query,mapper,email);
-    }
-    public User findByUserName(String username) throws SQLException, ClassNotFoundException{
-        String query = "SELECT * FROM User WHERE Username=?";
-        return DBUtil.selectOne(query,mapper,username);
-    }
+
     public Integer create(String email, String password, String username, String type) throws SQLException, ClassNotFoundException {
         String query = "Insert into User (Email, Password, Username, Type) values (?, ?, ?, ?)";
         return DBUtil.insert(query, email, password, username, type);
+    }
+
+    public User findByUserNameAndType(String username, String type) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM User WHERE Username=? AND Type=?";
+        return DBUtil.selectOne(query,mapper,username, type);
+    }
+
+    public User findByEmailAndType(String email, String type) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM User WHERE Username=? AND Type=?";
+        return DBUtil.selectOne(query,mapper,email, type);
     }
 }
