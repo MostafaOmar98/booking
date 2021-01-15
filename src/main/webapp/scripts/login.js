@@ -1,11 +1,10 @@
 $(function () {
-    let submitBtn = document.querySelector('input[type="submit"]');
-    console.log(submitBtn);
+    let submitBtn = document.querySelector('#login-submit');
     submitBtn.addEventListener('click', function (e) {
         e.preventDefault();
         let email = document.getElementById("email"), password = document.getElementById("password"),
             type = document.querySelector('input[type="radio"][name="type"]:checked');
-        params = {
+        let params = {
             email: email.value,
             password: password.value,
             type: type.value
@@ -33,6 +32,3 @@ $(function () {
 
     })
 })
-function enableSubmit(){
-    document.getElementById("login-submit").disabled=false;
-}

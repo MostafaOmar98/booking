@@ -13,19 +13,17 @@ $(function () {
         if (inp.attr("disabled") !== undefined) {
             // allow change
             inp.removeAttr("disabled");
-            btn.html("Done");
+            btn.html("<i class='fa fa-check'></i>");
         } else {
-            // TODO: Frontend validation
             inp.removeClass("border-danger");
             $(".field-error").remove();
             if (inp.val() === "" && inp.attr("id") === "name") {
                 inp.addClass("border-danger");
-                inp.parent().append("<span class='field-error'>Field can't be empty</span>")
-            }
-            else {
+                inp.parent().parent().append("<div class='field-error col-sm-6 offset-6'><small class='text-danger text-muted'>Field can't be empty</small></div>")
+            } else {
                 inp.attr("disabled", ''); // disallow  change
-                btn.html("Change");
-                params = {
+                btn.html("<i class='fa fa-edit'></i>");
+                let params = {
                     hotelId: hotelId,
                 };
                 params[inp.attr("name")] = inp.val();
@@ -42,8 +40,15 @@ $(function () {
 
     // Room Update
     const roomUpdateBtns = document.querySelectorAll('.roomUpdateBtn');
-    for (var i = 0; i < roomUpdateBtns.length; ++i) {
+    for (let i = 0; i < roomUpdateBtns.length; ++i) {
         roomUpdateBtns[i].addEventListener('click', updateRoomBtnClicked);
+    }
+
+    function createErrorField(error) {
+        let errorDiv = document.createElement("div");
+        errorDiv.classList.add('field-error');
+        errorDiv.innerHTML = "<small class='text-danger text-muted'>" + error + "</small>"
+        return errorDiv
     }
 
     /**
@@ -51,38 +56,54 @@ $(function () {
      */
     function updateRoomBtnClicked(e) {
         let btn = e.target;
-        let cur = btn.parentElement;
-        if (btn.innerText === 'Update') {
-            while (true) {
-                cur = cur.previousElementSibling;
-                if (cur === undefined || cur === null) {
-                    console.log(cur);
-                    break;
-                }
-                let inp = cur.firstElementChild;
-                if (inp.tagName === 'INPUT')
-                    inp.removeAttribute('disabled');
-            }
-            btn.innerText = 'Done';
-        } else {
-            // TODO: find cleaner way to iterate over these fields and validate type not empty
-            btn.innerText = 'Update';
-            let params = {};
-            while (true) {
-                cur = cur.previousElementSibling;
-                if (cur === null) {
-                    break;
-                }
-                let inp = cur.firstElementChild;
-                if (inp.tagName === 'INPUT') {
-                    params[inp.name] = inp.value;
-                    inp.setAttribute('disabled', '');
-                }
-            }
-            // console.log(params);
-            $.post("update-room", params, function (data, status) {
-                console.log(data);
+        if (btn.tagName !== 'BUTTON')
+            btn = btn.parentElement;
+        let row = btn.parentElement.parentElement;
+        let inputElements = row.querySelectorAll('input, textarea');
+        if (btn.classList.contains('inactive')) {
+            Array.from(inputElements).forEach(function (inp) {
+                inp.removeAttribute('disabled');
             });
+            btn.innerHTML = "<i class='fa fa-check'></i>";
+            btn.classList.remove('inactive');
+        } else {
+            // removing errors
+            console.log(row);
+            let errors = row.querySelectorAll('.field-error');
+            console.log(errors);
+            Array.from(errors).forEach(function (e) {
+                e.remove();
+            });
+
+            // frontend validation
+            let ok = true;
+            let params = {};
+            Array.from(inputElements).forEach(function (inp) {
+                params[inp.name] = inp.value;
+                inp.classList.remove('border-danger');
+                if (inp.name !== 'facilities' && inp.value === '') {
+                    inp.classList.add('border-danger');
+                    inp.parentElement.append(createErrorField("Field can't be empty"));
+                    ok = false;
+                }
+                if (inp.type === 'number' && (isNaN(Number(inp.value)) || inp.value < 0)) {
+                    inp.classList.add('border-danger');
+                    inp.parentElement.append(createErrorField("Field must be a non-negative number"));
+                    ok = false;
+                }
+            });
+            console.log(params);
+            // request if valid
+            if (ok) {
+                Array.from(inputElements).forEach(function (inp) {
+                    inp.setAttribute('disabled', '');
+                });
+                $.post("update-room", params, function (data, status) {
+                    console.log(data);
+                });
+                btn.innerHTML = "<i class='fa fa-edit'></i>"
+                btn.classList.add('inactive');
+            }
         }
     }
 
@@ -99,7 +120,7 @@ $(function () {
     function deleteRoomBtnClicked(e) {
         let btn = e.target;
         let roomId = btn.parentElement.previousElementSibling.firstElementChild.value;
-        params = {"roomId": roomId};
+        let params = {"roomId": roomId};
         $.post("delete-room", params, function (data, status) {
             btn.parentElement.previousElementSibling.parentElement.remove();
         });
@@ -129,7 +150,7 @@ $(function () {
     }
 
     let deleteBtn = document.querySelector('#deleteImageBtn');
-    deleteBtn.addEventListener('click', function(e){
+    deleteBtn.addEventListener('click', function (e) {
         deleteImage(e, selectedImage);
     });
 
@@ -137,7 +158,7 @@ $(function () {
      @param {Event} e
      */
     function deleteImage(e, selectedImage) {
-        params = {
+        let params = {
             "hotelId": document.querySelector('#hotelId').value,
             "imageId": selectedImage.getAttribute('imageId')
         };
