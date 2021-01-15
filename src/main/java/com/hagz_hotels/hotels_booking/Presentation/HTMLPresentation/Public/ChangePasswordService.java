@@ -15,7 +15,8 @@ public class ChangePasswordService extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!HTMLAuth.authorizeUserType(request, response, authType[0], authType[1]))
             return;
-        response.sendRedirect("change-password.jsp");
+        request.getRequestDispatcher("/WEB-INF/public/change-password.jsp");
+//        response.sendRedirect("change-password.jsp");
     }
 
 }
