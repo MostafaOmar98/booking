@@ -28,7 +28,7 @@
         </div>
         <div class="form-row mb-3">
             <label for="email" class="col-sm-4 col-form-label">Email</label>
-            <div class="col-lg-8">
+            <div class="col-sm-8">
                 <input type="text" id="email" class="form-control" required>
             </div>
             <div class="email-error" id="email-error-span">
