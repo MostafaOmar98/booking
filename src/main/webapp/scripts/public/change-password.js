@@ -27,7 +27,7 @@ $(function (){
                     return;
                 }
                 else {
-                    // window.location.href = data["redirect"];
+                    window.location.href = "index.jsp";
                     console.log(data);
                     document.getElementById("success").className += " alert alert-success";
                     document.getElementById('update-status').innerText = data["status"];
