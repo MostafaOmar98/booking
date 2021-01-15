@@ -37,7 +37,7 @@
 <body>
 <%@include file="include/header-navbar.jsp" %>
 <div class="container-fluid">
-    <form action="search-hotel" method="GET">
+    <form action="search-hotel"  id="search-form" method="GET">
         <div class="form-group row">
             <div id="map-container">
                 <div id="map">
@@ -90,6 +90,9 @@
             <div class="col-sm-10">
                 <button type="submit" id="search-btn" class="btn btn-primary">Search</button>
             </div>
+        </div>
+        <div id="success" role="alert">
+            <p id="update-status"></p>
         </div>
     </form>
 </div>
