@@ -6,6 +6,7 @@ body{
 
 .navbar {
     background: #6ab446;
+    margin-bottom: 1em;
 }
 
 .nav-link, .navbar-brand {
