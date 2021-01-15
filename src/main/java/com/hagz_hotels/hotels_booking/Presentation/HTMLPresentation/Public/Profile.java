@@ -1,5 +1,6 @@
-package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public;
+package com.hagz_hotels.hotels_booking.Presentation.HTMLPresentation.Public;
 import com.hagz_hotels.hotels_booking.Model.Entities.User;
+import com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public.JSONAuth;
 import com.hagz_hotels.hotels_booking.Util.Auth;
 
 
@@ -17,14 +18,13 @@ public class Profile extends HttpServlet {
     User.Type[] authType = {User.Type.CLIENT, User.Type.ADMIN}; // Added by bekh
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(!JSONAuth.authorizeUserType(request,response,authType[0], authType[1])){ // edited by bekh
+        if(!HTMLAuth.authorizeUserType(request,response,authType[0], authType[1])){ // edited by bekh
             return ;
         }
         else{
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");
-            request.getRequestDispatcher("/WEB-INF/profile.jsp").forward(request, response);
-
+            request.getRequestDispatcher("/WEB-INF/public/profile.jsp").forward(request, response);
         }
 
     }
