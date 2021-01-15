@@ -5,7 +5,7 @@ $( function (){
     let email = document.getElementById("email");
     console.log(username)
     console.log(email)
-    // let type = document.querySelector('input[type="radio"][name="type"]:checked');
+    let type = document.querySelector('input[type="radio"][name="type"]:checked');
     // console.log(type);
     let submitBtn =document.getElementById("register");
     submitBtn.addEventListener("click",function (e){
@@ -18,7 +18,7 @@ $( function (){
             return
         }
         let params = {username: username.value,email: email.value
-            // , type: type.value
+            , type: type.value
         };
         $.ajax({
             type:"POST",
@@ -32,7 +32,6 @@ $( function (){
                     return;
                 }
                 else {
-                    // window.location.href = data["redirect"];
                     console.log(data);
                     document.getElementById("success").className += " alert alert-success";
                     document.getElementById('update-status').innerText = data["status"];

@@ -46,7 +46,7 @@ public class UpdateReservation {
                                 "Hotel Phone: " + hotel.getPhone() + "\n");
                 MailUtil.sendMail(admin.getEmail(), "[Booking App] A recent reservation of your hotel has been canceled",
                         "Reservation for room " + room.getRoomId() + " Has been canceled\n" +
-                                "Client Name: " + client.getName() + "\n" +
+                                "Client Name: " + client.getUsername() + "\n" +
                                 "Client Phone: " + client.getPhone() + "\n" +
                                 "Reservation Id: " + reservationId);
             }

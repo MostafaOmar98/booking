@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label for="display-name" class="col-lg-4">Disply Name</label>
                 <div class="col-lg-8">
-                    <input type="text"  id="display-name"class="form-control" value="<%=user.getName()%>" required>
+                    <input type="text" id="display-name" class="form-control" value="<%=user.getUsername()%>" required>
                 </div>
                 <div class="display-name-error" id="display-name-error-span">
                     <p id="display-name-error"></p>

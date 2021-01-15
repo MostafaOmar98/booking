@@ -12,7 +12,7 @@ public class UserDAO {
         public User apply(ResultSet set) throws SQLException {
             User user = new User();
             user.setUserId(set.getInt("UserId"));
-            user.setName(set.getString("Name"));
+            user.setUsername(set.getString("Username"));
             user.setEmail(set.getString("Email"));
             user.setPhone(set.getString("Phone"));
             user.setType(set.getString("Type"));
@@ -32,7 +32,7 @@ public class UserDAO {
     }
 
     public void update(String Name, String email, String phoneNumber, String password, Integer UserId) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE User SET Name=?, Email=?, Phone=?, Password=? WHERE UserId=?";
+        String query = "UPDATE User SET Username=?, Email=?, Phone=?, Password=? WHERE UserId=?";
         DBUtil.executeUpdate(query, Name, email, phoneNumber, password, UserId);
     }
     public User findByEmail(String email) throws SQLException, ClassNotFoundException{
@@ -40,11 +40,11 @@ public class UserDAO {
         return DBUtil.selectOne(query,mapper,email);
     }
     public User findByUserName(String username) throws SQLException, ClassNotFoundException{
-        String query = "SELECT * FROM User WHERE Name=?";
+        String query = "SELECT * FROM User WHERE Username=?";
         return DBUtil.selectOne(query,mapper,username);
     }
     public Integer create(String email, String password, String username, String type) throws SQLException, ClassNotFoundException {
-        String query = "Insert into User (Email, Password, Name, Type) values (?, ?, ?, ?)";
+        String query = "Insert into User (Email, Password, Username, Type) values (?, ?, ?, ?)";
         return DBUtil.insert(query, email, password, username, type);
     }
 }

@@ -32,7 +32,7 @@ public class GetHotelReviews {
             d.setCreatedAt(r.getCreatedAt());
 
             User client = userDAO.findById(r.getClientId());
-            d.setClientName(client.getName());
+            d.setClientName(client.getUsername());
 
             ClientRoomReservation reservation = clientRoomReservationDAO.findById(r.getReservationId());
             d.setCheckIn(reservation.getCheckIn());

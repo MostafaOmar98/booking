@@ -11,7 +11,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet(name = "update-password", value = "/update-password")
 public class UpdatePassword extends HttpServlet {
@@ -32,7 +31,7 @@ public class UpdatePassword extends HttpServlet {
         try {
             passwordValidator.validate(request);
             String newPassword = request.getParameter("password");
-            userDAO.update(user.getName(), user.getEmail(),user.getPhone(),newPassword,user.getUserId());
+            userDAO.update(user.getUsername(), user.getEmail(),user.getPhone(),newPassword,user.getUserId());
             JsonResponse jsonResponse = new JsonResponse();
             jsonResponse.setAttr("status", "password updated successfully");
             jsonResponse.setAttr("success", "true");

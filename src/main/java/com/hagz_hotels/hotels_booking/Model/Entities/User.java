@@ -5,7 +5,7 @@ public class User {
         CLIENT, ADMIN
     }
     private Integer userId;
-    private String name;
+    private String username;
     private String email;
     private String phone;
     private Type type;
@@ -19,12 +19,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

@@ -23,7 +23,7 @@ public class GetAdminReservations {
             r.setReservationId(cr.getReservationId());
             r.setClientId(user.getUserId());
             r.setClientEmail(user.getEmail());
-            r.setClientName(user.getName());
+            r.setClientName(user.getUsername());
             r.setClientPhone(user.getPhone());
             r.setRoomId(cr.getRoomId());
             r.setStatus(cr.getStatusName());
