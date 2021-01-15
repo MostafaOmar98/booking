@@ -1,6 +1,8 @@
 package com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Admin;
 
 
+import com.hagz_hotels.hotels_booking.Model.DAO.ClientHotelReviewDAO;
+import com.hagz_hotels.hotels_booking.Model.DAO.ClientRoomReservationDAO;
 import com.hagz_hotels.hotels_booking.Presentation.JSONPresentation.Public.JSONAuth;
 import com.hagz_hotels.hotels_booking.Model.DAO.RoomDAO;
 import com.hagz_hotels.hotels_booking.Util.JsonResponse;
@@ -17,9 +19,13 @@ import java.sql.SQLException;
 public class DeleteRoomService extends HttpServlet {
 
     RoomDAO roomDAO;
+    ClientRoomReservationDAO clientRoomReservationDAO;
+    ClientHotelReviewDAO clientHotelReviewDAO;
     @Override
     public void init() throws ServletException {
         roomDAO = new RoomDAO();
+        clientRoomReservationDAO = new ClientRoomReservationDAO();
+        clientHotelReviewDAO = new ClientHotelReviewDAO();
     }
 
     @Override
@@ -36,6 +42,9 @@ public class DeleteRoomService extends HttpServlet {
         JsonResponse jsonResponse = new JsonResponse();
         try {
             roomDAO.delete(roomId);
+            // clientHotelReview delete must come first
+            clientHotelReviewDAO.deleteByRoomId(roomId);
+            clientRoomReservationDAO.deleteByRoomId(roomId);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

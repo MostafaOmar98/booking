@@ -66,4 +66,9 @@ public class ClientRoomReservationDAO {
                 "User.Userid=?";
         return DBUtil.selectOne(query, mapper, reservationId, adminId) != null;
     }
+
+    public void deleteByRoomId(Integer roomId) throws SQLException, ClassNotFoundException {
+        String query = "DELETE FROM ClientRoomReservation WHERE RoomId=?";
+        DBUtil.executeUpdate(query, roomId);
+    }
 }

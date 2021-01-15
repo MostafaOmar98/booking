@@ -57,4 +57,11 @@ public class ClientHotelReviewDAO {
         String query = "SELECT * FROM ClientHotelReview WHERE ReservationId=?";
         return DBUtil.selectOne(query, mapper, reservationId) != null;
     }
+
+    public void deleteByRoomId(Integer roomId) throws SQLException, ClassNotFoundException {
+        String query = "DELETE ClientHotelReview FROM ClientHotelReview, ClientRoomReservation WHERE " +
+                "ClientHotelReview.ReservationId = ClientRoomReservation.ReservationId AND " +
+                "ClientRoomReservation.RoomId=?";
+        DBUtil.executeUpdate(query, roomId);
+    }
 }
