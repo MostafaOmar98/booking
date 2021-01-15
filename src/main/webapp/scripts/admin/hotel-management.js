@@ -50,8 +50,11 @@ $(function () {
      */
     function updateRoomBtnClicked(e) {
         let btn = e.target;
+        if (btn.tagName !== 'BUTTON')
+            btn = btn.parentElement;
         let cur = btn.parentElement;
-        if (btn.innerText === 'Update') {
+        console.log(btn.classList);
+        if (btn.classList.contains('inactive')) {
             while (true) {
                 cur = cur.previousElementSibling;
                 if (cur === undefined || cur === null) {
@@ -59,13 +62,13 @@ $(function () {
                     break;
                 }
                 let inp = cur.firstElementChild;
-                if (inp.tagName === 'INPUT')
+                if (inp.tagName !== 'BUTTON')
                     inp.removeAttribute('disabled');
             }
-            btn.innerText = 'Done';
+            btn.innerHTML ="<i class='fa fa-check'></i>";
+            btn.classList.remove('inactive');
         } else {
             // TODO: find cleaner way to iterate over these fields and validate type not empty
-            btn.innerText = 'Update';
             let params = {};
             while (true) {
                 cur = cur.previousElementSibling;
@@ -73,15 +76,17 @@ $(function () {
                     break;
                 }
                 let inp = cur.firstElementChild;
-                if (inp.tagName === 'INPUT') {
+                if (inp.tagName !== 'BUTTON') {
                     params[inp.name] = inp.value;
                     inp.setAttribute('disabled', '');
                 }
             }
-            // console.log(params);
+            console.log(params);
             $.post("update-room", params, function (data, status) {
                 console.log(data);
             });
+            btn.innerHTML = "<i class='fa fa-edit'></i>"
+            btn.classList.add('inactive');
         }
     }
 

@@ -127,13 +127,13 @@
                 <textarea class="form-control" name="facilities" disabled><%=room.getFacilities()%></textarea>
             </td>
             <td hidden>
-                <input type="hidden" value="<%=room.getRoomId()%>">
+                <input type="hidden" name="roomId" value="<%=room.getRoomId()%>">
             </td>
             <td>
                 <button class="btn btn-danger roomDeleteBtn" type="button"><i class="fa fa-trash"></i></button>
             </td>
             <td>
-                <button class="btn btn-secondary roomUpdateBtn" type="button"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-secondary roomUpdateBtn inactive" type="button"><i class="fa fa-edit"></i></button>
             </td>
         </tr>
         <%}%>
@@ -226,7 +226,7 @@
         <%--            }--%>
         <%--        %>--%>
         <% for (HotelImage image : images) {%>
-        <div class="col-sm-4 mt-1 ml-1">
+        <div class="col-sm-4">
             <img src="image/<%=image.getName()%>" class="img img-fluid m-1" imageId="<%=image.getImageId()%>"
                  alt="Couldn't load image">
         </div>
