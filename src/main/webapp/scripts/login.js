@@ -10,7 +10,7 @@ $(function () {
             type: type.value
         };
 
-
+        console.log(params);
         $.ajax({
             type: "POST",
             url: "validate-credentials",

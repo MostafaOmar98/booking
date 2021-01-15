@@ -43,7 +43,7 @@ public class UserDAO {
     }
 
     public User findByEmailAndType(String email, String type) throws SQLException, ClassNotFoundException {
-        String query = "SELECT * FROM User WHERE Username=? AND Type=?";
+        String query = "SELECT * FROM User WHERE Email=? AND Type=?";
         return DBUtil.selectOne(query,mapper,email, type);
     }
 

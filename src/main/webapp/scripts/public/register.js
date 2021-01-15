@@ -5,11 +5,16 @@ $(function () {
     console.log(username)
     console.log(email)
     console.log(phone)
-    let type = document.querySelector('input[type="radio"][name="type"]:checked');
     // console.log(type);
     let submitBtn = document.getElementById("register");
     submitBtn.addEventListener("click", function (e) {
         e.preventDefault();
+        let type = document.querySelector('input[type="radio"][name="type"]:checked');
+        let params = {
+            username: username.value, email: email.value, phone: phone.value
+            , type: type.value
+        };
+        console.log(params);
         if (!validateEmpty(e)) {
             return;
         }
@@ -17,10 +22,7 @@ $(function () {
         if (!validateEmail(email.value)) {
             return
         }
-        let params = {
-            username: username.value, email: email.value, phone: phone.value
-            , type: type.value
-        };
+        submitBtn.setAttribute('disabled', '');
         $.ajax({
             type: "POST",
             url: "register-user",
@@ -30,6 +32,7 @@ $(function () {
                     console.log("received nothing");
                     document.getElementById("success").className += " alert alert-danger";
                     document.getElementById('update-status').innerText = data["status"];
+                    submitBtn.removeAttribute('disabled');
                     return;
                 } else {
                     console.log(data);
