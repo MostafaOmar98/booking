@@ -8,6 +8,9 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <%--    custom styling--%>
     <link href="style/main.css" rel="stylesheet">
+    <%--    Capcha--%>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script type="module" src="${pageContext.request.contextPath}/scripts/public/register.js"></script>
 </head>
 <body>
 <%@include file="/include/header-navbar.jsp" %>
@@ -54,8 +57,11 @@
                 <p id="type-error"></p>
             </div>
         </div>
+        <div class="form-row mb-3">
+                <div class="g-recaptcha" data-sitekey="6LclGiIaAAAAAFRWupUInlrJlSwJC01lq4PGPOFe" data-callback="enableSubmit"></div>
+        </div>
         <div class="align-content-center">
-            <button class="btn btn-primary" id="register">Register</button>
+            <button class="btn btn-primary" id="register" disabled>Register</button>
 
         </div>
         <div id="success" role="alert">
@@ -63,7 +69,6 @@
         </div>
     </form>
 </div>
-<script type="module" src="${pageContext.request.contextPath}/scripts/public/register.js"></script>
 <%--JQuery--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <%--Popper--%>

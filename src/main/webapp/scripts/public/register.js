@@ -95,3 +95,7 @@ function removeAlert(element) {
     document.getElementById(element + '-error').classList.remove("alert");
     document.getElementById(element + '-error').classList.remove("text-danger");
 }
+
+window.enableSubmit = function(){
+    document.getElementById("register").removeAttribute('disabled');
+}
