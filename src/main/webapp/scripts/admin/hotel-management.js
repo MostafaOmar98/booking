@@ -23,7 +23,7 @@ $(function () {
             } else {
                 inp.attr("disabled", ''); // disallow  change
                 btn.html("<i class='fa fa-edit'></i>");
-                params = {
+                let params = {
                     hotelId: hotelId,
                 };
                 params[inp.attr("name")] = inp.val();
@@ -40,7 +40,7 @@ $(function () {
 
     // Room Update
     const roomUpdateBtns = document.querySelectorAll('.roomUpdateBtn');
-    for (var i = 0; i < roomUpdateBtns.length; ++i) {
+    for (let i = 0; i < roomUpdateBtns.length; ++i) {
         roomUpdateBtns[i].addEventListener('click', updateRoomBtnClicked);
     }
 
@@ -120,7 +120,7 @@ $(function () {
     function deleteRoomBtnClicked(e) {
         let btn = e.target;
         let roomId = btn.parentElement.previousElementSibling.firstElementChild.value;
-        params = {"roomId": roomId};
+        let params = {"roomId": roomId};
         $.post("delete-room", params, function (data, status) {
             btn.parentElement.previousElementSibling.parentElement.remove();
         });
@@ -158,7 +158,7 @@ $(function () {
      @param {Event} e
      */
     function deleteImage(e, selectedImage) {
-        params = {
+        let params = {
             "hotelId": document.querySelector('#hotelId').value,
             "imageId": selectedImage.getAttribute('imageId')
         };
