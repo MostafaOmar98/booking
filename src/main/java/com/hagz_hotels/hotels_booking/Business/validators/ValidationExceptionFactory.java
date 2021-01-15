@@ -39,5 +39,16 @@ public class ValidationExceptionFactory {
                 return  new undefinedBehaviorException("we faced internal problem please try later");
         }
     }
+    static  Exception getTypeException(TypeValidator.Status status){
+        switch (status){
+            case Empty:
+                return new EmptyException("Password can't be empty");
+            case Invalid:
+                /// todo extend invalid type exception
+                return new InvalidPasswordException("Invalid type");
+            default:
+                return new undefinedBehaviorException("we facced internal problem");
+        }
+    }
 }
 
