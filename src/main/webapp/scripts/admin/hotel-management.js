@@ -20,8 +20,7 @@ $(function () {
             if (inp.val() === "" && inp.attr("id") === "name") {
                 inp.addClass("border-danger");
                 inp.parent().parent().append("<div class='field-error col-sm-6 offset-6'><small class='text-danger text-muted'>Field can't be empty</small></div>")
-            }
-            else {
+            } else {
                 inp.attr("disabled", ''); // disallow  change
                 btn.html("<i class='fa fa-edit'></i>");
                 params = {
@@ -45,6 +44,13 @@ $(function () {
         roomUpdateBtns[i].addEventListener('click', updateRoomBtnClicked);
     }
 
+    function createErrorField(error) {
+        let errorDiv = document.createElement("div");
+        errorDiv.classList.add('field-error');
+        errorDiv.innerHTML = "<small class='text-danger text-muted'>" + error + "</small>"
+        return errorDiv
+    }
+
     /**
      @param {Event} e
      */
@@ -52,41 +58,52 @@ $(function () {
         let btn = e.target;
         if (btn.tagName !== 'BUTTON')
             btn = btn.parentElement;
-        let cur = btn.parentElement;
-        console.log(btn.classList);
+        let row = btn.parentElement.parentElement;
+        let inputElements = row.querySelectorAll('input, textarea');
         if (btn.classList.contains('inactive')) {
-            while (true) {
-                cur = cur.previousElementSibling;
-                if (cur === undefined || cur === null) {
-                    console.log(cur);
-                    break;
-                }
-                let inp = cur.firstElementChild;
-                if (inp.tagName !== 'BUTTON')
-                    inp.removeAttribute('disabled');
-            }
-            btn.innerHTML ="<i class='fa fa-check'></i>";
+            Array.from(inputElements).forEach(function (inp) {
+                inp.removeAttribute('disabled');
+            });
+            btn.innerHTML = "<i class='fa fa-check'></i>";
             btn.classList.remove('inactive');
         } else {
-            // TODO: find cleaner way to iterate over these fields and validate type not empty
-            let params = {};
-            while (true) {
-                cur = cur.previousElementSibling;
-                if (cur === null) {
-                    break;
-                }
-                let inp = cur.firstElementChild;
-                if (inp.tagName !== 'BUTTON') {
-                    params[inp.name] = inp.value;
-                    inp.setAttribute('disabled', '');
-                }
-            }
-            console.log(params);
-            $.post("update-room", params, function (data, status) {
-                console.log(data);
+            // removing errors
+            console.log(row);
+            let errors = row.querySelectorAll('.field-error');
+            console.log(errors);
+            Array.from(errors).forEach(function (e) {
+                e.remove();
             });
-            btn.innerHTML = "<i class='fa fa-edit'></i>"
-            btn.classList.add('inactive');
+
+            // frontend validation
+            let ok = true;
+            let params = {};
+            Array.from(inputElements).forEach(function (inp) {
+                params[inp.name] = inp.value;
+                inp.classList.remove('border-danger');
+                if (inp.name !== 'facilities' && inp.value === '') {
+                    inp.classList.add('border-danger');
+                    inp.parentElement.append(createErrorField("Field can't be empty"));
+                    ok = false;
+                }
+                if (inp.type === 'number' && (isNaN(Number(inp.value)) || inp.value < 0)) {
+                    inp.classList.add('border-danger');
+                    inp.parentElement.append(createErrorField("Field must be a non-negative number"));
+                    ok = false;
+                }
+            });
+            console.log(params);
+            // request if valid
+            if (ok) {
+                Array.from(inputElements).forEach(function (inp) {
+                    inp.setAttribute('disabled', '');
+                });
+                $.post("update-room", params, function (data, status) {
+                    console.log(data);
+                });
+                btn.innerHTML = "<i class='fa fa-edit'></i>"
+                btn.classList.add('inactive');
+            }
         }
     }
 
@@ -133,7 +150,7 @@ $(function () {
     }
 
     let deleteBtn = document.querySelector('#deleteImageBtn');
-    deleteBtn.addEventListener('click', function(e){
+    deleteBtn.addEventListener('click', function (e) {
         deleteImage(e, selectedImage);
     });
 
