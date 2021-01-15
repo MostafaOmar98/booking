@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%
     List<ReservationDTOForAdmin> reservations = (List<ReservationDTOForAdmin>) request.getAttribute("reservations");
+    request.setAttribute("hotelId", request.getParameter("hotelId")); // for navbar
 %>
 
 <!doctype html>

@@ -65,47 +65,6 @@
         </tr>
         </thead>
         <tbody>
-        <%--        <%--%>
-        <%--            Integer idx = 0;--%>
-        <%--            for (Room room : rooms) {--%>
-        <%--                out.println("<tr>");--%>
-        <%--                out.println("<td>");--%>
-        <%--                out.println("<input type=\"text\" required disabled name=\"type\" value=\"" + room.getType() + "\"");--%>
-        <%--                out.println("</td>\n");--%>
-
-        <%--                out.println("<td>");--%>
-        <%--                out.println("<input type=\"number\" min=\"0\" required disabled name=\"maxAdults\" value=\"" + room.getMaxAdults() + "\"");--%>
-        <%--                out.println("</td>\n");--%>
-
-        <%--                out.println("<td>");--%>
-        <%--                out.println("<input type=\"number\" min=\"0\" required disabled name=\"maxChildren\" value=\"" + room.getMaxChildren() + "\"");--%>
-        <%--                out.println("</td>\n");--%>
-
-
-        <%--                out.println("<td>");--%>
-        <%--                out.println("<input type=\"number\" min=\"0\" required disabled name=\"pricePerNight\" value=\"" + room.getPricePerNight() + "\"");--%>
-        <%--                out.println("</td>\n");--%>
-
-        <%--                out.println("<td>");--%>
-        <%--                out.println("<input type=\"text\" disabled name=\"facilities\" " + "value=\"" + room.getFacilities() + "\">");--%>
-        <%--                out.println("</td>\n");--%>
-
-        <%--                out.println("<td>");--%>
-        <%--                out.println("<input disabled hidden name=\"roomId\" value=\"" + room.getRoomId() + "\"");--%>
-        <%--                out.println("</td>\n");--%>
-
-        <%--                out.println("<td>");--%>
-        <%--                out.println("<button type=\"button\" " + "class=\"roomDeleteBtn btn-danger btn\">Delete</button>");--%>
-        <%--                out.println("</td>");--%>
-
-        <%--                out.println("<td>");--%>
-        <%--                out.println("<button type=\"button\" " + "class=\"roomUpdateBtn\">Update</button>");--%>
-        <%--                out.println("</td>");--%>
-
-        <%--                out.println("</tr>");--%>
-        <%--                idx++;--%>
-        <%--            }--%>
-        <%--        %>--%>
         <%for (Room room : rooms) {%>
         <tr>
             <td>
@@ -217,14 +176,6 @@
         <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>"><br>
     </form>
     <div class="row">
-        <%--        <%--%>
-        <%--            for (int i = 0; i < images.size(); ++i) {--%>
-        <%--                out.println(--%>
-        <%--                        "<div class=\"col-sm-4\">\n" +--%>
-        <%--                                "<img src=\"image/" + images.get(i).getName() + "\" style=\"width:100%;height:100%\" class=\"img\" imageId=\"" + images.get(i).getImageId() + "\">\n" +--%>
-        <%--                                "</div>");--%>
-        <%--            }--%>
-        <%--        %>--%>
         <% for (HotelImage image : images) {%>
         <div class="col-sm-4">
             <img src="image/<%=image.getName()%>" class="img img-fluid m-1" imageId="<%=image.getImageId()%>"
