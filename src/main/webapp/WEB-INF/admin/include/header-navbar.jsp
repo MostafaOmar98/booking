@@ -9,10 +9,10 @@
                 <a class="nav-link" href="admin-home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin-reservations">Manage Reservations</a>
+                <a class="nav-link" href="admin-reservations?hotelId=<%=request.getAttribute("hotelId")%>">Manage Reservations</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="hotel-reviews">Reviews</a>
+                <a class="nav-link" href="hotel-reviews?hotelId=<%=request.getAttribute("hotelId")%>">Reviews</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">

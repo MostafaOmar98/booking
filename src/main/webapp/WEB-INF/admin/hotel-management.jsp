@@ -6,6 +6,7 @@
     Hotel hotel = (Hotel) request.getAttribute("hotel");
     ArrayList<Room> rooms = (ArrayList<Room>) request.getAttribute("rooms");
     ArrayList<HotelImage> images = (ArrayList<HotelImage>) request.getAttribute("images");
+    request.setAttribute("hotelId", hotel.getHotelId()); // for header-navbar
 %>
 
 <!doctype html>
@@ -138,9 +139,13 @@
         <%}%>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addRoomModal">
-        Add Room
-    </button>
+    <div class="conatiner-fluid">
+        <div class="row justify-content-end mr-4">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRoomModal">
+                Add Room
+            </button>
+        </div>
+    </div>
 
     <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -212,25 +217,24 @@
         <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>"><br>
     </form>
     <div class="row">
-<%--        <%--%>
-<%--            for (int i = 0; i < images.size(); ++i) {--%>
-<%--                out.println(--%>
-<%--                        "<div class=\"col-sm-4\">\n" +--%>
-<%--                                "<img src=\"image/" + images.get(i).getName() + "\" style=\"width:100%;height:100%\" class=\"img\" imageId=\"" + images.get(i).getImageId() + "\">\n" +--%>
-<%--                                "</div>");--%>
-<%--            }--%>
-<%--        %>--%>
+        <%--        <%--%>
+        <%--            for (int i = 0; i < images.size(); ++i) {--%>
+        <%--                out.println(--%>
+        <%--                        "<div class=\"col-sm-4\">\n" +--%>
+        <%--                                "<img src=\"image/" + images.get(i).getName() + "\" style=\"width:100%;height:100%\" class=\"img\" imageId=\"" + images.get(i).getImageId() + "\">\n" +--%>
+        <%--                                "</div>");--%>
+        <%--            }--%>
+        <%--        %>--%>
         <% for (HotelImage image : images) {%>
-            <div class="col-sm-4 mt-1 ml-1">
-                <img src="image/<%=image.getName()%>" class="img img-fluid m-1" imageId="<%=image.getImageId()%>" alt="Couldn't load image">
-            </div>
+        <div class="col-sm-4 mt-1 ml-1">
+            <img src="image/<%=image.getName()%>" class="img img-fluid m-1" imageId="<%=image.getImageId()%>"
+                 alt="Couldn't load image">
+        </div>
         <%}%>
     </div>
     <button id="deleteImageBtn" class="btn btn-danger btn-lg"><i class="fa fa-trash"></i></button>
 </div>
-
-<a href="admin-reservations?hotelId=<%=hotel.getHotelId()%>">To Reservations</a><br>
-<a href="hotel-reviews?hotelId=<%=hotel.getHotelId()%>">To Reviews</a><br>
+<hr/>
 <form action="update-hotel-location" method="post">
     <input type="hidden" name="hotelId" value="<%=hotel.getHotelId()%>">
     <input type="submit" value="Update Location">
