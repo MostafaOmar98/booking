@@ -37,7 +37,7 @@
 <body>
 <%@include file="include/header-navbar.jsp" %>
 <div class="container-fluid">
-    <form action="search-hotel"  id="search-form" method="GET">
+    <form action="search-hotel" id="search-form" method="GET">
         <div class="form-group row">
             <div id="map-container">
                 <div id="map">
@@ -51,7 +51,7 @@
             <div class="col-sm-10">
                 <input type="date" class="form-control" id="check-in" name="checkIn">
                 <span class="error">
-          <p id="check-in-error"></p>
+          <span id="check-in-error"></span>
         </span>
             </div>
         </div>
@@ -60,31 +60,29 @@
             <div class="col-sm-10">
                 <input type="date" class="form-control" id="check-out" name="checkOut">
                 <span class="error">
-          <p id="check-out-error"></p>
+          <span id="check-out-error"></span>
         </span>
             </div>
         </div>
-        <fieldset class="form-group">
-            <div class="row">
-                <legend class="col-form-label col-sm-2 pt-0">Number of Adults</legend>
-                <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="number" name="n-adults" id="n-adults" value="0" min="0"
-                               max="10">
-                    </div>
+        <div class="row form-group">
+            <label class="col-form-label col-sm-2 pt-0" for="n-adults">Number of Adults</label>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="number" name="n-adults" id="n-adults" value="0" min="0"
+                           max="10">
                 </div>
             </div>
-            <div class="row">
-                <legend class="col-form-label col-sm-2 pt-0">Number of Children</legend>
-                <div class="col-sm-10">
-                    <div class="form-check">
-                        <input class="form-check-input" type="number" name="n-children" id="n-children" value="0"
-                               min="0"
-                               max="10">
-                    </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-form-label col-sm-2 pt-0" for="n-children">Number of Children</label>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="number" name="n-children" id="n-children" value="0"
+                           min="0"
+                           max="10">
                 </div>
             </div>
-        </fieldset>
+        </div>
 
         <div class="form-group row">
             <div class="col-sm-10">
