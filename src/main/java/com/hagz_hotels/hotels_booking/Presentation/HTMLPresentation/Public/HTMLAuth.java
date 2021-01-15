@@ -28,7 +28,7 @@ public class HTMLAuth {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
         } catch (Auth.AuthorizationException e) {
-            response.sendRedirect( "/WEB-INF/public/unauthorized.jsp");
+            response.sendRedirect( request.getContextPath() + "/unauthorized.jsp");
             e.printStackTrace();
         }
         return false;
@@ -42,7 +42,7 @@ public class HTMLAuth {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
         } catch (Auth.AuthorizationException e) {
-            response.sendRedirect( "/WEB-INF/public/unauthorized.jsp");
+            response.sendRedirect( request.getContextPath() + "/unauthorized.jsp");
             e.printStackTrace();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -62,7 +62,7 @@ public class HTMLAuth {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
         } catch (Auth.AuthorizationException e) {
-            response.sendRedirect( "/WEB-INF/public/unauthorized.jsp");
+            response.sendRedirect( request.getContextPath() + "/unauthorized.jsp");
             e.printStackTrace();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -82,7 +82,7 @@ public class HTMLAuth {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             e.printStackTrace();
         } catch (Auth.AuthorizationException e) {
-            response.sendRedirect( "/WEB-INF/public/unauthorized.jsp");
+            response.sendRedirect( request.getContextPath() + "/unauthorized.jsp");
             e.printStackTrace();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
