@@ -13,27 +13,21 @@ import java.io.IOException;
 
 @WebServlet(name = "register", value = "/sign-up")
 public class Register extends HttpServlet {
-    User.Type[] authType = {}; // Added by bekh
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /**
          * if useR's signed in then we redirect him to index
-         * admin can register admin or client
+         * admin can register admin or client (REMOVED)
          * Guest can only register client
          * client redirected to index
          */
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         if(user != null){   // Hanafy  1/14/21
-            if(user.getType() == User.Type.ADMIN){
-                request.getRequestDispatcher("/register.jsp").forward(request, response);
-            }
-            else
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            response.sendRedirect("/index.jsp");
         }
         else{
             request.getRequestDispatcher("/register.jsp").forward(request, response);
-
         }
 
     }
