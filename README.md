@@ -1,5 +1,20 @@
-# welcome to Booking clone by [ahmeddrawy](https://github.com/ahmeddrawy) and [MostafaOmar98](https://github.com/MostafaOmar98)
-## Booking is a web application that simulates a booking website for hotels 
+# welcome to Booking clone
+Booking is a web application that simulates a booking website for hotels
+- Admin side
+    - Admin can control hotels in system 
+    - Admin can cancel reservations
+    - admin can register new admins 
+    - Admin can view clients' reviews
+- Client Side
+    - client can register using `Email` and `username`
+    - client can search for hotels rooms
+    - client can make a reservation to a room
+    - client can search with check in and check out
+    - client can search with location
+    - client can edit his profile
+    - client can review a hotel
+    - client can cancel his reservation
+
 
 ### prerequisites
 1. you must have a `glassfish server`, preferably `glassfish v5.0`.
@@ -51,3 +66,10 @@
     * has DAO to interact with database
     * has Entity classes
     
+### Built With
+1. Java servlets
+2. Maven
+3. Map box API
+### Authors
+1. [ahmeddrawy](https://github.com/ahmeddrawy)
+2. [MostafaOmar98](https://github.com/MostafaOmar98)
