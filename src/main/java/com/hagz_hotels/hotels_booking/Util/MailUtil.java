@@ -1,5 +1,6 @@
 package com.hagz_hotels.hotels_booking.Util;
 
+import com.hagz_hotels.hotels_booking.Model.DAO.conf;
 import com.sun.mail.util.MailSSLSocketFactory;
 
 import javax.mail.*;
@@ -9,8 +10,8 @@ import java.security.GeneralSecurityException;
 import java.util.Properties;
 
 public class MailUtil {
-    private static final String user = "badawymahmoud206@gmail.com";
-    private static final String password = "yasserwsym77";
+    private static final String user = conf.StmpEmail;
+    private static final String password = conf.StmpPassword;
 
     public static void sendMail(String to, String subject, String body) throws GeneralSecurityException, MessagingException {
         Properties props = new Properties();
