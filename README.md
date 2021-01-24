@@ -1,7 +1,18 @@
 # welcome to Booking clone by [ahmeddrawy](https://github.com/ahmeddrawy) and [MostafaOmar98](https://github.com/MostafaOmar98)
-## Booking is a web application that simulates a booking website for hotels providing :
+## Booking is a web application that simulates a booking website for hotels 
+
+### prerequisites
+1. you must have a `glassfish server`, preferably `glassfish v5.0`.
+2. you must have `mysql` server running on your machine.
+2. you have to set up a configuration file in the following path `src/main/java/com/hagz_hotels/hotels_booking/Model/DAO/conf.java` with the same name
+3. `conf.java` should have the following variables as **`public static`**
+    1. `url`, MySql connection url, check this [link](https://www.javatpoint.com/example-to-connect-to-the-mysql-database) to setup java mysql connection
+    2. `user`, Mysql user
+    3. `password`, Mysql password for the user to connect to database.
+    4. `StmpEmail`, Stmp email to send system emails, we use gmail.
+    5. `StmpPassword`, Stmp email password.
 ### Main functionalities
-####client Functionalities
+#### client Functionalities
 - User registration 
   - User must provide `Email` and `username`. 
   - User must check reCaptcha to avoid spam.
@@ -39,3 +50,4 @@
 3. Model Layer.
     * has DAO to interact with database
     * has Entity classes
+    
